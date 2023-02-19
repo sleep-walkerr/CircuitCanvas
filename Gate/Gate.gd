@@ -3,6 +3,9 @@ extends KinematicBody2D
 var selected = false
 var offset
 var frame = 0
+var type = null
+var gateSprite = Sprite.new()
+
 
 
 func _on_Area2D_input_event(viewport, event, shape_idx):
@@ -24,13 +27,14 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and not event.pressed:
 			selected = false
+	
+func set_Gate_Type(type):
+	gateSprite.texture = load("res://Gate/" + type + ".png")
+	self.add_child(gateSprite)
 
 
 func _ready():
-	$Area2D.connect("mouse_entered", get_parent(), "EnteredInstancedScene")
-	$Area2D.connect("mouse_exited", get_parent(), "ExitedInstancedScene")
-	var gateSprite = Sprite.new()
-	gateSprite.texture = load("res://Gate/" + get_node("/root/Node2D").selectedGate + ".png")
-	self.add_child(gateSprite)
-	
+	set_Gate_Type(type)
+	$Area2D.connect("mouse_entered", get_parent(), "OverSelectableScene", [self])
+	$Area2D.connect("mouse_exited", get_parent(), "LeftSelectableScene", [null])
 	
