@@ -1,12 +1,6 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://MainScene.gd" type="Script" id=2]
-[ext_resource path="res://NOT/NOT.tscn" type="PackedScene" id=3]
-[ext_resource path="res://OR/OR.tscn" type="PackedScene" id=5]
-[ext_resource path="res://XOR/XOR.tscn" type="PackedScene" id=6]
-[ext_resource path="res://NAND/NAND.tscn" type="PackedScene" id=7]
-[ext_resource path="res://XNOR/XNOR.tscn" type="PackedScene" id=8]
-[ext_resource path="res://NOR/NOR.tscn" type="PackedScene" id=9]
 [ext_resource path="res://GUI/GUI.tscn" type="PackedScene" id=10]
 
 [node name="Node2D" type="Node2D"]
@@ -15,25 +9,23 @@ script = ExtResource( 2 )
 [node name="Control" parent="." instance=ExtResource( 10 )]
 margin_right = 200.0
 
-[node name="NANDScene" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1586, 107 )
-collision/safe_margin = 0.001
-
-[node name="NORScene" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1238, 282 )
-collision/safe_margin = 0.001
-
-[node name="NOTScene" parent="." instance=ExtResource( 3 )]
-position = Vector2( 897, 291 )
-collision/safe_margin = 0.001
-
-[node name="ORScene" parent="." instance=ExtResource( 5 )]
-position = Vector2( 477, 141 )
-collision/safe_margin = 0.001
-
-[node name="XNORScene" parent="." instance=ExtResource( 8 )]
-position = Vector2( 890, 140 )
-collision/safe_margin = 0.001
-
-[node name="XORScene" parent="." instance=ExtResource( 6 )]
-position = Vector2( 1569, 257 )
+[node name="TextEdit" type="TextEdit" parent="."]
+visible = false
+margin_left = 406.0
+margin_top = 637.0
+margin_right = 705.0
+margin_bottom = 819.0
+text = "- Toggleable input / output instanced scene (click to toggle)
+- wires
+- Gates:
+	- self-contained movement system
+	- collision hitboxes and physics
+	- Shape-shifting configuration (aka can switch to any type of gate whenever) and ability to send blank gate desired type of gate and initialize    as that type of gate
+- infinite spanning
+- multiple selection options (preferably mimic something like lucidchart) 
+	- Drag and highlight
+	- Ctrl and Click Multi Select
+- Make circuit canvas and gui one in the same and instance them in main scene (more modular)
+- at level holding gate instanced scenes, keep a reference(s) to the currently selected(s) scene - could be a dictionary (also keep the current highlighted or special outline etc.)
+- show indicatior (glow, outline, whatever) on EVERY selectable object to indicate what will be selected when clicked"
+scroll_vertical = 3.0

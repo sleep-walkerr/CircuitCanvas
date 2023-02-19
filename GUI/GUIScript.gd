@@ -6,10 +6,11 @@ extends MarginContainer
 # var b = "text"
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.connect("mouse_entered", get_parent(), "EnteredInstancedScene")
-	self.connect("mouse_exited", get_parent(), "ExitedInstancedScene")
+	self.connect("mouse_entered", get_node("/root/Node2D"), "OverSelectableScene", [self])
+	self.connect("mouse_exited", get_node("/root/Node2D"), "LeftSelectableScene", [null])
 
 
 
