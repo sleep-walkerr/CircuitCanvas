@@ -27,4 +27,7 @@ margin_bottom = 100.0
 texture_normal = ExtResource( 2 )
 script = ExtResource( 3 )
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+follow_viewport_enable = true
+
 [connection signal="pressed" from="VBoxContainer/ANDButton" to="VBoxContainer/ANDButton" method="_on_ANDButton_pressed"]
