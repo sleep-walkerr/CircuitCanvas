@@ -19,7 +19,6 @@ func OverSelectionGUI(): #pause everything except for selectionGUI when inside o
 	get_tree().paused = true
 func LeftSelectionGUI():
 	get_tree().paused = false
-	print("exited..")
 
 #change to raycast system later to see if it is better
 func OverSelectableScene(currently_over): #sets scene_currently_over to a reference of the instanced scene currently being hovered over
@@ -60,7 +59,7 @@ func SelectedGate(scenePath):
 
 func _input(event):
 	if event.is_action_pressed("click]") and selectedGate != null and scene_currently_over == null and overCanvas == true:
-		var gate_instance = load("res://GateProto/Gate.tscn").instance()
+		var gate_instance = load("res://Gate/Gate.tscn").instance()
 		gate_instance.type = selectedGate
 		gate_instance.position = get_local_mouse_position()
 		self.add_child(gate_instance)
@@ -74,7 +73,7 @@ func _input(event):
 func _process(delta):
 	#print(Performance.get_monitor(Performance.TIME_FPS))
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		scene_currently_over.direction += mouseDelta * 1000 * delta#Input.get_last_mouse_speed()
+		scene_currently_over.direction += mouseDelta * 2000 * delta#Input.get_last_mouse_speed()
 		mouseDelta = Vector2(0,0)
 	
 	

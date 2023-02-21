@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://GUI/GUIScript.gd" type="Script" id=1]
-[ext_resource path="res://GateProto/AND.png" type="Texture" id=2]
-[ext_resource path="res://GUI/ANDButtonScript.gd" type="Script" id=3]
 
 [node name="Control" type="MarginContainer"]
 anchor_right = 0.15
@@ -13,20 +11,12 @@ script = ExtResource( 1 )
 margin_right = 288.0
 margin_bottom = 1080.0
 mouse_filter = 2
-color = Color( 0.682353, 0.964706, 1, 1 )
+color = Color( 0.34902, 0.894118, 1, 0.588235 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 288.0
 margin_bottom = 1080.0
 mouse_filter = 2
 
-[node name="ANDButton" type="TextureButton" parent="VBoxContainer"]
-margin_right = 288.0
-margin_bottom = 100.0
-texture_normal = ExtResource( 2 )
-script = ExtResource( 3 )
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enable = true
-
-[connection signal="pressed" from="VBoxContainer/ANDButton" to="VBoxContainer/ANDButton" method="_on_ANDButton_pressed"]

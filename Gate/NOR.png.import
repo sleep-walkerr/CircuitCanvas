@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/NOT.png-0601ee4c567135d1269c71190ec23325.stex"
+path="res://.import/NOR.png-465aff9bdba18a45facba12c449690d4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GateProto/NOT.png"
-dest_files=[ "res://.import/NOT.png-0601ee4c567135d1269c71190ec23325.stex" ]
+source_file="res://Gate/NOR.png"
+dest_files=[ "res://.import/NOR.png-465aff9bdba18a45facba12c449690d4.stex" ]
 
 [params]
 

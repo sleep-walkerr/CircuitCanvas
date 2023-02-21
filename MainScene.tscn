@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://GateProto/Gate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Gate/Gate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MainScene.gd" type="Script" id=2]
 [ext_resource path="res://testcube.jpg" type="Texture" id=3]
 [ext_resource path="res://GUI/GUI.tscn" type="PackedScene" id=10]
@@ -24,12 +24,11 @@ mouse_filter = 1
 position = Vector2( 99, 540 )
 shape = SubResource( 2 )
 
-[node name="CanvasDetection (temporary)" type="StaticBody2D" parent="."]
+[node name="CanvasDetection" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 2
-input_pickable = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasDetection (temporary)"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasDetection"]
 position = Vector2( 1059.25, 538.875 )
 shape = SubResource( 1 )
 
@@ -70,5 +69,5 @@ text = "From the perspective of 3 major zones:
 - at level holding gate instanced scenes, keep a reference(s) to the currently selected(s) scene - could be a dictionary (also keep the current highlighted or special outline etc.)
 - show indicatior (glow, outline, whatever) on EVERY selectable object to indicate what will be selected when clicked"
 
-[connection signal="mouse_entered" from="CanvasDetection (temporary)" to="." method="OverCanvas"]
-[connection signal="mouse_exited" from="CanvasDetection (temporary)" to="." method="LeftCanvas"]
+[connection signal="mouse_entered" from="CanvasDetection" to="." method="OverCanvas"]
+[connection signal="mouse_exited" from="CanvasDetection" to="." method="LeftCanvas"]

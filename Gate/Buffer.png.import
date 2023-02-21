@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/NOR.png-540eb884a704770a7ffcb061ee8b76da.stex"
+path="res://.import/Buffer.png-6e32f82d55a7c1f2b32f3b7f17ae330a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GateProto/NOR.png"
-dest_files=[ "res://.import/NOR.png-540eb884a704770a7ffcb061ee8b76da.stex" ]
+source_file="res://Gate/Buffer.png"
+dest_files=[ "res://.import/Buffer.png-6e32f82d55a7c1f2b32f3b7f17ae330a.stex" ]
 
 [params]
 
