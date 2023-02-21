@@ -20,6 +20,7 @@ scale = Vector2( 0.8, 0.8 )
 shape = SubResource( 1 )
 
 [node name="Blank" type="Sprite" parent="."]
+visible = false
 self_modulate = Color( 0.419608, 0.933333, 1, 0.392157 )
 show_behind_parent = true
 position = Vector2( -0.500004, 0.499998 )
