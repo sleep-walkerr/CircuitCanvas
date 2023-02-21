@@ -7,6 +7,7 @@ extends Node2D
 var selectedGate = "OR"
 var scene_currently_over
 var selected_scenes
+var overCanvas = true
 
 var mouseDelta = Vector2(0,0)
 
@@ -14,20 +15,36 @@ var mouseDelta = Vector2(0,0)
 func _ready():
 	pass # Replace with function body.
 
-func OverSelectionGUI():
-	pass
+func OverSelectionGUI(): #pause everything except for selectionGUI when inside of it
+	get_tree().paused = true
+func LeftSelectionGUI():
+	get_tree().paused = false
+	print("exited..")
 
+#change to raycast system later to see if it is better
 func OverSelectableScene(currently_over): #sets scene_currently_over to a reference of the instanced scene currently being hovered over
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		if scene_currently_over != null:
+			# remove hover effect on last instance
+			scene_currently_over.Blank.visible = false
+			scene_currently_over.set_physics_process(false)
+		#set currently_over to current instance hovered over and add hover effect
 		scene_currently_over = currently_over
 		scene_currently_over.set_physics_process(true)
 		scene_currently_over.Blank.visible = true
 	
 func LeftSelectableScene(currently_over): #sets scene_currently_over to null, bc now you aren't over anything...
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
-		scene_currently_over.Blank.visible = false
-		scene_currently_over.set_physics_process(false)
+		if scene_currently_over != null:
+			scene_currently_over.Blank.visible = false
+			scene_currently_over.set_physics_process(false)
+			
 		scene_currently_over = currently_over
+		
+		
+		
+		
+		
 		
 # add, remove, and clear selected gates
 # selection list should be cleared when blank canvas is clicked or gate is clicked
@@ -42,7 +59,7 @@ func SelectedGate(scenePath):
 	selectedGate = scenePath
 
 func _input(event):
-	if event.is_action_pressed("click]") and scene_currently_over == null and selectedGate != null:
+	if event.is_action_pressed("click]") and selectedGate != null and scene_currently_over == null and overCanvas == true:
 		var gate_instance = load("res://GateProto/Gate.tscn").instance()
 		gate_instance.type = selectedGate
 		gate_instance.position = get_local_mouse_position()
@@ -59,3 +76,19 @@ func _process(delta):
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		scene_currently_over.direction += mouseDelta * 1000 * delta#Input.get_last_mouse_speed()
 		mouseDelta = Vector2(0,0)
+	
+	
+	
+
+
+
+
+
+func OverCanvas():
+	print("over canvas")
+	overCanvas = true
+
+
+func LeftCanvas():
+	print("left canvas")
+	overCanvas = false

@@ -1,12 +1,11 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://GUI/GUIScript.gd" type="Script" id=1]
-[ext_resource path="res://Gate/AND.png" type="Texture" id=2]
+[ext_resource path="res://GateProto/AND.png" type="Texture" id=2]
 [ext_resource path="res://GUI/ANDButtonScript.gd" type="Script" id=3]
 
 [node name="Control" type="MarginContainer"]
-anchor_right = 0.238
-margin_right = -168.96
+anchor_right = 0.15
 margin_bottom = 1080.0
 script = ExtResource( 1 )
 
