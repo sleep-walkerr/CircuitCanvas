@@ -1,11 +1,12 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Gate/Gate.gd" type="Script" id=1]
+[ext_resource path="res://GateProto/Gate.gd" type="Script" id=1]
+[ext_resource path="res://GateProto/Blank.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 117.5, 57.5 )
 
-[node name="GATEScene" type="KinematicBody2D"]
+[node name="GATEProtoScene" type="KinematicBody2D"]
 input_pickable = true
 script = ExtResource( 1 )
 
@@ -13,8 +14,15 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Area2D" type="Area2D" parent="."]
+scale = Vector2( 0.8, 0.8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 1 )
+
+[node name="Blank" type="Sprite" parent="."]
+visible = false
+self_modulate = Color( 0.419608, 0.933333, 1, 0.392157 )
+show_behind_parent = true
+texture = ExtResource( 2 )
 
 [connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]

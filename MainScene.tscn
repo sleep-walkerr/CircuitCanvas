@@ -1,23 +1,43 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://testcube.jpg" type="Texture" id=1]
+[ext_resource path="res://GateProto/Gate.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MainScene.gd" type="Script" id=2]
-[ext_resource path="res://GateProto/Gate.tscn" type="PackedScene" id=3]
+[ext_resource path="res://testcube.jpg" type="Texture" id=3]
 [ext_resource path="res://GUI/GUI.tscn" type="PackedScene" id=10]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 859.5, 538.75 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="Control" parent="." instance=ExtResource( 10 )]
-pause_mode = 2
-margin_right = 200.0
+margin_right = 6.0
+mouse_filter = 1
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+input_pickable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2( 1060, 542 )
+shape = SubResource( 1 )
+
+[node name="Testcube2" type="Sprite" parent="."]
+show_behind_parent = true
+position = Vector2( 1115, 445 )
+texture = ExtResource( 3 )
+
+[node name="GATEProtoScene" parent="." instance=ExtResource( 1 )]
+position = Vector2( 460, 226 )
 
 [node name="TextEdit" type="TextEdit" parent="."]
 visible = false
-margin_left = 406.0
-margin_top = 637.0
-margin_right = 705.0
-margin_bottom = 819.0
+margin_left = 2324.0
+margin_top = 935.0
+margin_right = 2623.0
+margin_bottom = 1117.0
 text = "From the perspective of 3 major zones:
 	1. Main Canvas
 	2. Objects on Canvas
@@ -41,14 +61,5 @@ text = "From the perspective of 3 major zones:
 - at level holding gate instanced scenes, keep a reference(s) to the currently selected(s) scene - could be a dictionary (also keep the current highlighted or special outline etc.)
 - show indicatior (glow, outline, whatever) on EVERY selectable object to indicate what will be selected when clicked"
 
-[node name="GATEProtoScene" parent="." instance=ExtResource( 3 )]
-position = Vector2( 347, 398 )
-
-[node name="GATEProtoScene2" parent="." instance=ExtResource( 3 )]
-pause_mode = 1
-position = Vector2( 349, 126 )
-
-[node name="Testcube" type="Sprite" parent="."]
-show_behind_parent = true
-position = Vector2( 1050, 418 )
-texture = ExtResource( 1 )
+[connection signal="mouse_entered" from="StaticBody2D" to="." method="OverCanvas"]
+[connection signal="mouse_exited" from="StaticBody2D" to="." method="LeftCanvas"]

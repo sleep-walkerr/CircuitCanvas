@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/AND.png-0d3ffdd80a8d94a0b8868cdb54cd75e7.stex"
+path="res://.import/testcube.jpg-c2c06e5947d59c632b2450c6a827a0c1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Gate/AND.png"
-dest_files=[ "res://.import/AND.png-0d3ffdd80a8d94a0b8868cdb54cd75e7.stex" ]
+source_file="res://testcube.jpg"
+dest_files=[ "res://.import/testcube.jpg-c2c06e5947d59c632b2450c6a827a0c1.stex" ]
 
 [params]
 
