@@ -1,5 +1,5 @@
 extends MarginContainer
-
+var typeList = ['AND', 'Buffer', 'NAND', 'NOR', 'NOT', 'OR', 'XNOR', 'XOR']
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -9,8 +9,21 @@ extends MarginContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	connect("mouse_entered", get_parent(), "OverSelectionGUI")
-	connect("mouse_exited", get_parent(), "LeftSelectionGUI")
+	for gateType in typeList: #for each listed gateType
+		var currentGateSelectionLabel = Label.new()
+		currentGateSelectionLabel.text = gateType
+		currentGateSelectionLabel.align = Label.ALIGN_CENTER
+		currentGateSelectionLabel.add_color_override("font_color", Color(0.0, 0.0, 0.0, 1.0))
+		# set color to black or something here
+		$VBoxContainer.add_child(currentGateSelectionLabel)
+		
+		var currentGateTextureButton = TextureButton.new()
+		currentGateTextureButton.texture_normal = load("res://Gate/" + gateType + ".png")
+		$VBoxContainer.add_child(currentGateTextureButton)
+		
+		#now manually add trigger
+		currentGateTextureButton.connect("pressed", get_node("/root/Node2D"), "SetSelectedGate", [gateType])
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -20,3 +33,7 @@ func _ready():
 
 
 
+
+
+#func _on_ANDButton_pressed():
+	#get_node("/root/Node2D").SelectedGate("AND")

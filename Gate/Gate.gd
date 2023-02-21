@@ -55,7 +55,7 @@ func _physics_process(delta): # should be used when querying the state of an inp
 		
 		
 func set_Gate_Type(type):
-	gateSprite.texture = load("res://GateProto/" + type + ".png")
+	gateSprite.texture = load("res://Gate/" + type + ".png")
 	self.add_child(gateSprite)
 	#script switching and whatnot will happen here when i've worked on the functionality of the gates later
 

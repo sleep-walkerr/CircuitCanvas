@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/XNOR.png-7cc3d21cf5e0107e82973b618b4673af.stex"
+path="res://.import/XNOR.png-5f09387d92e725df59d91c3b34eeca5f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GateProto/XNOR.png"
-dest_files=[ "res://.import/XNOR.png-7cc3d21cf5e0107e82973b618b4673af.stex" ]
+source_file="res://Gate/XNOR.png"
+dest_files=[ "res://.import/XNOR.png-5f09387d92e725df59d91c3b34eeca5f.stex" ]
 
 [params]
 

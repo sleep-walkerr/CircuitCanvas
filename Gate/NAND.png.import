@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/AND.png-f34ac8393bca92bdeb8ebe421de0c5c3.stex"
+path="res://.import/NAND.png-3a5d57685ce6ec2ca272fb1b893190bb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GateProto/AND.png"
-dest_files=[ "res://.import/AND.png-f34ac8393bca92bdeb8ebe421de0c5c3.stex" ]
+source_file="res://Gate/NAND.png"
+dest_files=[ "res://.import/NAND.png-3a5d57685ce6ec2ca272fb1b893190bb.stex" ]
 
 [params]
 
