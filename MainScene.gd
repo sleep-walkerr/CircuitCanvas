@@ -79,7 +79,8 @@ func _process(delta):
 	
 	
 
-
+func SetSelectedGate(gateTypeIn):
+	selectedGate = gateTypeIn
 
 
 

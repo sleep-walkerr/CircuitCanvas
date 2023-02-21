@@ -1,5 +1,5 @@
 extends MarginContainer
-var typeList = ['AND', 'OR', 'NOR']
+var typeList = ['AND', 'Buffer', 'NAND', 'NOR', 'NOT', 'OR', 'XNOR', 'XOR']
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -20,8 +20,9 @@ func _ready():
 		var currentGateTextureButton = TextureButton.new()
 		currentGateTextureButton.texture_normal = load("res://Gate/" + gateType + ".png")
 		$VBoxContainer.add_child(currentGateTextureButton)
-
-	
+		
+		#now manually add trigger
+		currentGateTextureButton.connect("pressed", get_node("/root/Node2D"), "SetSelectedGate", [gateType])
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

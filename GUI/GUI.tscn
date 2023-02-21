@@ -18,5 +18,8 @@ margin_right = 288.0
 margin_bottom = 1080.0
 mouse_filter = 2
 
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
+margin_right = 288.0
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 follow_viewport_enable = true
