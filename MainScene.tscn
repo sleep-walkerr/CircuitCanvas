@@ -1,14 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dljx875ck4qqg"]
+[gd_scene load_steps=5 format=3 uid="uid://dljx875ck4qqg"]
 
 [ext_resource type="Script" path="res://MainScene.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://ikxdxfy3gwqx" path="res://testcube.jpg" id="3"]
+[ext_resource type="Texture2D" uid="uid://ifwuij12lrta" path="res://testcube.jpg" id="3"]
 [ext_resource type="PackedScene" uid="uid://cfunyue2jj6vc" path="res://GUI/GUI.tscn" id="10"]
 
 [sub_resource type="RectangleShape2D" id="2"]
 size = Vector2(265, 1076)
-
-[sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(1551, 1078.94)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("2")
@@ -26,19 +23,26 @@ size_flags_stretch_ratio = 0.0
 position = Vector2(135, 541)
 shape = SubResource("2")
 
-[node name="CanvasDetection" type="Area2D" parent="."]
-position = Vector2(1053, 361)
-collision_layer = 2
-collision_mask = 2
+[node name="ButtonControl" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CanvasDetection"]
-position = Vector2(-6.5, 181.531)
-shape = SubResource("1")
+[node name="SimulateLogicButton" type="Button" parent="ButtonControl"]
+layout_mode = 0
+offset_left = 1831.0
+offset_top = 1.0
+offset_right = 1922.0
+offset_bottom = 103.0
+text = "Play"
 
-[node name="Testcube2" type="Sprite2D" parent="."]
+[node name="GateContainer" type="Node2D" parent="."]
+
+[node name="CPPExample" type="GDExample" parent="."]
 visible = false
-show_behind_parent = true
-position = Vector2(1115, 445)
+position = Vector2(14.459, 5.75179)
+scale = Vector2(0.147072, 0.179299)
 texture = ExtResource("3")
 
 [node name="TextEdit" type="TextEdit" parent="."]
@@ -76,30 +80,6 @@ text = "From the perspective of 3 major zones:
 4/6/2023
 - To solve for selection bug "
 
-[node name="ButtonControl" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SimulateLogicButton" type="Button" parent="ButtonControl"]
-layout_mode = 0
-offset_left = 1831.0
-offset_top = 1.0
-offset_right = 1922.0
-offset_bottom = 103.0
-text = "Play"
-
-[node name="GateContainer" type="Node2D" parent="."]
-
-[node name="CPPExample" type="GDExample" parent="."]
-visible = false
-position = Vector2(17.1148, 8.09472)
-scale = Vector2(0.147072, 0.179299)
-texture = ExtResource("3")
-
-[connection signal="mouse_entered" from="CanvasDetection" to="." method="OverCanvas"]
-[connection signal="mouse_exited" from="CanvasDetection" to="." method="LeftCanvas"]
 [connection signal="pressed" from="ButtonControl/SimulateLogicButton" to="." method="_on_simulate_logic_button_pressed"]
 [connection signal="cpp_print_signal" from="CPPExample" to="." method="_on_gd_example_cpp_print_signal"]
 [connection signal="position_changed" from="CPPExample" to="." method="_on_gd_example_position_changed"]

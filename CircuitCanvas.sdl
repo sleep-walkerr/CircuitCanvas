@@ -13,6 +13,8 @@ $NOR Gates:
 $NOT Gates:
 not1
 not2
+not3
+not4
 
 $OR Gates:
 
