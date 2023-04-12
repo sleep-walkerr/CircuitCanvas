@@ -1,0 +1,25 @@
+$This is an SDL comment
+
+COMPONENTS
+
+$AND Gates:
+
+$Buffer Gates:
+
+$NAND Gates:
+
+$NOR Gates:
+
+$NOT Gates:
+not1
+not2
+
+$OR Gates:
+
+$XNOR Gates:
+
+$XOR Gates:
+
+ALIASES
+CONNECTIONS
+END

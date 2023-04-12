@@ -57,21 +57,21 @@ func SelectedGate(scenePath):
 
 func _input(event):
 	if event.is_action_pressed("click]") and selectedGate != null and scene_currently_over == null:
-		var gate_instance = load("res://GateProto/Gate.tscn").instance()
+		var gate_instance = load("res://GateProto/Gate.tscn").instantiate()
 		gate_instance.type = selectedGate
 		gate_instance.position = get_local_mouse_position()
 		self.add_child(gate_instance)
 		
 	#just some tests here to see how i can make this functional
-	elif event is InputEventMouseMotion and scene_currently_over is KinematicBody2D:
-		mouseDelta = event.relative#Input.get_last_mouse_speed()
+	elif event is InputEventMouseMotion and scene_currently_over is CharacterBody2D:
+		mouseDelta = event.relative#Input.get_last_mouse_velocity()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	#print(Performance.get_monitor(Performance.TIME_FPS))
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		scene_currently_over.direction += mouseDelta * 1000 * delta#Input.get_last_mouse_speed()
+		scene_currently_over.direction += mouseDelta * 1000 * delta#Input.get_last_mouse_velocity()
 		mouseDelta = Vector2(0,0)
 	
 
