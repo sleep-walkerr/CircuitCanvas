@@ -74,14 +74,13 @@ func _process(delta): #combined old physics_process with process, need to reorga
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		scene_currently_over.direction += mouseDelta* (Performance.get_monitor(Performance.TIME_FPS)) * delta # current position of mouse relative to last * current fps * time since last frame. This allows for consistent movement reguardless of framerate
 		mouseDelta = Vector2(0,0)
-	else:
+	elif isMousePositioned:
 		if mouseOverAndSelectionCast.get_collision_count() > 0 and mouseOverAndSelectionCast.get_collider(0) is CharacterBody2D: #change to check if any then check type
+			if scene_currently_over != mouseOverAndSelectionCast.get_collider(0) and scene_currently_over != null:
+				LeftSelectableScene()
 			OverSelectableScene(mouseOverAndSelectionCast.get_collider(0))
-		if isMousePositioned:
-			if mouseOverAndSelectionCast.get_collision_count() == 0 and scene_currently_over != null:
-				LeftSelectableScene()
-			elif mouseOverAndSelectionCast.get_collision_count() > 0 and mouseOverAndSelectionCast.get_collider(0) != scene_currently_over and mouseOverAndSelectionCast.get_collider(0) is CharacterBody2D:
-				LeftSelectableScene()
+		if mouseOverAndSelectionCast.get_collision_count() == 0 and scene_currently_over != null:
+			LeftSelectableScene()
 		
 		if !Input.is_key_pressed(KEY_CTRL): #adding another not ctrl section to make it more obvious
 			newConnection = null
