@@ -12,6 +12,7 @@ $NOR Gates:
 
 $NOT Gates:
 not1
+not2
 
 $OR Gates:
 
@@ -21,4 +22,5 @@ $XOR Gates:
 
 ALIASES
 CONNECTIONS
+not1#2 - not2#1
 END

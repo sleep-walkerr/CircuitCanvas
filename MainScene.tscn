@@ -30,7 +30,7 @@ shape = SubResource("2")
 
 [node name="CPPExample" type="GDExample" parent="."]
 visible = false
-position = Vector2(4.30673, 6.74885)
+position = Vector2(6.32952, 7.21843)
 scale = Vector2(0.147072, 0.179299)
 texture = ExtResource("3")
 

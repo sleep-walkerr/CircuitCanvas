@@ -56,7 +56,6 @@ func set_Input_PIN_Number(newPINNumber):
 		# i+2 because of the initial 2 points already on the line (points are in order of addition)
 		var newGatePIN = load("res://GatePIN/InPIN.tscn").instantiate()
 		newGatePIN.set_meta("PINNo", i+1)
-
 		newGatePIN.show_behind_parent = true
 		inAndOutPINListDictionary["IN"].append(newGatePIN)
 		self.add_child(newGatePIN)

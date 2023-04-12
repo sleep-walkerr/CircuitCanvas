@@ -143,6 +143,7 @@ func _input(event):
 		gate_instance.type = selectedGate
 		gate_instance.position = get_local_mouse_position()
 		$GateContainer.add_child(gate_instance)
+		gate_instance.move_and_collide(Vector2(0,0))
 		
 		#naming of Gates upon creation
 		#need to add a way to change the name later, but changing requires enforcement of naming conventions (why im skipping it for now)
@@ -196,7 +197,9 @@ func _on_simulate_logic_button_pressed():
 	var myFile = FileAccess.open("CircuitCanvas.sdl", FileAccess.WRITE)
 	
 	#myFile.store_string(str("NOT not1 NOT not2 ")) #this is for future reference
-	print(connectionsList)
+	for connection in connectionsList:
+		for PIN in connection.get_meta("nodesConnected"):
+			print(PIN.get_parent().gateName, PIN.get_meta("PINNo"))
 	
 	
 	myFile.store_line("$This is an SDL comment\n");
@@ -212,6 +215,14 @@ func _on_simulate_logic_button_pressed():
 
 	myFile.store_line("ALIASES");
 	myFile.store_line("CONNECTIONS");
+	
+	myFile.store_line("")
+	for connection in connectionsList:
+		myFile.store_string(str(connection.get_meta("nodesConnected")[0].get_parent().gateName, "#", connection.get_meta("nodesConnected")[0].get_meta("PINNo")))
+		myFile.store_string(str(" - "))
+		myFile.store_string(str(connection.get_meta("nodesConnected")[1].get_parent().gateName, "#", connection.get_meta("nodesConnected")[1].get_meta("PINNo"), "\n"))
+		myFile.store_line("")
+	
 	myFile.store_line("END");
 
 	myFile = null
