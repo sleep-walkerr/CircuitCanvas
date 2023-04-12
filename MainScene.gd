@@ -6,7 +6,6 @@ extends Node2D
 var scene_currently_over
 var newConnection
 var selected_scenes
-var overCanvas = true
 var mouseDelta = Vector2(0,0)
 var selectedGate = "NOT"
 var isMousePositioned = true #had to add this because of timing issues. Might be engine bug :/
@@ -38,6 +37,7 @@ func _ready():
 	mouseOverAndSelectionCast.shape = RectangleShape2D.new()
 	mouseOverAndSelectionCast.shape.size = Vector2(0,0)
 	mouseOverAndSelectionCast.target_position = Vector2(0,0)
+	mouseOverAndSelectionCast.collide_with_areas = true
 	self.add_child(mouseOverAndSelectionCast)
 
 
@@ -52,7 +52,6 @@ func _ready():
 func _process(delta): #combined old physics_process with process, need to reorganize contents
 	#Get node currently over every frame using raycast
 	mouseOverAndSelectionCast.position = get_global_mouse_position()
-	
 	
 	#detect is mouse if over last node after drag and drop
 	if mouseOverAndSelectionCast.get_collision_count() > 0 and mouseOverAndSelectionCast.get_collider(0) == scene_currently_over:
@@ -74,14 +73,13 @@ func _process(delta): #combined old physics_process with process, need to reorga
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		scene_currently_over.direction += mouseDelta* (Performance.get_monitor(Performance.TIME_FPS)) * delta # current position of mouse relative to last * current fps * time since last frame. This allows for consistent movement reguardless of framerate
 		mouseDelta = Vector2(0,0)
-	else:
+	elif isMousePositioned:
 		if mouseOverAndSelectionCast.get_collision_count() > 0 and mouseOverAndSelectionCast.get_collider(0) is CharacterBody2D: #change to check if any then check type
+			if scene_currently_over != mouseOverAndSelectionCast.get_collider(0) and scene_currently_over != null:
+				LeftSelectableScene()
 			OverSelectableScene(mouseOverAndSelectionCast.get_collider(0))
-		if isMousePositioned:
-			if mouseOverAndSelectionCast.get_collision_count() == 0 and scene_currently_over != null:
-				LeftSelectableScene()
-			elif mouseOverAndSelectionCast.get_collision_count() > 0 and mouseOverAndSelectionCast.get_collider(0) != scene_currently_over and mouseOverAndSelectionCast.get_collider(0) is CharacterBody2D:
-				LeftSelectableScene()
+		if mouseOverAndSelectionCast.get_collision_count() == 0 and scene_currently_over != null:
+			LeftSelectableScene()
 		
 		if !Input.is_key_pressed(KEY_CTRL): #adding another not ctrl section to make it more obvious
 			newConnection = null
@@ -140,7 +138,7 @@ func SelectedGate(scenePath):
 	selectedGate = scenePath
 
 func _input(event):
-	if event.is_action_pressed("click]") and selectedGate != null and scene_currently_over == null and overCanvas == true and !Input.is_key_pressed(KEY_CTRL):
+	if event.is_action_pressed("click]") and selectedGate != null and mouseOverAndSelectionCast.get_collision_count() == 0 and !Input.is_key_pressed(KEY_CTRL):
 		var gate_instance = load("res://Gate/Gate.tscn").instantiate()
 		gate_instance.type = selectedGate
 		gate_instance.position = get_local_mouse_position()
@@ -175,30 +173,9 @@ func CreatePINConnection(PIN):
 			newConnection.get_meta("nodesConnected")[0].connectionParticipatingIn = newConnection
 			newConnection.get_meta("nodesConnected")[1].connectionParticipatingIn = newConnection
 			newConnection = null
-			
-			
-			
-			
-
-
-
-
-	
-	
 
 func SetSelectedGate(gateTypeIn):
 	selectedGate = gateTypeIn
-
-
-
-func OverCanvas(): #there is a bug with the canvas detection system, might need full rework (even to raycast system)
-	print("\nover canvas\n")
-	overCanvas = true
-
-
-func LeftCanvas():
-	print("left canvas")
-	overCanvas = false
 
 
 func _on_gd_example_position_changed(node, new_pos):
@@ -219,6 +196,8 @@ func _on_simulate_logic_button_pressed():
 	var myFile = FileAccess.open("CircuitCanvas.sdl", FileAccess.WRITE)
 	
 	#myFile.store_string(str("NOT not1 NOT not2 ")) #this is for future reference
+	print(connectionsList)
+	
 	
 	myFile.store_line("$This is an SDL comment\n");
 	
