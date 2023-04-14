@@ -1,0 +1,84 @@
+[gd_scene load_steps=8 format=3 uid="uid://dqwjnwliy27fb"]
+
+[ext_resource type="Script" path="res://Input_Output/Input_Output.gd" id="1_ymao4"]
+[ext_resource type="Texture2D" uid="uid://bd77wqshmdtar" path="res://Input_Output/BodyX.png" id="2_dac8j"]
+[ext_resource type="Texture2D" uid="uid://cf4mg45s8j4ky" path="res://Gate/Blank.png" id="3_0vn13"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2haeo"]
+radius = 38.3275
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4xl82"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_el6ae"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eg2u3"]
+size = Vector2(60, 23)
+
+[node name="Input_Output" type="CharacterBody2D"]
+script = ExtResource("1_ymao4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_2haeo")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Input_Output_Label" type="LineEdit" parent="."]
+top_level = true
+offset_right = 59.0625
+offset_bottom = 23.0
+pivot_offset = Vector2(30, 11)
+mouse_filter = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 1)
+theme_override_colors/caret_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4xl82")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_el6ae")
+text = "A"
+placeholder_text = "B"
+alignment = 1
+max_length = 1
+caret_blink = true
+caret_blink_interval = 0.5
+
+[node name="TextEntryDetection" type="Area2D" parent="."]
+position = Vector2(30, 11)
+priority = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TextEntryDetection"]
+shape = SubResource("RectangleShape2D_eg2u3")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="ColorRect" type="ColorRect" parent="TextEntryDetection"]
+show_behind_parent = true
+mouse_filter = 2
+
+[node name="BodyX" type="Sprite2D" parent="."]
+self_modulate = Color(0.262745, 0.643137, 0.929412, 0.541176)
+z_index = -1
+texture = ExtResource("2_dac8j")
+
+[node name="Blank" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.419608, 0.933333, 1, 0.392157)
+show_behind_parent = true
+position = Vector2(9.53674e-07, -0.500002)
+scale = Vector2(0.39, 0.79)
+texture = ExtResource("3_0vn13")
+
+[node name="PINSpacer" type="Line2D" parent="."]
+visible = false
+position = Vector2(-1, 0)
+points = PackedVector2Array(-37, -40, -37, 40)
+width = 5.0
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_2haeo")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[connection signal="text_changed" from="Input_Output_Label" to="." method="_on_line_edit_text_changed"]
+[connection signal="mouse_entered" from="TextEntryDetection" to="." method="_on_text_entry_detection_mouse_entered"]
+[connection signal="mouse_exited" from="TextEntryDetection" to="." method="_on_text_entry_detection_mouse_exited"]
+[connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]
