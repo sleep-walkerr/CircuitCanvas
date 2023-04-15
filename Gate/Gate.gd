@@ -11,21 +11,6 @@ var lastMousePos
 var gateName #this will hold the identifier of the gate that will be used in the SDL file
 var inAndOutPINListDictionary = {"OUT" : [], "IN" : []} #hold references to all instanced PIN nodes
 
-func _on_Area2D_input_event(viewport, event, shape_idx):
-	#time/frame based system
-	#if Input.is_action_just_pressed("click]"):
-		#offset = get_global_mouse_position() - self.position
-		#if clicked add to reference list of currently selected gates
-	if Input.is_action_just_pressed("click]"):
-		lastMousePos = get_global_mouse_position()
-	# detect drag only based on current location vs last
-	if !Input.is_key_pressed(KEY_CTRL):
-		if Input.is_mouse_button_pressed(1): #check if you clicked and then moved mouse w/o letting go of mouse 1 (for drag initiation) since last input event
-			if lastMousePos != get_global_mouse_position():
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-				#offset = lastMousePos - self.position
-				#when dropped, set mouse_mode to invisible, set correct location (according to offset) and then set as visible again
-
 func set_Gate_Type(type):
 	# adds corresponding gate texture to instanced gate
 	gateSprite.texture = load("res://Gate/" + type + "Instanced.png")
@@ -37,6 +22,7 @@ func calculate_Output_PIN_Index(newPINNumber):
 	inAndOutPINListDictionary["OUT"][0].set_meta("PINNo", newPINNumber+1)
 
 func _ready():
+	$Area2D.connect("input_event",Callable(get_node("/root/Node2D"),"InstancedCircuitObjectInput").bind(self))
 	self.set_physics_process(false)
 	set_Gate_Type(type)
 	#configure output pin and add

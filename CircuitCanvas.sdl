@@ -19,6 +19,11 @@ $XNOR Gates:
 $XOR Gates:
 
 ALIASES
+
+A = IN#1
+A = IN#2
+A = IN#3
+
 CONNECTIONS
 
 END
