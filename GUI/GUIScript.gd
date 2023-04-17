@@ -6,6 +6,7 @@ var otherTypeList = ['IN', 'OUT']
 # var a = 2
 # var b = "text"
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for gateType in typeList: #for each listed gateType
@@ -42,5 +43,10 @@ func _ready():
 		#now manually add trigger
 		currentOtherTextureButton.connect("pressed",Callable(get_node("/root/Node2D"),"SetSelectedGate").bind(otherType))
 		
-	#set location of second vbox accordingly
-	#print(get_node("Control").position)
+	#set collision as same size as container
+	await get_tree().process_frame
+	$HBoxContainer/selectionCollision/CollisionShape2D.shape.size = $HBoxContainer/Control/VBoxContainer.get_rect().size
+	$HBoxContainer/selectionCollision/CollisionShape2D.position = $HBoxContainer/Control/VBoxContainer.get_rect().get_center()
+	
+	$HBoxContainer/selectionCollision2/CollisionShape2D2.shape.size = $HBoxContainer/Control2/VBoxContainer.get_rect().size
+	$HBoxContainer/selectionCollision2/CollisionShape2D2.position = ($HBoxContainer/Control2/VBoxContainer.get_screen_position() - Vector2(2,4))   + ($HBoxContainer/Control2/VBoxContainer.get_rect().size / 2 -  Vector2(1,1))
