@@ -219,13 +219,22 @@ func LeftSelectionGUI():
 	get_tree().paused = false
 
 
-func SetSelectedGate(gateTypeIn):
-	selectedGate = gateTypeIn
+func SetSelectedGate(gateButton):
+	for gateButtonIterate in $GUI/HBoxContainer/Control/HBoxContainer/VBoxContainer.get_children():
+				gateButtonIterate.texture_normal = load("res://Gate/" + gateButtonIterate.name + ".png")
+	
+	if gateButton.name != "IN" and gateButton.name != "OUT":
+		print(gateButton.name)
+		
+		gateButton.texture_normal = load("res://Gate/" + gateButton.name + "Pressed.png")
+		selectedGate = gateButton.name
+	else:
+		selectedGate = gateButton.name
 
 func _on_gd_example_position_changed(node, new_pos):
-	#print("The position of " + node.get_class() + " is now " + str(new_pos))
+	print("The position of " + node.get_class() + " is now " + str(new_pos))
 	pass
 
 func _on_gd_example_cpp_print_signal(node, print_string):
-	#print("CPP Print: " + print_string)
+	print("CPP Print: " + print_string)
 	pass

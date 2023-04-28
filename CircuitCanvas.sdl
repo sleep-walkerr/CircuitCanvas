@@ -3,8 +3,10 @@ $This is an SDL comment
 COMPONENTS
 
 $AND Gates:
+and1
 
 $Buffer Gates:
+buffer1
 
 $NAND Gates:
 
@@ -21,9 +23,13 @@ $XOR Gates:
 ALIASES
 
 A = IN#1
-A = IN#2
-A = IN#3
+A = OUT#1
 
 CONNECTIONS
 
+A - and1#1
+
+and1#3 - buffer1#1
+
+buffer1#2 - A
 END
