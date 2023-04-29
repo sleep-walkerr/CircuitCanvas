@@ -1,11 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dljx875ck4qqg"]
+[gd_scene load_steps=4 format=3 uid="uid://dljx875ck4qqg"]
 
 [ext_resource type="Script" path="res://MainScene.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://ifwuij12lrta" path="res://testcube.jpg" id="3"]
 [ext_resource type="PackedScene" uid="uid://cfunyue2jj6vc" path="res://GUI/GUI.tscn" id="10"]
-
-[sub_resource type="RectangleShape2D" id="2"]
-size = Vector2(265, 1076)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wq1or"]
 size = Vector2(52, 52)
@@ -13,21 +9,9 @@ size = Vector2(52, 52)
 [node name="Node2D" type="Node2D"]
 script = ExtResource("2")
 
-[node name="Control" parent="." instance=ExtResource("10")]
-
-[node name="canvasCollision" type="StaticBody2D" parent="Control"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Control/canvasCollision"]
-position = Vector2(135, 541)
-shape = SubResource("2")
+[node name="GUI" parent="." instance=ExtResource("10")]
 
 [node name="GateContainer" type="Node2D" parent="."]
-
-[node name="CPPExample" type="GDExample" parent="."]
-visible = false
-position = Vector2(13.8889, 7.0489)
-scale = Vector2(0.147072, 0.179299)
-texture = ExtResource("3")
 
 [node name="TextEdit" type="TextEdit" parent="."]
 visible = false
@@ -84,6 +68,4 @@ position = Vector2(25, 25)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SimulateLogicButton/Area2D"]
 shape = SubResource("RectangleShape2D_wq1or")
 
-[connection signal="cpp_print_signal" from="CPPExample" to="." method="_on_gd_example_cpp_print_signal"]
-[connection signal="position_changed" from="CPPExample" to="." method="_on_gd_example_position_changed"]
 [connection signal="pressed" from="SimulateLogicButton" to="." method="_on_simulate_logic_button_pressed"]

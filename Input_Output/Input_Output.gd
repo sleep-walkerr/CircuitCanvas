@@ -7,20 +7,21 @@ var type
 var direction = Vector2(0,0)
 var heldCalls = 0
 var lastMousePos = Vector2(0,0)
-var in_out_label
+var gateName
 var inAndOutPINListDictionary = {"OUT" : [], "IN" : []}
 var inTextEntryField = false
 
 
 
 func _ready():
+	$Area2D.connect("input_event",Callable(get_node("/root/Node2D"),"InstancedCircuitObjectInput").bind(self))
 	$Area2D.connect("input_event",Callable(get_parent(),"PINInputEvent").bind(self))
 	if type == "IN":
 		$BodyX.self_modulate = Color(0.0, 1.0, 1.0, 1.0)
 	elif type == "OUT":
 		$BodyX.self_modulate = Color(0.9, 0.4, 0.2, 1.0)
 	
-	$Input_Output_Label.position = global_position
+	
 	$Input_Output_Label.pivot_offset = Vector2($Input_Output_Label.size / 2)
 	$Area2D.position = Vector2($Input_Output_Label.size / 2)
 	$BodyX.position = Vector2($Input_Output_Label.size / 2)
@@ -58,13 +59,12 @@ func set_in_out(type):
 	#script switching and whatnot will happen here when i've worked on the functionality of the gates later
 
 
-func _on_Area2D_input_event(viewport, event, shape_idx):
+func _on_Area2D_input_event(viewport, event, shape_idx): #disconnect until full fix is complete in root node script
 	
 	if event.is_action_pressed("click]") and Input.is_key_pressed(KEY_CTRL):
 		get_node("/root/Node2D").CreatePINConnection(inAndOutPINListDictionary["OUT"][0])
 	
 	if !inTextEntryField:
-		#print("bruh")
 		if event is InputEventMouseButton:
 			lastMousePos = get_global_mouse_position()
 		# detect drag only based on current location vs last
