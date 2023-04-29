@@ -3,9 +3,6 @@ $This is an SDL comment
 COMPONENTS
 
 $AND Gates:
-AND*2 and1
-AND*2 and2
-AND*2 and3
 
 $Buffer Gates:
 
@@ -14,11 +11,8 @@ $NAND Gates:
 $NOR Gates:
 
 $NOT Gates:
-NOT not1
-NOT not2
 
 $OR Gates:
-OR*3 or1
 
 $XNOR Gates:
 
@@ -26,32 +20,7 @@ $XOR Gates:
 
 ALIASES
 
-A = IN#1
-B = IN#2
-M = OUT#1
 
 CONNECTIONS
 
-not2#2 - and1#1
-
-not1#2 - and2#2
-
-A - not2#1
-
-A - and2#1
-B - and3#2
-
-A - and3#1
-
-B - not1#1
-
-B - and1#2
-
-and1#3 - or1#1
-
-and2#3 - or1#2
-
-and3#3 - or1#3
-
-or1#4 - M
 END

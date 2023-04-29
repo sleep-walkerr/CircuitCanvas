@@ -153,9 +153,7 @@ func DeleteSelectedGateScene(gateToDelete):
 	
 
 func DeleteSelectedInput_OutputScene(sceneToDelete):
-	print("inoutdel")
 	var connectionPointIndex = 0
-	connectionsList.erase(sceneToDelete)
 	for pinType in sceneToDelete.inAndOutPINListDictionary:
 		for gatePIN in sceneToDelete.inAndOutPINListDictionary[pinType]:
 			if gatePIN.connectionParticipatingIn != null:
@@ -164,6 +162,7 @@ func DeleteSelectedInput_OutputScene(sceneToDelete):
 						if gatePIN.connectionParticipatingIn == connection:
 							$GateContainer.remove_child(connection)
 							connectionsList.erase(connection)
+	inputsAndOutputsList[sceneToDelete.type].erase(sceneToDelete)
 	$GateContainer.remove_child(sceneToDelete)
 
 func OverSelectableScene(currently_over): #sets scene_currently_over to a reference of the instanced scene currently being hovered over
