@@ -1,6 +1,6 @@
 extends Node2D
 var typeList = ['AND', 'Buffer', 'NAND', 'NOR', 'NOT', 'OR', 'XNOR', 'XOR']
-var otherTypeList = ['IN', 'OUT']
+var otherTypeList = ['IN', 'OUT', 'Delete']
 
 # Declare member variables here. Examples:
 # var a = 2
@@ -44,7 +44,7 @@ func _ready():
 		
 		var currentOtherTextureButton = TextureButton.new()
 		currentOtherTextureButton.name = otherType
-		currentOtherTextureButton.texture_normal = load("res://Input_Output/BodyX.png")
+		currentOtherTextureButton.texture_normal = load("res://Input_Output/" + otherType + ".png")
 		currentOtherTextureButton.stretch_mode = TextureButton.STRETCH_KEEP_CENTERED
 		get_node("HBoxContainer//Control2/VBoxContainer").add_child(currentOtherTextureButton)
 		

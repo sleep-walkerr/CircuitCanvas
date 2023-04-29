@@ -65,7 +65,6 @@ func _on_Area2D_input_event(viewport, event, shape_idx): #disconnect until full 
 		get_node("/root/Node2D").CreatePINConnection(inAndOutPINListDictionary["OUT"][0])
 	
 	if !inTextEntryField:
-		#print("bruh")
 		if event is InputEventMouseButton:
 			lastMousePos = get_global_mouse_position()
 		# detect drag only based on current location vs last

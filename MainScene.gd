@@ -67,7 +67,17 @@ func _process(delta): #combined old physics_process with process, need to reorga
 	
 func _input(event):
 	if !Input.is_key_pressed(KEY_CTRL):
-		if event.is_action_pressed("click]") and selectedGate != null and mouseOverAndSelectionCast.get_collision_count() == 0:
+		if mouseOverAndSelectionCast.get_collision_count() > 0:
+			print(mouseOverAndSelectionCast.get_collider(0).name)
+		
+		if event.is_action_pressed("click]") and selectedGate == "Delete":
+			if mouseOverAndSelectionCast.get_collision_count() > 0 and ("Gate" in mouseOverAndSelectionCast.get_collider(0).name or "Input_Output" in mouseOverAndSelectionCast.get_collider(0).name):
+				
+				if "Gate" in mouseOverAndSelectionCast.get_collider(0).name:
+					DeleteSelectedGateScene(mouseOverAndSelectionCast.get_collider(0))
+				elif "Input_Output" in mouseOverAndSelectionCast.get_collider(0).name:
+					DeleteSelectedInput_OutputScene(mouseOverAndSelectionCast.get_collider(0))
+		elif event.is_action_pressed("click]") and selectedGate != null and mouseOverAndSelectionCast.get_collision_count() == 0:
 			if selectedGate != "IN" and selectedGate != "OUT":
 				var gate_instance = load("res://Gate/Gate.tscn").instantiate()
 				gate_instance.type = selectedGate
@@ -87,6 +97,8 @@ func _input(event):
 				in_out_instance.move_and_collide(Vector2(0,0))
 				in_out_instance.get_node("Input_Output_Label").position = in_out_instance.global_position
 				inputsAndOutputsList[in_out_instance.type].append(in_out_instance)
+		elif event.is_action_pressed("plus") and mouseOverAndSelectionCast.get_collision_count() > 0 and "Gate" in mouseOverAndSelectionCast.get_collider(0).name:
+			mouseOverAndSelectionCast.get_collider(0).AddPIN()
 				
 
 		elif event is InputEventMouseMotion and scene_currently_over is CharacterBody2D:
@@ -124,6 +136,35 @@ func UpdateConnectionCoordinates(sceneToUpdate): # updates coordinates of and re
 						gatePIN.connectionParticipatingIn.queue_redraw ()
 					connectionPointIndex += 1
 				connectionPointIndex = 0
+
+
+func DeleteSelectedGateScene(gateToDelete):
+	var connectionPointIndex = 0
+	gateReferencesByCategory[gateToDelete.type].erase(gateToDelete)
+	for pinType in gateToDelete.inAndOutPINListDictionary:
+		for gatePIN in gateToDelete.inAndOutPINListDictionary[pinType]:
+			if gatePIN.connectionParticipatingIn != null:
+				#find matching pin reference from list
+					for connection in connectionsList:
+						if gatePIN.connectionParticipatingIn == connection:
+							$GateContainer.remove_child(connection)
+							connectionsList.erase(connection)
+	$GateContainer.remove_child(gateToDelete)
+	
+
+func DeleteSelectedInput_OutputScene(sceneToDelete):
+	print("inoutdel")
+	var connectionPointIndex = 0
+	connectionsList.erase(sceneToDelete)
+	for pinType in sceneToDelete.inAndOutPINListDictionary:
+		for gatePIN in sceneToDelete.inAndOutPINListDictionary[pinType]:
+			if gatePIN.connectionParticipatingIn != null:
+				#find matching pin reference from list
+					for connection in connectionsList:
+						if gatePIN.connectionParticipatingIn == connection:
+							$GateContainer.remove_child(connection)
+							connectionsList.erase(connection)
+	$GateContainer.remove_child(sceneToDelete)
 
 func OverSelectableScene(currently_over): #sets scene_currently_over to a reference of the instanced scene currently being hovered over
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
@@ -176,7 +217,10 @@ func _on_simulate_logic_button_pressed():
 	for gateCategory in gateReferencesByCategory:
 		myFile.store_line("$" + gateCategory + " Gates:")
 		for gateNodeReference in gateReferencesByCategory[gateCategory]:
-			myFile.store_line(gateNodeReference.gateName)
+			if !(gateNodeReference.type == "Buffer" or gateNodeReference.type == "NOT"):
+				myFile.store_line(str(gateNodeReference.type + "*" + str(gateNodeReference.inAndOutPINListDictionary["OUT"][0].get_meta("PINNo") - 1) + " " + gateNodeReference.gateName))
+			else:
+				myFile.store_line(str(gateNodeReference.type + " " + gateNodeReference.gateName))
 		myFile.store_line("")
 
 	myFile.store_line("ALIASES");
@@ -222,13 +266,25 @@ func LeftSelectionGUI():
 func SetSelectedGate(gateButton):
 	for gateButtonIterate in $GUI/HBoxContainer/Control/HBoxContainer/VBoxContainer.get_children():
 				gateButtonIterate.texture_normal = load("res://Gate/" + gateButtonIterate.name + ".png")
-	
-	if gateButton.name != "IN" and gateButton.name != "OUT":
+	for otherButtonIterate in $GUI/HBoxContainer/Control2/VBoxContainer.get_children():
+		if otherButtonIterate.name == "IN" or otherButtonIterate.name == "OUT":
+			otherButtonIterate.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
+		elif otherButtonIterate.name == "Delete":
+			otherButtonIterate.texture_normal = load("res://Input_Output/Delete.png")
+			
+	if gateButton.name == "Delete":
+		gateButton.texture_normal = load("res://Input_Output/DeletePressed.png")
+		selectedGate = gateButton.name
+	elif gateButton.name == "IN":
+		gateButton.self_modulate = Color(0.0, 1.0, 1.0, 1.0)
+		selectedGate = gateButton.name
+	elif gateButton.name == "OUT":
+		gateButton.self_modulate = Color(0.9, 0.4, 0.2, 1.0)
+		selectedGate = gateButton.name
+	else:
 		print(gateButton.name)
 		
 		gateButton.texture_normal = load("res://Gate/" + gateButton.name + "Pressed.png")
-		selectedGate = gateButton.name
-	else:
 		selectedGate = gateButton.name
 
 func _on_gd_example_position_changed(node, new_pos):
