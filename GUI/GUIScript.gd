@@ -15,3 +15,7 @@ func _ready():
 		newGateSelectionContainer.name = type + "SelectionContainer"
 		newGateSelectionContainer.set_meta("type", type)
 		$SelectionButtonsContainer.add_child(newGateSelectionContainer)
+	$StaticBody2D/CollisionShape2D.shape.size = size
+	$StaticBody2D/CollisionShape2D.position = Vector2(size / 2)
+	
+	
