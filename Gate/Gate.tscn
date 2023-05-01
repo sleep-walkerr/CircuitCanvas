@@ -18,6 +18,7 @@ shape = SubResource("1")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="Blank" type="Sprite2D" parent="."]
+visible = false
 self_modulate = Color(0.419608, 0.933333, 1, 0.392157)
 show_behind_parent = true
 scale = Vector2(1.1175, 1)

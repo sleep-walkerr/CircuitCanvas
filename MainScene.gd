@@ -296,28 +296,13 @@ func LeftSelectionGUI():
 	get_tree().paused = false
 
 
-func SetSelectedGate(gateButton):
-	for gateButtonIterate in $GUI/HBoxContainer/Control/HBoxContainer/VBoxContainer.get_children():
-		if "TextureButton" in gateButtonIterate.get_class():
-			gateButtonIterate.texture_normal = load("res://Icons/" + gateButtonIterate.name + ".png")
-	for otherButtonIterate in $GUI/HBoxContainer/Control2/VBoxContainer.get_children():
-		if otherButtonIterate.name == "IN" or otherButtonIterate.name == "OUT":
-			otherButtonIterate.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
-		elif otherButtonIterate.name == "Delete":
-			otherButtonIterate.texture_normal = load("res://Icons/Delete.png")
-			
-	if gateButton.name == "Delete":
-		gateButton.texture_normal = load("res://Icons/DeletePressed.png")
-		selectedGate = gateButton.name
-	elif gateButton.name == "IN":
-		gateButton.self_modulate = Color(0.0, 1.0, 1.0, 1.0)
-		selectedGate = gateButton.name
-	elif gateButton.name == "OUT":
-		gateButton.self_modulate = Color(0.9, 0.4, 0.2, 1.0)
-		selectedGate = gateButton.name
-	else:
-		gateButton.texture_normal = load("res://Icons/" + gateButton.name + "Pressed.png")
-		selectedGate = gateButton.name
+func SetSelectedGate(gateSelectionContainer):
+	for currentSelectionContainer in gateSelectionContainer.get_parent().get_children():
+		if currentSelectionContainer.get_meta("type") == selectedGate:
+			currentSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + currentSelectionContainer.get_meta("type") + ".png")
+	gateSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + gateSelectionContainer.get_meta("type") + "Pressed.png")
+	selectedGate = gateSelectionContainer.get_meta("type")
+	
 
 func _on_gd_example_position_changed(node, new_pos):
 	print("The position of " + node.get_class() + " is now " + str(new_pos))

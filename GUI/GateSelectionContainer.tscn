@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://bm2tsie7ac5q0"]
+
+[ext_resource type="Texture2D" uid="uid://behihrrsmmolj" path="res://Icons/AND.png" id="1_pwggh"]
+[ext_resource type="Texture2D" uid="uid://dk5pcq4p3d3eg" path="res://Icons/ANDPressed.png" id="2_xqdhw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66572"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j80e2"]
+bg_color = Color(0.419608, 0.933333, 1, 0.392157)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[node name="GateSelectionContainer" type="VBoxContainer"]
+custom_minimum_size = Vector2(150, 100)
+offset_right = 150.0
+offset_bottom = 100.0
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+metadata/type = ""
+
+[node name="LabelPanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_66572")
+
+[node name="GateSelectionLabel" type="Label" parent="LabelPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "AND"
+horizontal_alignment = 1
+
+[node name="GateButtonPanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(100, 20)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_j80e2")
+
+[node name="GateSelectionButton" type="TextureButton" parent="GateButtonPanel"]
+layout_direction = 2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("1_pwggh")
+texture_pressed = ExtResource("2_xqdhw")
+stretch_mode = 3
