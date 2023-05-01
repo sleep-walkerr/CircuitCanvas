@@ -80,3 +80,4 @@ debug_color = Color(0, 0.6, 0.701961, 0.419608)
 [connection signal="text_changed" from="Input_Output_Label" to="." method="_on_line_edit_text_changed"]
 [connection signal="mouse_entered" from="TextEntryDetection" to="." method="_on_text_entry_detection_mouse_entered"]
 [connection signal="mouse_exited" from="TextEntryDetection" to="." method="_on_text_entry_detection_mouse_exited"]
+[connection signal="input_event" from="Area2D" to="." method="_on_Area2D_input_event"]

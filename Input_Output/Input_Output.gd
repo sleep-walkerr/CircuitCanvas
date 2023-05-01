@@ -15,7 +15,6 @@ var inTextEntryField = false
 
 func _ready():
 	$Area2D.connect("input_event",Callable(get_node("/root/Node2D"),"InstancedCircuitObjectInput").bind(self))
-	$Area2D.connect("input_event",Callable(get_parent(),"PINInputEvent").bind(self))
 	if type == "IN":
 		$BodyX.self_modulate = Color(0.0, 1.0, 1.0, 1.0)
 	elif type == "OUT":
@@ -85,13 +84,6 @@ func _on_Area2D_input_event(viewport, event, shape_idx): #disconnect until full 
 	else:
 		if !Input.is_mouse_button_pressed(1):
 			inTextEntryField = false
-
-
-
-
-
-
-
 
 
 
