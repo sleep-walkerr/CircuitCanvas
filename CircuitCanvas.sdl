@@ -5,8 +5,10 @@ COMPONENTS
 $AND Gates:
 
 $Buffer Gates:
+Buffer buffer1
 
 $NAND Gates:
+NAND*2 nand1
 
 $NOR Gates:
 
@@ -20,6 +22,7 @@ $XOR Gates:
 
 ALIASES
 
+A = IN#1
 
 CONNECTIONS
 

@@ -60,16 +60,12 @@ func _process(delta): #combined old physics_process with process, need to reorga
 			scene_currently_over.direction += mouseDelta* (Performance.get_monitor(Performance.TIME_FPS)) * delta # current position of mouse relative to last * current fps * time since last frame. This allows for consistent movement reguardless of framerate
 			mouseDelta = Vector2(0,0)
 	elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		print("is null")
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-		#Input.warp_mouse(scene_currently_over.position + scene_currently_over.offset)
+		Input.warp_mouse(scene_currently_over.position + scene_currently_over.offset)
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 func _input(event):
-	if !Input.is_key_pressed(KEY_CTRL):
-		if mouseOverAndSelectionCast.get_collision_count() > 0:
-			print(mouseOverAndSelectionCast.get_collider(0).name)
-		
+	if !Input.is_key_pressed(KEY_CTRL):	
 		if event.is_action_pressed("click]") and selectedGate == "Delete":
 			if mouseOverAndSelectionCast.get_collision_count() > 0 and ("Gate" in mouseOverAndSelectionCast.get_collider(0).name or "Input_Output" in mouseOverAndSelectionCast.get_collider(0).name):
 				
@@ -101,7 +97,7 @@ func _input(event):
 			mouseOverAndSelectionCast.get_collider(0).AddPIN()
 				
 
-		elif event is InputEventMouseMotion and scene_currently_over is CharacterBody2D:
+		elif scene_currently_over != null and event is InputEventMouseMotion and scene_currently_over is CharacterBody2D:
 			mouseDelta = event.relative#Input.get_last_mouse_velocity()
 		
 		newConnection = null
@@ -117,6 +113,7 @@ func _input(event):
 func InstancedCircuitObjectInput(viewport, event, shape_idx, objectSendingInput):
 	if Input.is_action_just_pressed("click]"):
 		objectSendingInput.lastMousePos = get_global_mouse_position()
+		objectSendingInput.offset = -(objectSendingInput.global_position - get_global_mouse_position())
 	# detect drag only based on current location vs last
 	if !Input.is_key_pressed(KEY_CTRL):
 		if Input.is_mouse_button_pressed(1): #check if you clicked and then moved mouse w/o letting go of mouse 1 (for drag initiation) since last input event
@@ -127,15 +124,19 @@ func UpdateConnectionCoordinates(sceneToUpdate): # updates coordinates of and re
 	var connectionPointIndex = 0
 	for pinType in sceneToUpdate.inAndOutPINListDictionary:
 		for gatePIN in sceneToUpdate.inAndOutPINListDictionary[pinType]:
-			if gatePIN.connectionParticipatingIn != null:
+			if gatePIN.connectionsParticipatingIn != null:
 				#find matching pin reference from list
-				for connectedPIN in gatePIN.connectionParticipatingIn.get_meta("nodesConnected"):
-					if gatePIN == connectedPIN:
-						#update coords and redraw
-						gatePIN.connectionParticipatingIn.get_node("Line2D").set_point_position(connectionPointIndex, sceneToUpdate.position + gatePIN.position + gatePIN.get_node("Area2D/CollisionShape2D").position)
-						gatePIN.connectionParticipatingIn.queue_redraw ()
-					connectionPointIndex += 1
-				connectionPointIndex = 0
+				for connection in gatePIN.connectionsParticipatingIn:
+					for connectedPIN in connection.get_meta("nodesConnected"):
+						if gatePIN == connectedPIN:
+							#update coords and redraw
+							if "Gate" in sceneToUpdate.name:
+								connection.get_node("Line2D").set_point_position(connectionPointIndex, sceneToUpdate.position + gatePIN.position + gatePIN.get_node("Area2D/CollisionShape2D").position)
+							elif "Input_Output" in sceneToUpdate.name:
+								connection.get_node("Line2D").set_point_position(connectionPointIndex, sceneToUpdate.position + sceneToUpdate.get_node("BodyX").position)
+							connection.queue_redraw ()
+						connectionPointIndex += 1
+					connectionPointIndex = 0
 
 
 func DeleteSelectedGateScene(gateToDelete):
@@ -143,27 +144,33 @@ func DeleteSelectedGateScene(gateToDelete):
 	gateReferencesByCategory[gateToDelete.type].erase(gateToDelete)
 	for pinType in gateToDelete.inAndOutPINListDictionary:
 		for gatePIN in gateToDelete.inAndOutPINListDictionary[pinType]:
-			if gatePIN.connectionParticipatingIn != null:
+			if gatePIN.connectionsParticipatingIn != null:
 				#find matching pin reference from list
 					for connection in connectionsList:
-						if gatePIN.connectionParticipatingIn == connection:
-							$GateContainer.remove_child(connection)
-							connectionsList.erase(connection)
+						for pinConnection in gatePIN.connectionsParticipatingIn:
+							if pinConnection == connection:
+								$GateContainer.remove_child(connection)
+								connection.queue_free()
+								connectionsList.erase(connection)
 	$GateContainer.remove_child(gateToDelete)
+	gateToDelete.queue_free()
 	
 
 func DeleteSelectedInput_OutputScene(sceneToDelete):
 	var connectionPointIndex = 0
 	for pinType in sceneToDelete.inAndOutPINListDictionary:
 		for gatePIN in sceneToDelete.inAndOutPINListDictionary[pinType]:
-			if gatePIN.connectionParticipatingIn != null:
+			if gatePIN.connectionsParticipatingIn != null:
 				#find matching pin reference from list
+				for pinConnection in gatePIN.connectionsParticipatingIn:
 					for connection in connectionsList:
-						if gatePIN.connectionParticipatingIn == connection:
+						if pinConnection == connection:
 							$GateContainer.remove_child(connection)
+							connection.queue_free()
 							connectionsList.erase(connection)
 	inputsAndOutputsList[sceneToDelete.type].erase(sceneToDelete)
 	$GateContainer.remove_child(sceneToDelete)
+	sceneToDelete.queue_free()
 
 func OverSelectableScene(currently_over): #sets scene_currently_over to a reference of the instanced scene currently being hovered over
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
@@ -198,12 +205,36 @@ func CreatePINConnection(PIN):
 			else:
 				newConnection.get_node("Line2D").add_point(scene_currently_over.position + scene_currently_over.get_node("BodyX").position)
 			newConnection.get_meta("nodesConnected")[1] = PIN
-			$GateContainer.add_child(newConnection)
-			connectionsList.append(newConnection)
-			newConnection.get_meta("nodesConnected")[0].connectionParticipatingIn = newConnection
-			newConnection.get_meta("nodesConnected")[1].connectionParticipatingIn = newConnection
-			newConnection = null
+			if CheckPINConnectionValidity(newConnection):
+				$GateContainer.add_child(newConnection)
+				connectionsList.append(newConnection)
+				newConnection.get_meta("nodesConnected")[0].connectionsParticipatingIn.append(newConnection)
+				newConnection.get_meta("nodesConnected")[1].connectionsParticipatingIn.append(newConnection)
+				#print (newConnection.get_meta("nodesConnected")[0].connectionsParticipatingIn, " ", newConnection.get_meta("nodesConnected")[1].connectionsParticipatingIn)
+				newConnection = null
 
+func CheckPINConnectionValidity(connectionToCheck):
+	var PIN1 = connectionToCheck.get_meta("nodesConnected")[0]
+	var PIN2 = connectionToCheck.get_meta("nodesConnected")[1]
+	#get rid of freed node references
+	for connection in PIN1.connectionsParticipatingIn:
+		if !is_instance_valid(connection):
+			PIN1.connectionsParticipatingIn.erase(connection)
+	for connection in PIN2.connectionsParticipatingIn:
+		if !is_instance_valid(connection):
+			PIN2.connectionsParticipatingIn.erase(connection)
+	if (connectionToCheck.get_meta("nodesConnected")[0].get_parent() != connectionToCheck.get_meta("nodesConnected")[1].get_parent() and (
+	("InPIN" in PIN1.name and "OutPIN" in PIN2.name) or
+	("OutPIN" in PIN1.name and "InPIN" in PIN2.name)
+	)):
+		print(PIN1.name, " ", PIN1.connectionsParticipatingIn, "\n", PIN2.name, " ", PIN2.connectionsParticipatingIn)
+		if ("InPIN" in PIN1.name and PIN1.connectionsParticipatingIn != []) or ("InPIN" in PIN2.name and PIN2.connectionsParticipatingIn != []):
+			return false
+		
+		else:
+			return true
+	else:
+		return false
 
 func _on_simulate_logic_button_pressed():
 	#output all elements in canvas to SDL file with proper connections
@@ -264,7 +295,8 @@ func LeftSelectionGUI():
 
 func SetSelectedGate(gateButton):
 	for gateButtonIterate in $GUI/HBoxContainer/Control/HBoxContainer/VBoxContainer.get_children():
-				gateButtonIterate.texture_normal = load("res://Gate/" + gateButtonIterate.name + ".png")
+		if "TextureButton" in gateButtonIterate.get_class():
+			gateButtonIterate.texture_normal = load("res://Gate/" + gateButtonIterate.name + ".png")
 	for otherButtonIterate in $GUI/HBoxContainer/Control2/VBoxContainer.get_children():
 		if otherButtonIterate.name == "IN" or otherButtonIterate.name == "OUT":
 			otherButtonIterate.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
@@ -281,8 +313,6 @@ func SetSelectedGate(gateButton):
 		gateButton.self_modulate = Color(0.9, 0.4, 0.2, 1.0)
 		selectedGate = gateButton.name
 	else:
-		print(gateButton.name)
-		
 		gateButton.texture_normal = load("res://Gate/" + gateButton.name + "Pressed.png")
 		selectedGate = gateButton.name
 

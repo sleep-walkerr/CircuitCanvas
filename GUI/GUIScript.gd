@@ -20,6 +20,9 @@ func _ready():
 		#currentGateSelectionLabel.size_flags_vertical = 
 		# set color to black or something here
 		get_node("HBoxContainer/Control/HBoxContainer/VBoxContainer2").add_child(currentGateSelectionLabel)
+		var hlabelSeperator = HSeparator.new()
+		get_node("HBoxContainer/Control/HBoxContainer/VBoxContainer2").add_child(hlabelSeperator)
+		
 		
 		var currentGateTextureButton = TextureButton.new()
 		currentGateTextureButton.texture_normal = load("res://Gate/" + gateType + ".png")
@@ -28,6 +31,10 @@ func _ready():
 		currentGateTextureButton.name = gateType
 		currentGateTextureButton.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		get_node("HBoxContainer/Control/HBoxContainer/VBoxContainer").add_child(currentGateTextureButton)
+		
+		
+		var gateSeparator = HSeparator.new()
+		get_node("HBoxContainer/Control/HBoxContainer/VBoxContainer").add_child(gateSeparator)
 		
 		
 		#now manually add trigger

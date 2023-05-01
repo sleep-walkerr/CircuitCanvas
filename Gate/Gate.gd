@@ -17,6 +17,7 @@ func set_Gate_Type(type):
 	self.add_child(gateSprite)
 	#script switching and whatnot will happen here when i've worked on the functionality of the gates later
 	
+	
 func calculate_Output_PIN_Index(newPINNumber):
 	#find new index of output pin
 	inAndOutPINListDictionary["OUT"][0].set_meta("PINNo", newPINNumber+1)

@@ -34,6 +34,10 @@ layout_mode = 2
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/Control/HBoxContainer"]
 layout_mode = 2
 
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/Control/HBoxContainer"]
+visible = false
+layout_mode = 2
+
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Control/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 2

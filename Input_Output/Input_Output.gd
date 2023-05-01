@@ -36,11 +36,16 @@ func _ready():
 	self.set_physics_process(false)
 	set_in_out(type)
 	
-	var outPIN = load("res://GatePIN/OutPIN.tscn").instantiate() #set a single time
-	inAndOutPINListDictionary["OUT"].append(outPIN)
-	outPIN.visible = false
-	self.add_child(outPIN)
-
+	if(type == "IN"):
+		var outPIN = load("res://GatePIN/OutPIN.tscn").instantiate() #set a single time
+		inAndOutPINListDictionary["OUT"].append(outPIN)
+		outPIN.visible = false
+		self.add_child(outPIN)
+	elif (type == "OUT"):
+		var inPIN = load("res://GatePIN/InPIN.tscn").instantiate() #set a single time
+		inAndOutPINListDictionary["IN"].append(inPIN)
+		inPIN.visible = false
+		self.add_child(inPIN)
 
 func _on_line_edit_text_changed(new_text):
 	$Input_Output_Label.text = $Input_Output_Label.text.to_upper()
@@ -62,7 +67,10 @@ func set_in_out(type):
 func _on_Area2D_input_event(viewport, event, shape_idx): #disconnect until full fix is complete in root node script
 	
 	if event.is_action_pressed("click]") and Input.is_key_pressed(KEY_CTRL):
-		get_node("/root/Node2D").CreatePINConnection(inAndOutPINListDictionary["OUT"][0])
+		if type == "IN":
+			get_node("/root/Node2D").CreatePINConnection(inAndOutPINListDictionary["OUT"][0])
+		elif type == "OUT":
+			get_node("/root/Node2D").CreatePINConnection(inAndOutPINListDictionary["IN"][0])
 	
 	if !inTextEntryField:
 		if event is InputEventMouseButton:
