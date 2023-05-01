@@ -294,7 +294,8 @@ func LeftSelectionGUI():
 
 func SetSelectedGate(gateButton):
 	for gateButtonIterate in $GUI/HBoxContainer/Control/HBoxContainer/VBoxContainer.get_children():
-				gateButtonIterate.texture_normal = load("res://Gate/" + gateButtonIterate.name + ".png")
+		if "TextureButton" in gateButtonIterate.get_class():
+			gateButtonIterate.texture_normal = load("res://Gate/" + gateButtonIterate.name + ".png")
 	for otherButtonIterate in $GUI/HBoxContainer/Control2/VBoxContainer.get_children():
 		if otherButtonIterate.name == "IN" or otherButtonIterate.name == "OUT":
 			otherButtonIterate.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
