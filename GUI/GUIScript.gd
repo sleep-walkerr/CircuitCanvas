@@ -25,8 +25,8 @@ func _ready():
 		
 		
 		var currentGateTextureButton = TextureButton.new()
-		currentGateTextureButton.texture_normal = load("res://Gate/" + gateType + ".png")
-		currentGateTextureButton.texture_pressed = load("res://Gate/" + gateType + "Pressed.png")
+		currentGateTextureButton.texture_normal = load("res://Icons/" + gateType + ".png")
+		currentGateTextureButton.texture_pressed = load("res://Icons/" + gateType + "Pressed.png")
 		currentGateTextureButton.stretch_mode = TextureButton.STRETCH_KEEP_CENTERED
 		currentGateTextureButton.name = gateType
 		currentGateTextureButton.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -51,7 +51,7 @@ func _ready():
 		
 		var currentOtherTextureButton = TextureButton.new()
 		currentOtherTextureButton.name = otherType
-		currentOtherTextureButton.texture_normal = load("res://Input_Output/" + otherType + ".png")
+		currentOtherTextureButton.texture_normal = load("res://Icons/" + otherType + ".png")
 		currentOtherTextureButton.stretch_mode = TextureButton.STRETCH_KEEP_CENTERED
 		get_node("HBoxContainer//Control2/VBoxContainer").add_child(currentOtherTextureButton)
 		

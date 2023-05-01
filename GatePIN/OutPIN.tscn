@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwdhxt47i8pe1"]
+[gd_scene load_steps=4 format=3 uid="uid://cna52vbos2hhj"]
 
 [ext_resource type="Script" path="res://GatePIN/PIN.gd" id="1_6b4mb"]
-[ext_resource type="Texture2D" uid="uid://d3ka6dec472u0" path="res://GatePIN/OutPIN.png" id="1_724dw"]
+[ext_resource type="Texture2D" uid="uid://d3ka6dec472u0" path="res://Icons/OutPIN.png" id="2_gpxyp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_futx2"]
 radius = 9.0
@@ -12,7 +12,7 @@ metadata/PINNo = 0
 
 [node name="OutPin" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0, 0, 1)
-texture = ExtResource("1_724dw")
+texture = ExtResource("2_gpxyp")
 
 [node name="Area2D" type="Area2D" parent="."]
 
