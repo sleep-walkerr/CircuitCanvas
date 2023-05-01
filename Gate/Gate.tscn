@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://b0yijn7js5wdy"]
 
-[ext_resource type="Texture2D" uid="uid://cf4mg45s8j4ky" path="res://Gate/Blank.png" id="1"]
 [ext_resource type="Script" path="res://Gate/Gate.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://c3vqurekb1ig2" path="res://Icons/Blank.png" id="2_ktuw3"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(223.5, 100)
@@ -21,7 +21,7 @@ debug_color = Color(0, 0.6, 0.701961, 0.419608)
 self_modulate = Color(0.419608, 0.933333, 1, 0.392157)
 show_behind_parent = true
 scale = Vector2(1.1175, 1)
-texture = ExtResource("1")
+texture = ExtResource("2_ktuw3")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2

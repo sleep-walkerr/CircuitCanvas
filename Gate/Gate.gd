@@ -13,7 +13,7 @@ var inAndOutPINListDictionary = {"OUT" : [], "IN" : []} #hold references to all 
 
 func set_Gate_Type(type):
 	# adds corresponding gate texture to instanced gate
-	gateSprite.texture = load("res://Gate/" + type + "Instanced.png")
+	gateSprite.texture = load("res://Icons/" + type + "Instanced.png")
 	self.add_child(gateSprite)
 	#script switching and whatnot will happen here when i've worked on the functionality of the gates later
 	
@@ -21,6 +21,7 @@ func set_Gate_Type(type):
 func calculate_Output_PIN_Index(newPINNumber):
 	#find new index of output pin
 	inAndOutPINListDictionary["OUT"][0].set_meta("PINNo", newPINNumber+1)
+
 
 func _ready():
 	$Area2D.connect("input_event",Callable(get_node("/root/Node2D"),"InstancedCircuitObjectInput").bind(self))

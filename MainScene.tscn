@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dljx875ck4qqg"]
+[gd_scene load_steps=6 format=3 uid="uid://dljx875ck4qqg"]
 
 [ext_resource type="Script" path="res://MainScene.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://d2vpectiowrl4" path="res://Icons/scriptButton.png" id="3_d1bm1"]
+[ext_resource type="Texture2D" uid="uid://dsajjk1k1f270" path="res://Icons/scriptButtonPressed.png" id="4_e0x60"]
 [ext_resource type="PackedScene" uid="uid://cfunyue2jj6vc" path="res://GUI/GUI.tscn" id="10"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wq1or"]
-size = Vector2(52, 52)
+size = Vector2(75, 75)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("2")
@@ -48,22 +50,20 @@ text = "From the perspective of 3 major zones:
 4/6/2023
 - To solve for selection bug "
 
-[node name="SimulateLogicButton" type="Button" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 1869.0
-offset_right = 1919.0
-offset_bottom = 50.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="SimulateLogicButton" type="TextureButton" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 1845.0
+offset_right = 1920.0
+offset_bottom = 75.0
+grow_horizontal = 0
 pivot_offset = Vector2(25, 25)
-text = "Play"
+texture_normal = ExtResource("3_d1bm1")
+texture_pressed = ExtResource("4_e0x60")
 
 [node name="Area2D" type="Area2D" parent="SimulateLogicButton"]
-position = Vector2(25, 25)
+position = Vector2(37.5, 37.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SimulateLogicButton/Area2D"]
 shape = SubResource("RectangleShape2D_wq1or")

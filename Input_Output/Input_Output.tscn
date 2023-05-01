@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://dqwjnwliy27fb"]
 
 [ext_resource type="Script" path="res://Input_Output/Input_Output.gd" id="1_ymao4"]
-[ext_resource type="Texture2D" uid="uid://bd77wqshmdtar" path="res://Input_Output/BodyX.png" id="2_dac8j"]
-[ext_resource type="Texture2D" uid="uid://cf4mg45s8j4ky" path="res://Gate/Blank.png" id="3_0vn13"]
+[ext_resource type="Texture2D" uid="uid://0a8e2mptimv5" path="res://Icons/IN_OUT_BODY.png" id="2_6avka"]
+[ext_resource type="Texture2D" uid="uid://coejn8p7sr42a" path="res://Icons/IOBlank.png" id="3_jwg8m"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2haeo"]
 radius = 38.3275
@@ -54,7 +54,7 @@ mouse_filter = 2
 [node name="BodyX" type="Sprite2D" parent="."]
 self_modulate = Color(0.262745, 0.643137, 0.929412, 0.541176)
 z_index = -1
-texture = ExtResource("2_dac8j")
+texture = ExtResource("2_6avka")
 
 [node name="Blank" type="Sprite2D" parent="."]
 visible = false
@@ -62,7 +62,7 @@ self_modulate = Color(0.419608, 0.933333, 1, 0.392157)
 show_behind_parent = true
 position = Vector2(9.53674e-07, -0.500002)
 scale = Vector2(0.39, 0.79)
-texture = ExtResource("3_0vn13")
+texture = ExtResource("3_jwg8m")
 
 [node name="PINSpacer" type="Line2D" parent="."]
 visible = false

@@ -53,16 +53,18 @@ func _process(delta): #combined old physics_process with process, need to reorga
 				
 			elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 				Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-				Input.warp_mouse(scene_currently_over.position + scene_currently_over.offset)
+				await get_tree().process_frame
+				Input.warp_mouse(scene_currently_over.get_position_delta() + scene_currently_over.offset)
 				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+				mouseOverAndSelectionCast.enabled = true
 		
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			scene_currently_over.direction += mouseDelta* (Performance.get_monitor(Performance.TIME_FPS)) * delta # current position of mouse relative to last * current fps * time since last frame. This allows for consistent movement reguardless of framerate
 			mouseDelta = Vector2(0,0)
 	elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-		Input.warp_mouse(scene_currently_over.position + scene_currently_over.offset)
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		mouseOverAndSelectionCast.enabled = true
 	
 func _input(event):
 	if !Input.is_key_pressed(KEY_CTRL):	
@@ -118,6 +120,7 @@ func InstancedCircuitObjectInput(viewport, event, shape_idx, objectSendingInput)
 	if !Input.is_key_pressed(KEY_CTRL):
 		if Input.is_mouse_button_pressed(1): #check if you clicked and then moved mouse w/o letting go of mouse 1 (for drag initiation) since last input event
 			if objectSendingInput.lastMousePos != get_global_mouse_position():
+				mouseOverAndSelectionCast.enabled = false
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	
 func UpdateConnectionCoordinates(sceneToUpdate): # updates coordinates of and redraws connection as participating gate is moved
@@ -296,15 +299,15 @@ func LeftSelectionGUI():
 func SetSelectedGate(gateButton):
 	for gateButtonIterate in $GUI/HBoxContainer/Control/HBoxContainer/VBoxContainer.get_children():
 		if "TextureButton" in gateButtonIterate.get_class():
-			gateButtonIterate.texture_normal = load("res://Gate/" + gateButtonIterate.name + ".png")
+			gateButtonIterate.texture_normal = load("res://Icons/" + gateButtonIterate.name + ".png")
 	for otherButtonIterate in $GUI/HBoxContainer/Control2/VBoxContainer.get_children():
 		if otherButtonIterate.name == "IN" or otherButtonIterate.name == "OUT":
 			otherButtonIterate.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
 		elif otherButtonIterate.name == "Delete":
-			otherButtonIterate.texture_normal = load("res://Input_Output/Delete.png")
+			otherButtonIterate.texture_normal = load("res://Icons/Delete.png")
 			
 	if gateButton.name == "Delete":
-		gateButton.texture_normal = load("res://Input_Output/DeletePressed.png")
+		gateButton.texture_normal = load("res://Icons/DeletePressed.png")
 		selectedGate = gateButton.name
 	elif gateButton.name == "IN":
 		gateButton.self_modulate = Color(0.0, 1.0, 1.0, 1.0)
@@ -313,7 +316,7 @@ func SetSelectedGate(gateButton):
 		gateButton.self_modulate = Color(0.9, 0.4, 0.2, 1.0)
 		selectedGate = gateButton.name
 	else:
-		gateButton.texture_normal = load("res://Gate/" + gateButton.name + "Pressed.png")
+		gateButton.texture_normal = load("res://Icons/" + gateButton.name + "Pressed.png")
 		selectedGate = gateButton.name
 
 func _on_gd_example_position_changed(node, new_pos):
