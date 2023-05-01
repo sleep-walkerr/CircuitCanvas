@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_futx2"]
 radius = 9.0
 
-[node name="GatePIN" type="Node2D"]
+[node name="OutPIN" type="Node2D"]
 script = ExtResource("1_6b4mb")
 metadata/PINNo = 0
 
