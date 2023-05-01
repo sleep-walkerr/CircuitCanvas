@@ -61,7 +61,7 @@ func _process(delta): #combined old physics_process with process, need to reorga
 			mouseDelta = Vector2(0,0)
 	elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-		#Input.warp_mouse(scene_currently_over.position + scene_currently_over.offset)
+		Input.warp_mouse(scene_currently_over.position + scene_currently_over.offset)
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 func _input(event):
@@ -113,6 +113,7 @@ func _input(event):
 func InstancedCircuitObjectInput(viewport, event, shape_idx, objectSendingInput):
 	if Input.is_action_just_pressed("click]"):
 		objectSendingInput.lastMousePos = get_global_mouse_position()
+		objectSendingInput.offset = -(objectSendingInput.global_position - get_global_mouse_position())
 	# detect drag only based on current location vs last
 	if !Input.is_key_pressed(KEY_CTRL):
 		if Input.is_mouse_button_pressed(1): #check if you clicked and then moved mouse w/o letting go of mouse 1 (for drag initiation) since last input event
