@@ -67,7 +67,7 @@ position = Vector2(37.5, 37.5)
 shape = SubResource("RectangleShape2D_wq1or")
 
 [node name="Control" parent="." instance=ExtResource("10")]
-offset_right = 160.0
+offset_right = 170.0
 offset_bottom = 1080.0
 
 [connection signal="pressed" from="SimulateLogicButton" to="." method="_on_simulate_logic_button_pressed"]

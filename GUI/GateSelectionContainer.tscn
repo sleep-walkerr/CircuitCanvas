@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://y1qqyuubv81g"]
+[gd_scene load_steps=5 format=3 uid="uid://bm2tsie7ac5q0"]
 
 [ext_resource type="Texture2D" uid="uid://behihrrsmmolj" path="res://Icons/AND.png" id="1_pwggh"]
 [ext_resource type="Texture2D" uid="uid://dk5pcq4p3d3eg" path="res://Icons/ANDPressed.png" id="2_xqdhw"]
@@ -26,6 +26,7 @@ offset_right = 150.0
 offset_bottom = 100.0
 size_flags_vertical = 3
 theme_override_constants/separation = 0
+metadata/type = ""
 
 [node name="LabelPanel" type="Panel" parent="."]
 custom_minimum_size = Vector2(0, 26)
