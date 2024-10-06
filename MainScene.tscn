@@ -1,17 +1,83 @@
-[gd_scene load_steps=6 format=3 uid="uid://dljx875ck4qqg"]
+[gd_scene load_steps=12 format=3 uid="uid://dljx875ck4qqg"]
 
 [ext_resource type="Script" path="res://MainScene.gd" id="2"]
-[ext_resource type="Texture2D" uid="uid://d2vpectiowrl4" path="res://Icons/scriptButton.png" id="3_d1bm1"]
-[ext_resource type="Texture2D" uid="uid://dsajjk1k1f270" path="res://Icons/scriptButtonPressed.png" id="4_e0x60"]
-[ext_resource type="PackedScene" uid="uid://cfunyue2jj6vc" path="res://GUI/GUI.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://b7t4edynn6x1d" path="res://window_dock_ncharms.tscn" id="2_cagop"]
+[ext_resource type="FontFile" uid="uid://dnjpgh3v7esbk" path="res://Fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="3_23jx2"]
+[ext_resource type="Texture2D" uid="uid://bm81f3d5gsg35" path="res://Icons/scriptButton.png" id="3_d1bm1"]
+[ext_resource type="Texture2D" uid="uid://cbog4ui5p2huv" path="res://Icons/scriptButtonPressed.png" id="4_e0x60"]
+[ext_resource type="Texture2D" uid="uid://bglxny3o8pkif" path="res://Icons/ProgramIcon.png" id="4_kb18l"]
+[ext_resource type="PackedScene" uid="uid://dpmfs8blkomc" path="res://SelectionInterface.tscn" id="5_ni1yh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pli8v"]
+bg_color = Color(0.2, 0.266667, 0.345098, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="Theme" id="Theme_ohh3g"]
+Panel/styles/panel = SubResource("StyleBoxFlat_pli8v")
+
+[sub_resource type="LabelSettings" id="LabelSettings_lb1mf"]
+font = ExtResource("3_23jx2")
+font_size = 40
+font_color = Color(0.956863, 0.619608, 0.435294, 1)
+outline_size = 4
+outline_color = Color(0.956863, 0.619608, 0.435294, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wq1or"]
 size = Vector2(75, 75)
 
 [node name="Node2D" type="Node2D"]
+clip_children = 1
 script = ExtResource("2")
 
+[node name="WindowDockNcharms" parent="." instance=ExtResource("2_cagop")]
+anchors_preset = 1
+anchor_left = 1.0
+offset_left = 592.0
+offset_top = 4.0
+offset_right = 1430.0
+offset_bottom = 38.0
+grow_horizontal = 0
+
+[node name="MainControls" type="Panel" parent="."]
+custom_minimum_size = Vector2(450, 1080)
+offset_right = 450.0
+offset_bottom = 1080.0
+theme = SubResource("Theme_ohh3g")
+
+[node name="CenterContainer" type="CenterContainer" parent="MainControls"]
+layout_mode = 0
+offset_right = 450.0
+offset_bottom = 123.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MainControls/CenterContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="MainControls/CenterContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Circuit Canvas"
+label_settings = SubResource("LabelSettings_lb1mf")
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MainControls/CenterContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+texture = ExtResource("4_kb18l")
+stretch_mode = 3
+
+[node name="gate_selection_interface" parent="MainControls" instance=ExtResource("5_ni1yh")]
+layout_mode = 1
+offset_left = 48.0
+offset_top = 561.0
+offset_right = -52.0
+offset_bottom = -32.0
+
 [node name="GateContainer" type="Node2D" parent="."]
+visible = false
 
 [node name="TextEdit" type="TextEdit" parent="."]
 visible = false
@@ -49,6 +115,7 @@ text = "From the perspective of 3 major zones:
 - To solve for selection bug "
 
 [node name="SimulateLogicButton" type="TextureButton" parent="."]
+visible = false
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -65,9 +132,5 @@ position = Vector2(37.5, 37.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SimulateLogicButton/Area2D"]
 shape = SubResource("RectangleShape2D_wq1or")
-
-[node name="Control" parent="." instance=ExtResource("10")]
-offset_right = 170.0
-offset_bottom = 1080.0
 
 [connection signal="pressed" from="SimulateLogicButton" to="." method="_on_simulate_logic_button_pressed"]

@@ -15,6 +15,8 @@ var mouseOverAndSelectionCast = ShapeCast2D.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#Set background to transparent
+	get_tree().get_root().transparent_bg = true
 	#Create dictionary containing arrays that will hold references to all gates for every gate type
 	gateReferencesByCategory['AND'] = []
 	gateReferencesByCategory['Buffer'] = []
