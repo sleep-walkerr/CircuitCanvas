@@ -10,12 +10,17 @@ config_version=5
 
 [application]
 
-config/name="CircuitCanvas"
+config/name="Circuit Canvas"
 config/description="Logic gate circuit builder with direct integration with Dr. Hanna's SDLS API"
 run/main_scene="res://MainScene.tscn"
 config/features=PackedStringArray("4.3")
+run/max_fps=120
 run/delta_smoothing=false
-boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/bg_color=Color(0.2, 0.266667, 0.345098, 1)
+boot_splash/image="res://Splash.png"
+boot_splash/fullsize=false
+config/icon="res://Icons/ProgramIcon.png"
+boot_splash/minimum_display_time=2000
 
 [display]
 
@@ -25,7 +30,7 @@ window/size/resizable=false
 window/size/borderless=true
 window/size/transparent=true
 window/per_pixel_transparency/allowed=true
-window/vsync/vsync_mode=2
+window/vsync/vsync_mode=0
 
 [dotnet]
 
