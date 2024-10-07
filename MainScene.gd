@@ -298,12 +298,13 @@ func LeftSelectionGUI():
 	get_tree().paused = false
 
 
-func SetSelectedGate(gateSelectionContainer):
-	for currentSelectionContainer in gateSelectionContainer.get_parent().get_children():
-		if currentSelectionContainer.get_meta("type") == selectedGate:
-			currentSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + currentSelectionContainer.get_meta("type") + ".png")
-	gateSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + gateSelectionContainer.get_meta("type") + "Pressed.png")
-	selectedGate = gateSelectionContainer.get_meta("type")
+func SetSelectedGate(gate_selection):
+#	for currentSelectionContainer in gateSelectionContainer.get_parent().get_children():
+#		if currentSelectionContainer.get_meta("type") == selectedGate:
+#			currentSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + currentSelectionContainer.get_meta("type") + ".png")
+#	gateSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + gateSelectionContainer.get_meta("type") + "Pressed.png")
+#	selectedGate = gateSelectionContainer.get_meta("type")
+	selectedGate = gate_selection
 	
 
 func _on_gd_example_position_changed(node, new_pos):
