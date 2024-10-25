@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bm2tsie7ac5q0"]
 
-[ext_resource type="Texture2D" uid="uid://behihrrsmmolj" path="res://Icons/AND.png" id="1_pwggh"]
-[ext_resource type="Texture2D" uid="uid://dk5pcq4p3d3eg" path="res://Icons/ANDPressed.png" id="2_xqdhw"]
+[ext_resource type="Texture2D" uid="uid://b4js8hfpr31qd" path="res://Icons/AND.png" id="1_pwggh"]
+[ext_resource type="Texture2D" uid="uid://078244p0iayg" path="res://Icons/ANDPressed.png" id="2_xqdhw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66572"]
 bg_color = Color(1, 1, 1, 1)

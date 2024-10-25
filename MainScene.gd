@@ -15,6 +15,8 @@ var mouseOverAndSelectionCast = ShapeCast2D.new()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#Set background to transparent
+	get_tree().get_root().transparent_bg = true
 	#Create dictionary containing arrays that will hold references to all gates for every gate type
 	gateReferencesByCategory['AND'] = []
 	gateReferencesByCategory['Buffer'] = []
@@ -296,12 +298,13 @@ func LeftSelectionGUI():
 	get_tree().paused = false
 
 
-func SetSelectedGate(gateSelectionContainer):
-	for currentSelectionContainer in gateSelectionContainer.get_parent().get_children():
-		if currentSelectionContainer.get_meta("type") == selectedGate:
-			currentSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + currentSelectionContainer.get_meta("type") + ".png")
-	gateSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + gateSelectionContainer.get_meta("type") + "Pressed.png")
-	selectedGate = gateSelectionContainer.get_meta("type")
+func SetSelectedGate(gate_selection):
+#	for currentSelectionContainer in gateSelectionContainer.get_parent().get_children():
+#		if currentSelectionContainer.get_meta("type") == selectedGate:
+#			currentSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + currentSelectionContainer.get_meta("type") + ".png")
+#	gateSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + gateSelectionContainer.get_meta("type") + "Pressed.png")
+#	selectedGate = gateSelectionContainer.get_meta("type")
+	selectedGate = gate_selection
 	
 
 func _on_gd_example_position_changed(node, new_pos):

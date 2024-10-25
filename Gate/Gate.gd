@@ -28,16 +28,20 @@ func _ready():
 	self.set_physics_process(false)
 	set_Gate_Type(type)
 	#configure output pin and add
+	"""
 	var outPIN = load("res://GatePIN/OutPIN.tscn").instantiate() #set a single time
 	inAndOutPINListDictionary["OUT"].append(outPIN)
 	self.add_child(outPIN)
-	outPIN.position = Vector2(76, 0)
+	outPIN.position = Vector2(56, 0)
+	"""
 	
 	#configure input pins
+	"""
 	if type != "Buffer" and type != "NOT":
 		set_Input_PIN_Number(2)
 	else:
 		set_Input_PIN_Number(1)
+	"""
 		
 func PINInputEvent(viewport, event, shape_idx, fromPIN):
 	if event.is_action_pressed("click]") and Input.is_key_pressed(KEY_CTRL):
