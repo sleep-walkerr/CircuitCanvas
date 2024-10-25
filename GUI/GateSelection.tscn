@@ -1,0 +1,183 @@
+[gd_scene load_steps=29 format=3 uid="uid://dpmfs8blkomc"]
+
+[ext_resource type="Script" path="res://GUI/gate_selection.gd" id="1_0601b"]
+[ext_resource type="Texture2D" uid="uid://pw30wgxspqea" path="res://Icons/and_button.png" id="1_862dq"]
+[ext_resource type="Texture2D" uid="uid://wkv13cgpwud3" path="res://Icons/not_button.png" id="1_ydtxl"]
+[ext_resource type="Texture2D" uid="uid://dvi5b3184b8t1" path="res://Icons/not_button_pressed.png" id="2_7di0t"]
+[ext_resource type="ButtonGroup" uid="uid://bgpi5nst560p5" path="res://GUI/gate_button_group.tres" id="2_al7fk"]
+[ext_resource type="Texture2D" uid="uid://02qn14ac6hkp" path="res://Icons/and_button_pressed.png" id="2_cx7pl"]
+[ext_resource type="Texture2D" uid="uid://c0ny5kxy5t4a2" path="res://Icons/not_button_hover.png" id="3_25qbr"]
+[ext_resource type="Texture2D" uid="uid://dgie8a88l4eh4" path="res://Icons/and_button_hover.png" id="3_fh75g"]
+[ext_resource type="Texture2D" uid="uid://vwfdof7jjxcm" path="res://Icons/or_button.png" id="4_60ufj"]
+[ext_resource type="Texture2D" uid="uid://ca4j8lfl1rjm3" path="res://Icons/or_button_pressed.png" id="5_fwo3w"]
+[ext_resource type="Texture2D" uid="uid://dl8b2vekbg7eu" path="res://Icons/or_button_hover.png" id="6_le2lf"]
+[ext_resource type="Texture2D" uid="uid://d5fupgghrl5b" path="res://Icons/nand_button.png" id="10_q0qg0"]
+[ext_resource type="Texture2D" uid="uid://dambl1b07ider" path="res://Icons/nand_button_pressed.png" id="11_l1hpo"]
+[ext_resource type="Texture2D" uid="uid://cgf1xre1bqthk" path="res://Icons/nand_button_hover.png" id="12_axex0"]
+[ext_resource type="Texture2D" uid="uid://bapx603duxh6l" path="res://Icons/nor_button.png" id="13_uhqw6"]
+[ext_resource type="Texture2D" uid="uid://wtyyq2yrtw72" path="res://Icons/nor_button_pressed.png" id="14_utj06"]
+[ext_resource type="Texture2D" uid="uid://b6cjn41lj5vbt" path="res://Icons/nor_button_hover.png" id="15_vkmmr"]
+[ext_resource type="Texture2D" uid="uid://cvdya77y4wd68" path="res://Icons/xor_button.png" id="16_g36sw"]
+[ext_resource type="Texture2D" uid="uid://dhkwtyeqmdqx0" path="res://Icons/xor_button_pressed.png" id="17_l3d8p"]
+[ext_resource type="Texture2D" uid="uid://bxiwo5woxje5p" path="res://Icons/xor_button_hover.png" id="18_pm8dn"]
+[ext_resource type="Texture2D" uid="uid://bbo36qqdg17wq" path="res://Icons/xnor_button.png" id="19_um7vm"]
+[ext_resource type="Texture2D" uid="uid://b1w0lcuit34s6" path="res://Icons/xnor_button_pressed.png" id="20_iv7mc"]
+[ext_resource type="Texture2D" uid="uid://dwpokkav4kcub" path="res://Icons/xnor_button_hover.png" id="21_qe3pp"]
+[ext_resource type="FontFile" uid="uid://dnjpgh3v7esbk" path="res://Fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="22_4eeuj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vdwfk"]
+bg_color = Color(0.2, 0.266667, 0.345098, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="Theme" id="Theme_pgjea"]
+Panel/styles/panel = SubResource("StyleBoxFlat_vdwfk")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hf5o3"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_x33ht"]
+font = ExtResource("22_4eeuj")
+font_size = 20
+font_color = Color(0.2, 0.266667, 0.345098, 1)
+outline_size = 4
+outline_color = Color(0.2, 0.266667, 0.345098, 1)
+
+[node name="gate_selection_interface" type="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(430, 350)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = 42.0
+offset_right = -1530.0
+offset_bottom = -480.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_pgjea")
+script = ExtResource("1_0601b")
+
+[node name="TitleBar" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 55.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hf5o3")
+
+[node name="CenterContainer" type="CenterContainer" parent="TitleBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TitleBar/CenterContainer"]
+layout_mode = 2
+text = "Gate Selection"
+label_settings = SubResource("LabelSettings_x33ht")
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.093
+anchor_top = 0.089
+anchor_right = 0.907
+anchor_bottom = 0.967
+offset_left = 0.00999832
+offset_top = 13.406
+offset_right = -0.0100403
+offset_bottom = 0.0179443
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+
+[node name="GateSelectContainer" type="VBoxContainer" parent="ScrollContainer"]
+custom_minimum_size = Vector2(300, 325)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="and_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_al7fk")
+texture_normal = ExtResource("1_862dq")
+texture_pressed = ExtResource("2_cx7pl")
+texture_hover = ExtResource("3_fh75g")
+stretch_mode = 3
+
+[node name="or_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_al7fk")
+texture_normal = ExtResource("4_60ufj")
+texture_pressed = ExtResource("5_fwo3w")
+texture_hover = ExtResource("6_le2lf")
+stretch_mode = 5
+
+[node name="not_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_al7fk")
+texture_normal = ExtResource("1_ydtxl")
+texture_pressed = ExtResource("2_7di0t")
+texture_hover = ExtResource("3_25qbr")
+stretch_mode = 5
+
+[node name="nand_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_al7fk")
+texture_normal = ExtResource("10_q0qg0")
+texture_pressed = ExtResource("11_l1hpo")
+texture_hover = ExtResource("12_axex0")
+stretch_mode = 5
+
+[node name="nor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_al7fk")
+texture_normal = ExtResource("13_uhqw6")
+texture_pressed = ExtResource("14_utj06")
+texture_hover = ExtResource("15_vkmmr")
+stretch_mode = 5
+
+[node name="xor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_al7fk")
+texture_normal = ExtResource("16_g36sw")
+texture_pressed = ExtResource("17_l3d8p")
+texture_hover = ExtResource("18_pm8dn")
+stretch_mode = 5
+
+[node name="xnor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_al7fk")
+texture_normal = ExtResource("19_um7vm")
+texture_pressed = ExtResource("20_iv7mc")
+texture_hover = ExtResource("21_qe3pp")
+stretch_mode = 5
+
+[connection signal="toggled" from="ScrollContainer/GateSelectContainer/and_button" to="." method="_on_and_button_toggled"]

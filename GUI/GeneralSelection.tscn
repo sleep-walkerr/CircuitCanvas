@@ -1,0 +1,104 @@
+[gd_scene load_steps=15 format=3 uid="uid://cb38hi2hq3kvu"]
+
+[ext_resource type="Texture2D" uid="uid://bxr25pkm16p7v" path="res://Icons/select_button.png" id="1_3y0fm"]
+[ext_resource type="Script" path="res://GUI/general_selection.gd" id="1_ku5fe"]
+[ext_resource type="FontFile" uid="uid://dnjpgh3v7esbk" path="res://Fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="1_omvwh"]
+[ext_resource type="ButtonGroup" uid="uid://bgpi5nst560p5" path="res://GUI/gate_button_group.tres" id="2_6lmea"]
+[ext_resource type="Texture2D" uid="uid://cpj80nb7xmhdx" path="res://Icons/select_button_pressed.png" id="3_668ym"]
+[ext_resource type="Texture2D" uid="uid://bokcuv1twok7g" path="res://Icons/delete_button.png" id="3_c04gu"]
+[ext_resource type="Texture2D" uid="uid://c1v4cla8xo33c" path="res://Icons/delete_button_pressed.png" id="4_fc0dt"]
+[ext_resource type="Texture2D" uid="uid://d4dmfs3r2618j" path="res://Icons/wire_button.png" id="5_vrndq"]
+[ext_resource type="Texture2D" uid="uid://ukr8jjfqb1q7" path="res://Icons/wire_button_pressed.png" id="7_2rpto"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50k37"]
+bg_color = Color(0.2, 0.266667, 0.345098, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="Theme" id="Theme_acnh7"]
+Panel/styles/panel = SubResource("StyleBoxFlat_50k37")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t6o0j"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+
+[sub_resource type="Theme" id="Theme_g40dq"]
+Panel/styles/panel = SubResource("StyleBoxFlat_t6o0j")
+
+[sub_resource type="LabelSettings" id="LabelSettings_253be"]
+font = ExtResource("1_omvwh")
+font_size = 20
+font_color = Color(0.2, 0.266667, 0.345098, 1)
+outline_size = 4
+outline_color = Color(0.2, 0.266667, 0.345098, 1)
+
+[node name="GeneralSelection" type="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(430, 250)
+offset_left = 19.0
+offset_top = 111.0
+offset_right = 446.0
+offset_bottom = 364.0
+theme = SubResource("Theme_acnh7")
+script = ExtResource("1_ku5fe")
+
+[node name="TitlePanel" type="Panel" parent="."]
+custom_minimum_size = Vector2(0, 55)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+theme = SubResource("Theme_g40dq")
+
+[node name="CenterContainer" type="CenterContainer" parent="TitlePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="TitlePanel/CenterContainer"]
+layout_mode = 2
+text = "General"
+label_settings = SubResource("LabelSettings_253be")
+horizontal_alignment = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 55.0
+offset_right = 417.0
+offset_bottom = 243.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="select_button" type="TextureButton" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_6lmea")
+texture_normal = ExtResource("1_3y0fm")
+texture_pressed = ExtResource("3_668ym")
+
+[node name="delete_button" type="TextureButton" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_6lmea")
+texture_normal = ExtResource("3_c04gu")
+texture_pressed = ExtResource("4_fc0dt")
+
+[node name="wire_button" type="TextureButton" parent="CenterContainer/HBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_6lmea")
+texture_normal = ExtResource("5_vrndq")
+texture_pressed = ExtResource("7_2rpto")
