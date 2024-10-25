@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://b7t4edynn6x1d"]
+
+[ext_resource type="Script" path="res://window_dock_ncharms.gd" id="1_0n6gs"]
+[ext_resource type="Texture2D" uid="uid://cstqbrtpuo01p" path="res://Icons/exit_button.png" id="1_3tv0i"]
+[ext_resource type="Texture2D" uid="uid://cj8e43b26f82x" path="res://Icons/exit_button_hover.png" id="1_p56p0"]
+[ext_resource type="Texture2D" uid="uid://cmmj3p6glo3gx" path="res://Icons/fullscreen_button.png" id="3_qxou7"]
+[ext_resource type="Texture2D" uid="uid://cyfvo4fgyjmuc" path="res://Icons/fullscreen_button_hover.png" id="4_4n2sd"]
+[ext_resource type="Texture2D" uid="uid://cww5kmtb1hx1b" path="res://Icons/minimize_button.png" id="5_qca0o"]
+[ext_resource type="Texture2D" uid="uid://byma6r5j8tpwe" path="res://Icons/minimize_button_hover.png" id="6_5n6v5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x2l0g"]
+bg_color = Color(0.2, 0.266667, 0.345098, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="Theme" id="Theme_a8us2"]
+Panel/styles/panel = SubResource("StyleBoxFlat_x2l0g")
+
+[node name="WindowDockNcharms" type="Panel"]
+clip_contents = true
+custom_minimum_size = Vector2(0, 34)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 34.0
+grow_horizontal = 2
+theme = SubResource("Theme_a8us2")
+script = ExtResource("1_0n6gs")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -83.0
+offset_right = -15.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="CenterContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_direction = 3
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="exit_button" type="TextureButton" parent="VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("1_3tv0i")
+texture_hover = ExtResource("1_p56p0")
+stretch_mode = 3
+
+[node name="fullscreen_button" type="TextureButton" parent="VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("3_qxou7")
+texture_hover = ExtResource("4_4n2sd")
+stretch_mode = 3
+
+[node name="minimize_button" type="TextureButton" parent="VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("5_qca0o")
+texture_hover = ExtResource("6_5n6v5")
+stretch_mode = 3
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer/exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="button_down" from="VBoxContainer/CenterContainer/minimize_button" to="." method="_on_minimize_button_button_down"]
