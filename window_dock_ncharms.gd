@@ -12,6 +12,7 @@ func _on_gui_input(event: InputEvent) -> void:
 		if event.button_index == 1:
 			dragging = !dragging
 			dragging_start_position = get_global_mouse_position()
+	
 
 
 func _on_exit_button_pressed() -> void:

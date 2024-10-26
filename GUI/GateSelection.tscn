@@ -64,6 +64,7 @@ offset_right = -1530.0
 offset_bottom = -480.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = SubResource("Theme_pgjea")
 script = ExtResource("1_0601b")
 
@@ -74,6 +75,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 55.0
 grow_horizontal = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_hf5o3")
 
 [node name="CenterContainer" type="CenterContainer" parent="TitleBar"]
@@ -113,6 +115,7 @@ size_flags_horizontal = 3
 [node name="and_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
 button_group = ExtResource("2_al7fk")
 texture_normal = ExtResource("1_862dq")
@@ -123,6 +126,7 @@ stretch_mode = 3
 [node name="or_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
 button_group = ExtResource("2_al7fk")
 texture_normal = ExtResource("4_60ufj")
@@ -133,6 +137,7 @@ stretch_mode = 5
 [node name="not_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
 button_group = ExtResource("2_al7fk")
 texture_normal = ExtResource("1_ydtxl")
@@ -143,6 +148,7 @@ stretch_mode = 5
 [node name="nand_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
 button_group = ExtResource("2_al7fk")
 texture_normal = ExtResource("10_q0qg0")
@@ -153,6 +159,7 @@ stretch_mode = 5
 [node name="nor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
 button_group = ExtResource("2_al7fk")
 texture_normal = ExtResource("13_uhqw6")
@@ -163,6 +170,7 @@ stretch_mode = 5
 [node name="xor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
 button_group = ExtResource("2_al7fk")
 texture_normal = ExtResource("16_g36sw")
@@ -173,6 +181,7 @@ stretch_mode = 5
 [node name="xnor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
 button_group = ExtResource("2_al7fk")
 texture_normal = ExtResource("19_um7vm")
