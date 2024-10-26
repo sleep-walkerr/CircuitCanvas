@@ -15,9 +15,12 @@ func _ready() -> void:
 	get_parent().set_pattern(position, pattern) 
 	# Store tiles
 	var tile_mask = pattern.get_used_cells()
-	for x_y in tile_mask:
-		tiles.append(get_parent().map_pattern(position, x_y, pattern))
-	print(tiles)
+	for x_y in tile_mask: # Store tiles for drag, drop, delete
+		tiles.append(get_parent().map_pattern(position, x_y, pattern)) 
+	# Add reference to managing node within each tile, this allows for detecting which gate you are over at all times
+	for tile in tiles:
+		get_parent().get_cell_tile_data(tile).set_custom_data("managing_node_references", self) # Embed a reference to self into each tile
+		
 	
 	pass # Replace with function body.
 

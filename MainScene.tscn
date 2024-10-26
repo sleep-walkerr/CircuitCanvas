@@ -61,6 +61,8 @@ scenes/1/scene = ExtResource("10_s1b5i")
 
 [sub_resource type="TileSet" id="TileSet_yxcv2"]
 tile_size = Vector2i(19, 19)
+custom_data_layer_0/name = "managing_node_references"
+custom_data_layer_0/type = 0
 sources/4 = SubResource("TileSetScenesCollectionSource_wc2wi")
 sources/0 = SubResource("TileSetAtlasSource_n1lwf")
 pattern_0 = SubResource("TileMapPattern_diawd")
