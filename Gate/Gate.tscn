@@ -9,7 +9,7 @@ size = Vector2(128, 72)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ysnha"]
 size = Vector2(128, 72)
 
-[node name="Gate" type="CharacterBody2D"]
+[node name="Gate2" type="CharacterBody2D"]
 input_pickable = true
 script = ExtResource("2")
 
