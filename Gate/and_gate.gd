@@ -3,6 +3,7 @@ extends Node2D
 var pattern
 var type 
 var tiles = []
+var tile_mask
 var position_in_grid # this is the tile that the mouse was over when user clicks
 var pattern_indicies = {'AND' : 0, 'OR' : 1, 'NOT' : 2, 'NAND' : 3, 'NOR' : 4, 'XOR' : 5, 'XNOR' : 6}
 
@@ -14,7 +15,7 @@ func _ready() -> void:
 	if pattern != null:
 		get_parent().set_pattern(position_in_grid, pattern) 
 		# Store tiles
-		var tile_mask = pattern.get_used_cells()
+		tile_mask = pattern.get_used_cells()
 		for x_y in tile_mask: # Store tiles for drag, drop, delete
 			tiles.append(get_parent().map_pattern(position_in_grid, x_y, pattern)) 
 		# Add reference to managing node within each tile, this allows for detecting which gate you are over at all times
@@ -36,8 +37,6 @@ func RedrawPattern() -> void: # Redraws pattern every frame for drag and drop mo
 	# Delete previously stored coordinates
 	tiles.clear()
 	get_parent().set_pattern(position_in_grid, pattern) 
-	# Store tiles
-	var tile_mask = pattern.get_used_cells()
 	for x_y in tile_mask: # Store tiles for drag, drop, delete
 		tiles.append(get_parent().map_pattern(position_in_grid, x_y, pattern)) 
 	# Add reference to managing node within each tile, this allows for detecting which gate you are over at all times

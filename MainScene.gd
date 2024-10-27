@@ -1,6 +1,6 @@
 extends Node2D
  
-var object_being_dragged
+var object_being_dragged = Node2D.new()
 var object_drag_offset
 var over_gui
 
@@ -50,7 +50,7 @@ func _input(event):
 	if !over_gui:
 		var tile_currently_over = $GateGrid.local_to_map(get_global_mouse_position())
 		# New Test Code
-		if event.is_action_pressed("click]"):
+		if event.is_action_pressed("click]") and object_being_dragged == null:
 			if selectedGate != null and !isTileOccupied(tile_currently_over): # For the creation of gate patterns
 				# This is a good start, needs to eventually check if any resulting tiles will overwrite occupied tiles, if they will, block action
 				var new_gate_position = tile_currently_over	
@@ -62,19 +62,27 @@ func _input(event):
 				# Add to Grid
 				$GateGrid.add_child(new_gate)
 			elif Input.is_mouse_button_pressed(1) and isTileOccupied(tile_currently_over): # If left mouse held and over a gate, start dragging functionality
-				object_being_dragged = $GateGrid.get_cell_tile_data(tile_currently_over).get_custom_data("managing_node_references")
+				object_being_dragged = GetManagingNode(tile_currently_over)
 				# Store offset
 				object_drag_offset = $GateGrid.get_cell_atlas_coords(tile_currently_over) - Vector2i(1,0) # Use atlas
-				#--Calculate offset using atlas
+				#--Move to buffer
+				
 		if object_being_dragged != null and Input.is_mouse_button_pressed(1): # If still pressed, keep dragging
-
-			# Delete previous pattern tiles
-			for tile in object_being_dragged.tiles:
-				$GateGrid.erase_cell(tile)
-			# Redraw pattern using offset from the tile currently over
-		
-			object_being_dragged.position_in_grid = tile_currently_over - object_drag_offset
-			object_being_dragged.RedrawPattern()
+			var new_position = tile_currently_over - object_drag_offset # Calculate new position to draw from
+			var draw_approved = true
+			# Check if new pattern draw overwrites ANY occupied cells
+			for relative_tile in object_being_dragged.tile_mask: # ** This needs to be turned into a fxn
+				$GridVisual.erase_cell(relative_tile + new_position)
+				if isTileOccupied(relative_tile + new_position) and GetManagingNode(relative_tile + new_position) != object_being_dragged:
+					draw_approved = false
+					#break
+			if draw_approved:
+				# Delete previous pattern tiles
+				for tile in object_being_dragged.tiles:
+					$GateGrid.erase_cell(tile)
+				# Redraw pattern using offset from the tile currently over
+				object_being_dragged.position_in_grid = new_position
+				object_being_dragged.RedrawPattern()
 		elif !Input.is_mouse_button_pressed(1):
 			object_being_dragged = null
 			
@@ -105,7 +113,15 @@ func isTileOccupied(tile) -> bool:
 		return false
 	else:
 		return true
+		
+func GetManagingNode(tile) -> Node2D:
+	if $GateGrid.get_cell_tile_data(tile) != null:
+		return $GateGrid.get_cell_tile_data(tile).get_custom_data("managing_node_references")
+	else: return null
 	
+	
+func MoveToBuffer(gate) -> void:
+	pass
 	
 
 func _on_gd_example_position_changed(node, new_pos):

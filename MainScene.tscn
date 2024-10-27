@@ -281,6 +281,14 @@ offset_bottom = 426.0
 [node name="GateGrid" type="TileMapLayer" parent="."]
 show_behind_parent = true
 tile_set = SubResource("TileSet_yxcv2")
+use_kinematic_bodies = true
+
+[node name="ChangeBuffer" type="TileMapLayer" parent="."]
+modulate = Color(1, 1, 1, 0.498039)
+show_behind_parent = true
+tile_map_data = PackedByteArray("AAAdABwABgABAAAAAAAdAB4ABgABAAIAAAAeABwABgACAAAAAAAeAB0ABgACAAEAAAAeAB4ABgACAAIAAAAfABwABgADAAAAAAAfAB0ABgADAAEAAAAfAB4ABgADAAIAAAAgABwABgAEAAAAAAAgAB0ABgAEAAEAAAAgAB4ABgAEAAIAAAAhAB0ABgAFAAEAAAA=")
+tile_set = SubResource("TileSet_yxcv2")
+use_kinematic_bodies = true
 
 [node name="GridVisual" type="TileMapLayer" parent="."]
 show_behind_parent = true
