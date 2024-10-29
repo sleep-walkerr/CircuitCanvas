@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://dljx875ck4qqg"]
+[gd_scene load_steps=39 format=4 uid="uid://dljx875ck4qqg"]
 
 [ext_resource type="Script" path="res://MainScene.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://b7t4edynn6x1d" path="res://window_dock_ncharms.tscn" id="2_cagop"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://v5uoqqcru4yo" path="res://Icons/NANDInstanced.png" id="12_xt37y"]
 [ext_resource type="Texture2D" uid="uid://c3pg7v75p345u" path="res://Icons/NORInstanced.png" id="13_85wmt"]
 [ext_resource type="Texture2D" uid="uid://b0t4q8fbkgwr5" path="res://Icons/XORInstanced.png" id="14_elqgw"]
+[ext_resource type="PackedScene" uid="uid://bgphrqypongnf" path="res://Gate/GateDataTile.tscn" id="15_6370d"]
 [ext_resource type="Texture2D" uid="uid://r7nvdi13s1w1" path="res://Icons/XNORInstanced.png" id="15_kxb35"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pli8v"]
@@ -31,6 +32,13 @@ font_size = 40
 font_color = Color(0.956863, 0.619608, 0.435294, 1)
 outline_size = 4
 outline_color = Color(0.956863, 0.619608, 0.435294, 1)
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_cx66i"]
+scenes/1/scene = ExtResource("15_6370d")
+
+[sub_resource type="TileSet" id="TileSet_co0bl"]
+tile_size = Vector2i(19, 19)
+sources/0 = SubResource("TileSetScenesCollectionSource_cx66i")
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_5urcp"]
 tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 1, 131072, 65536, 2, 1, 131072, 0, 65537, 131072, 1, 131073, 131072, 2, 2, 196608, 0, 65538, 196608, 1, 131074, 196608, 2, 3, 262144, 0, 65539, 262144, 1, 131075, 262144, 2, 4, 327680, 0, 65540, 327680, 1, 131076, 327680, 2, 65541, 393216, 1)
@@ -186,6 +194,8 @@ texture_region_size = Vector2i(19, 19)
 4:2/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_yxcv2"]
+resource_local_to_scene = true
+resource_name = "tilesres"
 tile_size = Vector2i(19, 19)
 custom_data_layer_0/name = "managing_node_references"
 custom_data_layer_0/type = 0
@@ -276,17 +286,17 @@ offset_top = 173.0
 offset_right = 439.0
 offset_bottom = 426.0
 
-[node name="GateContainer" type="Node2D" parent="."]
+[node name="DataGateGrid" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_co0bl")
 
 [node name="GateGrid" type="TileMapLayer" parent="."]
 show_behind_parent = true
 tile_set = SubResource("TileSet_yxcv2")
-use_kinematic_bodies = true
+collision_enabled = false
 
 [node name="ChangeBuffer" type="TileMapLayer" parent="."]
 modulate = Color(1, 1, 1, 0.498039)
 show_behind_parent = true
-tile_map_data = PackedByteArray("AAAdABwABgABAAAAAAAdAB4ABgABAAIAAAAeABwABgACAAAAAAAeAB0ABgACAAEAAAAeAB4ABgACAAIAAAAfABwABgADAAAAAAAfAB0ABgADAAEAAAAfAB4ABgADAAIAAAAgABwABgAEAAAAAAAgAB0ABgAEAAEAAAAgAB4ABgAEAAIAAAAhAB0ABgAFAAEAAAA=")
 tile_set = SubResource("TileSet_yxcv2")
 use_kinematic_bodies = true
 
