@@ -49,17 +49,17 @@ tile_data = PackedInt32Array(0, 65537, 0, 65536, 65537, 1, 131072, 65537, 2, 1, 
 [sub_resource type="TileMapPattern" id="TileMapPattern_0x0sk"]
 tile_data = PackedInt32Array(65536, 65538, 1, 1, 131074, 0, 65537, 131074, 1, 131073, 131074, 2, 2, 196610, 0, 65538, 196610, 1, 131074, 196610, 2, 65539, 262146, 1, 65540, 327682, 1, 65541, 393218, 1)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_tha1w"]
+[sub_resource type="TileMapPattern" id="TileMapPattern_42kc4"]
+tile_data = PackedInt32Array(0, 65539, 0, 131072, 65539, 2, 1, 131075, 0, 65537, 131075, 1, 131073, 131075, 2, 2, 196611, 0, 65538, 196611, 1, 131074, 196611, 2, 3, 262147, 0, 65539, 262147, 1, 131075, 262147, 2, 65540, 327683, 1, 65541, 393219, 1)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_imwgi"]
 tile_data = PackedInt32Array(0, 65540, 0, 131072, 65540, 2, 1, 131076, 0, 65537, 131076, 1, 131073, 131076, 2, 2, 196612, 0, 65538, 196612, 1, 131074, 196612, 2, 3, 262148, 0, 65539, 262148, 1, 131075, 262148, 2, 65540, 327684, 1, 65541, 393220, 1)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_ymiqm"]
-tile_data = PackedInt32Array(0, 65541, 0, 131072, 65541, 2, 1, 131077, 0, 65537, 131077, 1, 131073, 131077, 2, 2, 196613, 0, 65538, 196613, 1, 131074, 196613, 2, 3, 262149, 0, 65539, 262149, 1, 131075, 262149, 2, 65540, 327685, 1, 65541, 393221, 1)
+[sub_resource type="TileMapPattern" id="TileMapPattern_tnsyc"]
+tile_data = PackedInt32Array(0, 65541, 0, 131072, 65541, 2, 1, 131077, 0, 65537, 131077, 1, 131073, 131077, 2, 2, 196613, 0, 65538, 196613, 1, 131074, 196613, 2, 3, 262149, 0, 65539, 262149, 1, 131075, 262149, 2, 65540, 327685, 1)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_mej5h"]
+[sub_resource type="TileMapPattern" id="TileMapPattern_67q3s"]
 tile_data = PackedInt32Array(0, 65542, 0, 131072, 65542, 2, 1, 131078, 0, 65537, 131078, 1, 131073, 131078, 2, 2, 196614, 0, 65538, 196614, 1, 131074, 196614, 2, 3, 262150, 0, 65539, 262150, 1, 131075, 262150, 2, 65540, 327686, 1)
-
-[sub_resource type="TileMapPattern" id="TileMapPattern_1the0"]
-tile_data = PackedInt32Array(0, 65543, 0, 131072, 65543, 2, 1, 131079, 0, 65537, 131079, 1, 131073, 131079, 2, 2, 196615, 0, 65538, 196615, 1, 131074, 196615, 2, 3, 262151, 0, 65539, 262151, 1, 131075, 262151, 2, 65540, 327687, 1)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n1lwf"]
 resource_name = "and_pattern_tiles"
@@ -165,15 +165,11 @@ texture_region_size = Vector2i(19, 19)
 3:0/0 = 0
 3:2/0 = 0
 4:0/0 = 0
-5:0/0 = 0
-6:0/0 = 0
 4:1/0 = 0
 5:1/0 = 0
 7:1/0 = 0
 8:1/0 = 0
 4:2/0 = 0
-5:2/0 = 0
-6:2/0 = 0
 2:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2f4uo"]
@@ -202,17 +198,17 @@ custom_data_layer_0/type = 0
 sources/0 = SubResource("TileSetAtlasSource_n1lwf")
 sources/1 = SubResource("TileSetAtlasSource_vdi2t")
 sources/2 = SubResource("TileSetAtlasSource_0pwlk")
-sources/4 = SubResource("TileSetAtlasSource_7lpg2")
-sources/5 = SubResource("TileSetAtlasSource_68w6v")
-sources/6 = SubResource("TileSetAtlasSource_87gym")
-sources/7 = SubResource("TileSetAtlasSource_2f4uo")
+sources/3 = SubResource("TileSetAtlasSource_7lpg2")
+sources/4 = SubResource("TileSetAtlasSource_68w6v")
+sources/5 = SubResource("TileSetAtlasSource_87gym")
+sources/6 = SubResource("TileSetAtlasSource_2f4uo")
 pattern_0 = SubResource("TileMapPattern_5urcp")
 pattern_1 = SubResource("TileMapPattern_4bcc6")
 pattern_2 = SubResource("TileMapPattern_0x0sk")
-pattern_3 = SubResource("TileMapPattern_tha1w")
-pattern_4 = SubResource("TileMapPattern_ymiqm")
-pattern_5 = SubResource("TileMapPattern_mej5h")
-pattern_6 = SubResource("TileMapPattern_1the0")
+pattern_3 = SubResource("TileMapPattern_42kc4")
+pattern_4 = SubResource("TileMapPattern_imwgi")
+pattern_5 = SubResource("TileMapPattern_tnsyc")
+pattern_6 = SubResource("TileMapPattern_67q3s")
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_gpxmd"]
 tile_data = PackedInt32Array(65536, 3, 0, 131072, 3, 0, 1, 3, 0, 65537, 3, 0, 131073, 3, 0, 196609, 3, 0, 65538, 3, 0, 131074, 3, 0)
