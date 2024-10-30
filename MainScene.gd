@@ -55,7 +55,7 @@ func _input(event):
 	if !over_gui:
 		var tile_currently_over = $GateGrid.local_to_map(get_global_mouse_position())
 
-		print(GetManagingNode(tile_currently_over))
+		#print(GetManagingNode(tile_currently_over))
 		# New Test Code
 		if event.is_action_pressed("click]") and object_being_dragged == null:
 			if selectedGate != null and !isTileOccupied(tile_currently_over): # For the creation of gate patterns
@@ -80,30 +80,12 @@ func _input(event):
 		if object_being_dragged != null and Input.is_mouse_button_pressed(1): # If still pressed, keep dragging
 			#print("inside dragging")
 			var new_position = tile_currently_over - object_drag_offset # Calculate new position to draw from
-			# Delete previous pattern tiles
-			for tile in object_being_dragged.tiles:
-				$ChangeBuffer.erase_cell(tile)
 			# Redraw pattern using offset from the tile currently over
-			object_being_dragged.position_in_grid = new_position
-			object_being_dragged.RedrawPattern()
+			#object_being_dragged.position_in_grid = new_position
+			object_being_dragged.MovePattern(new_position)
 		elif !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # Release after object dragged
-			#print("about to exit dragging")
-			var no_cells_occupied = true
-			# if no occupied cells underneath, then place
-			for tile in object_being_dragged.tiles:
-				if isTileOccupied(tile):
-					no_cells_occupied = false
-					break
-			if no_cells_occupied:
-				#print("exited dragging, pasted")
-				print(object_being_dragged)
-				MoveToGrid(object_being_dragged)
-				object_being_dragged = null
-			else:
-				print(object_being_dragged)
-				object_being_dragged.position_in_grid = object_predragging_pos
-				MoveToGrid(object_being_dragged)
-				object_being_dragged = null
+			MoveToGrid(object_being_dragged)
+			object_being_dragged = null
 			
 			
 					
@@ -146,14 +128,14 @@ func MoveToBuffer(gate) -> void:
 		$GateGrid.erase_cell(tile)
 	$GateGrid.remove_child(gate)
 	$ChangeBuffer.add_child(gate)
-	gate.RedrawPattern()
+	gate.MovePattern(gate.position_in_grid)
 	
 func MoveToGrid(gate) -> void:
 	for tile in gate.tiles:
 		$ChangeBuffer.erase_cell(tile)
 	$ChangeBuffer.remove_child(gate)
 	$GateGrid.add_child(gate)
-	gate.RedrawPattern()
+	gate.MovePattern(gate.position_in_grid)
 
 func _on_gd_example_position_changed(node, new_pos):
 	print("The position of " + node.get_class() + " is now " + str(new_pos))
