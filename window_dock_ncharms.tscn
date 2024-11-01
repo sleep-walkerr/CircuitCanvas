@@ -73,5 +73,13 @@ texture_hover = ExtResource("6_5n6v5")
 stretch_mode = 3
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer/CenterContainer/exit_button" to="." method="HoveringOverButton"]
+[connection signal="mouse_exited" from="VBoxContainer/CenterContainer/exit_button" to="." method="NotHoveringOverButton"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer/exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/CenterContainer/fullscreen_button" to="." method="HoveringOverButton"]
+[connection signal="mouse_exited" from="VBoxContainer/CenterContainer/fullscreen_button" to="." method="NotHoveringOverButton"]
 [connection signal="button_down" from="VBoxContainer/CenterContainer/minimize_button" to="." method="_on_minimize_button_button_down"]
+[connection signal="mouse_entered" from="VBoxContainer/CenterContainer/minimize_button" to="." method="HoveringOverButton"]
+[connection signal="mouse_exited" from="VBoxContainer/CenterContainer/minimize_button" to="." method="NotHoveringOverButton"]

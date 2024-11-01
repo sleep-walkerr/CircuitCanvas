@@ -6,7 +6,7 @@ var tiles = []
 var data_tiles = [] # Holds data tiles for THIS gate, only required for prevention of writing over other gates
 var tile_mask
 var position_in_grid # this is the tile that the mouse was over when user clicks
-var pattern_indicies = {'AND' : 0, 'OR' : 1, 'NOT' : 2, 'NAND' : 3, 'NOR' : 4, 'XOR' : 5, 'XNOR' : 6}
+var pattern_indicies = {'AND' : 0, 'OR' : 1, 'NOT' : 2, 'NAND' : 3, 'NOR' : 4, 'XOR' : 5, 'XNOR' : 6} # Change this to enum
 
 
 # Called when the node enters the scene tree for the first time.
@@ -16,7 +16,13 @@ func _ready() -> void:
 	if pattern != null:
 		tile_mask = pattern.get_used_cells() # Get mask to use to determine relative positions of tiles after pattern is drawn
 		RedrawPattern() # Draws pattern for first time and stores tiles drawn into tiles
-		RedrawData() # Adds a reference to self in corresponding tiles in data grid
+		if !OverwritingTiles():
+			RedrawData() # Adds a reference to self in corresponding tiles in data grid
+			get_parent().get_parent().MoveToGrid(self)
+		else:
+			ClearTiles()
+			get_parent().remove_child(self)
+			self.queue_free()
 	else: # If the pattern is not found, this object is deleted as no gate can be drawn
 		get_parent().remove_child(self)
 		self.queue_free()
@@ -97,3 +103,9 @@ func OverwritingTiles() -> bool: # Should only be called when tiles are in buffe
 		else: is_overwriting_tiles = false
 			
 	return is_overwriting_tiles
+	
+func Delete() -> void: # Primarily for delete mode, called to make gate remove all traces of itself
+	ClearDataTiles()
+	ClearTiles()
+	get_parent().remove_child(self)
+	self.queue_free()

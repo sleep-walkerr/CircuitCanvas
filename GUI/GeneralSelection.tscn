@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://bxr25pkm16p7v" path="res://Icons/select_button.png" id="1_3y0fm"]
 [ext_resource type="Script" path="res://GUI/general_selection.gd" id="1_ku5fe"]
 [ext_resource type="FontFile" uid="uid://dnjpgh3v7esbk" path="res://Fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="1_omvwh"]
-[ext_resource type="ButtonGroup" uid="uid://bgpi5nst560p5" path="res://GUI/gate_button_group.tres" id="2_6lmea"]
 [ext_resource type="Texture2D" uid="uid://cpj80nb7xmhdx" path="res://Icons/select_button_pressed.png" id="3_668ym"]
 [ext_resource type="Texture2D" uid="uid://bokcuv1twok7g" path="res://Icons/delete_button.png" id="3_c04gu"]
 [ext_resource type="Texture2D" uid="uid://c1v4cla8xo33c" path="res://Icons/delete_button_pressed.png" id="4_fc0dt"]
@@ -39,6 +38,8 @@ font_size = 20
 font_color = Color(0.2, 0.266667, 0.345098, 1)
 outline_size = 4
 outline_color = Color(0.2, 0.266667, 0.345098, 1)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_0tkxs"]
 
 [node name="GeneralSelection" type="Panel"]
 clip_contents = true
@@ -89,7 +90,7 @@ layout_mode = 2
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_6lmea")
+button_group = SubResource("ButtonGroup_0tkxs")
 texture_normal = ExtResource("1_3y0fm")
 texture_pressed = ExtResource("3_668ym")
 
@@ -97,7 +98,7 @@ texture_pressed = ExtResource("3_668ym")
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_6lmea")
+button_group = SubResource("ButtonGroup_0tkxs")
 texture_normal = ExtResource("3_c04gu")
 texture_pressed = ExtResource("4_fc0dt")
 
@@ -105,6 +106,6 @@ texture_pressed = ExtResource("4_fc0dt")
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_6lmea")
+button_group = SubResource("ButtonGroup_0tkxs")
 texture_normal = ExtResource("5_vrndq")
 texture_pressed = ExtResource("7_2rpto")
