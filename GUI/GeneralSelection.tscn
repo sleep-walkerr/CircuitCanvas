@@ -1,10 +1,10 @@
 [gd_scene load_steps=15 format=3 uid="uid://cb38hi2hq3kvu"]
 
-[ext_resource type="Texture2D" uid="uid://bxr25pkm16p7v" path="res://Icons/select_button.png" id="1_3y0fm"]
 [ext_resource type="Script" path="res://GUI/general_selection.gd" id="1_ku5fe"]
 [ext_resource type="FontFile" uid="uid://dnjpgh3v7esbk" path="res://Fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="1_omvwh"]
-[ext_resource type="Texture2D" uid="uid://cpj80nb7xmhdx" path="res://Icons/select_button_pressed.png" id="3_668ym"]
 [ext_resource type="Texture2D" uid="uid://bokcuv1twok7g" path="res://Icons/delete_button.png" id="3_c04gu"]
+[ext_resource type="Texture2D" uid="uid://dml7xmlds7725" path="res://Icons/gate_button.png" id="3_sl35g"]
+[ext_resource type="Texture2D" uid="uid://g61dw4mymjxr" path="res://Icons/gate_button_pressed.png" id="4_egnu5"]
 [ext_resource type="Texture2D" uid="uid://c1v4cla8xo33c" path="res://Icons/delete_button_pressed.png" id="4_fc0dt"]
 [ext_resource type="Texture2D" uid="uid://d4dmfs3r2618j" path="res://Icons/wire_button.png" id="5_vrndq"]
 [ext_resource type="Texture2D" uid="uid://ukr8jjfqb1q7" path="res://Icons/wire_button_pressed.png" id="7_2rpto"]
@@ -91,8 +91,8 @@ layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
 button_group = SubResource("ButtonGroup_0tkxs")
-texture_normal = ExtResource("1_3y0fm")
-texture_pressed = ExtResource("3_668ym")
+texture_normal = ExtResource("3_sl35g")
+texture_pressed = ExtResource("4_egnu5")
 
 [node name="delete_button" type="TextureButton" parent="CenterContainer/HBoxContainer"]
 layout_mode = 2
