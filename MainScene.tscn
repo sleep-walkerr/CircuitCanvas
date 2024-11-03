@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=4 uid="uid://dljx875ck4qqg"]
+[gd_scene load_steps=41 format=4 uid="uid://dljx875ck4qqg"]
 
 [ext_resource type="Script" path="res://MainScene.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://b7t4edynn6x1d" path="res://window_dock_ncharms.tscn" id="2_cagop"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://b0t4q8fbkgwr5" path="res://Icons/XORInstanced.png" id="14_elqgw"]
 [ext_resource type="PackedScene" uid="uid://bgphrqypongnf" path="res://Gate/GateDataTile.tscn" id="15_6370d"]
 [ext_resource type="Texture2D" uid="uid://r7nvdi13s1w1" path="res://Icons/XNORInstanced.png" id="15_kxb35"]
+[ext_resource type="Texture2D" uid="uid://c54sr4u380bvs" path="res://Icons/pin_tile.png" id="15_nraym"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pli8v"]
 bg_color = Color(0.2, 0.266667, 0.345098, 1)
@@ -40,26 +41,26 @@ scenes/1/scene = ExtResource("15_6370d")
 tile_size = Vector2i(19, 19)
 sources/0 = SubResource("TileSetScenesCollectionSource_cx66i")
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_5urcp"]
-tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 1, 131072, 65536, 2, 1, 131072, 0, 65537, 131072, 1, 131073, 131072, 2, 2, 196608, 0, 65538, 196608, 1, 131074, 196608, 2, 3, 262144, 0, 65539, 262144, 1, 131075, 262144, 2, 4, 327680, 0, 65540, 327680, 1, 131076, 327680, 2, 65541, 393216, 1)
+[sub_resource type="TileMapPattern" id="TileMapPattern_2mrl6"]
+tile_data = PackedInt32Array(0, 7, 0, 131072, 7, 0, 1, 65536, 0, 65537, 65536, 1, 131073, 65536, 2, 2, 131072, 0, 65538, 131072, 1, 131074, 131072, 2, 3, 196608, 0, 65539, 196608, 1, 131075, 196608, 2, 4, 262144, 0, 65540, 262144, 1, 131076, 262144, 2, 5, 327680, 0, 65541, 327680, 1, 131077, 327680, 2, 65542, 393216, 1, 65543, 7, 0)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_4bcc6"]
-tile_data = PackedInt32Array(0, 65537, 0, 65536, 65537, 1, 131072, 65537, 2, 1, 131073, 0, 65537, 131073, 1, 131073, 131073, 2, 2, 196609, 0, 65538, 196609, 1, 131074, 196609, 2, 3, 262145, 0, 65539, 262145, 1, 131075, 262145, 2, 65540, 327681, 1)
+[sub_resource type="TileMapPattern" id="TileMapPattern_v4t4f"]
+tile_data = PackedInt32Array(0, 7, 0, 131072, 7, 0, 1, 65537, 0, 65537, 65537, 1, 131073, 65537, 2, 2, 131073, 0, 65538, 131073, 1, 131074, 131073, 2, 3, 196609, 0, 65539, 196609, 1, 131075, 196609, 2, 4, 262145, 0, 65540, 262145, 1, 131076, 262145, 2, 65541, 327681, 1, 65542, 7, 0)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_0x0sk"]
-tile_data = PackedInt32Array(65536, 65538, 1, 1, 131074, 0, 65537, 131074, 1, 131073, 131074, 2, 2, 196610, 0, 65538, 196610, 1, 131074, 196610, 2, 65539, 262146, 1, 65540, 327682, 1, 65541, 393218, 1)
+[sub_resource type="TileMapPattern" id="TileMapPattern_51sgh"]
+tile_data = PackedInt32Array(65536, 7, 0, 65537, 65538, 1, 2, 131074, 0, 65538, 131074, 1, 131074, 131074, 2, 3, 196610, 0, 65539, 196610, 1, 131075, 196610, 2, 65540, 262146, 1, 65541, 327682, 1, 65542, 7, 0)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_42kc4"]
-tile_data = PackedInt32Array(0, 65539, 0, 131072, 65539, 2, 1, 131075, 0, 65537, 131075, 1, 131073, 131075, 2, 2, 196611, 0, 65538, 196611, 1, 131074, 196611, 2, 3, 262147, 0, 65539, 262147, 1, 131075, 262147, 2, 65540, 327683, 1, 65541, 393219, 1)
+[sub_resource type="TileMapPattern" id="TileMapPattern_jo246"]
+tile_data = PackedInt32Array(0, 7, 0, 131072, 7, 0, 1, 65539, 0, 131073, 65539, 2, 2, 131075, 0, 65538, 131075, 1, 131074, 131075, 2, 3, 196611, 0, 65539, 196611, 1, 131075, 196611, 2, 4, 262147, 0, 65540, 262147, 1, 131076, 262147, 2, 65541, 327683, 1, 65542, 7, 0)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_imwgi"]
-tile_data = PackedInt32Array(0, 65540, 0, 131072, 65540, 2, 1, 131076, 0, 65537, 131076, 1, 131073, 131076, 2, 2, 196612, 0, 65538, 196612, 1, 131074, 196612, 2, 3, 262148, 0, 65539, 262148, 1, 131075, 262148, 2, 65540, 327684, 1, 65541, 393220, 1)
+[sub_resource type="TileMapPattern" id="TileMapPattern_yuhnl"]
+tile_data = PackedInt32Array(0, 7, 0, 131072, 7, 0, 1, 65540, 0, 131073, 65540, 2, 2, 131076, 0, 65538, 131076, 1, 131074, 131076, 2, 3, 196612, 0, 65539, 196612, 1, 131075, 196612, 2, 4, 262148, 0, 65540, 262148, 1, 131076, 262148, 2, 65541, 327684, 1, 65542, 7, 0)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_tnsyc"]
-tile_data = PackedInt32Array(0, 65541, 0, 131072, 65541, 2, 1, 131077, 0, 65537, 131077, 1, 131073, 131077, 2, 2, 196613, 0, 65538, 196613, 1, 131074, 196613, 2, 3, 262149, 0, 65539, 262149, 1, 131075, 262149, 2, 65540, 327685, 1)
+[sub_resource type="TileMapPattern" id="TileMapPattern_jequ5"]
+tile_data = PackedInt32Array(0, 7, 0, 131072, 7, 0, 1, 65541, 0, 131073, 65541, 2, 2, 131077, 0, 65538, 131077, 1, 131074, 131077, 2, 3, 196613, 0, 65539, 196613, 1, 131075, 196613, 2, 4, 262149, 0, 65540, 262149, 1, 131076, 262149, 2, 65541, 7, 0)
 
-[sub_resource type="TileMapPattern" id="TileMapPattern_67q3s"]
-tile_data = PackedInt32Array(0, 65542, 0, 131072, 65542, 2, 1, 131078, 0, 65537, 131078, 1, 131073, 131078, 2, 2, 196614, 0, 65538, 196614, 1, 131074, 196614, 2, 3, 262150, 0, 65539, 262150, 1, 131075, 262150, 2, 65540, 327686, 1)
+[sub_resource type="TileMapPattern" id="TileMapPattern_ijank"]
+tile_data = PackedInt32Array(0, 7, 0, 131072, 7, 0, 1, 65542, 0, 65537, 65542, 1, 131073, 65542, 2, 2, 131078, 0, 65538, 131078, 1, 131074, 131078, 2, 3, 196614, 0, 65539, 196614, 1, 131075, 196614, 2, 4, 262150, 0, 65540, 262150, 1, 131076, 262150, 2, 65541, 7, 0)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n1lwf"]
 resource_name = "and_pattern_tiles"
@@ -118,7 +119,7 @@ texture_region_size = Vector2i(19, 19)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7lpg2"]
 texture = ExtResource("12_xt37y")
-margins = Vector2i(0, 3)
+margins = Vector2i(6, 3)
 texture_region_size = Vector2i(19, 19)
 1:0/0 = 0
 2:0/0 = 0
@@ -131,12 +132,11 @@ texture_region_size = Vector2i(19, 19)
 4:0/0 = 0
 4:1/0 = 0
 5:1/0 = 0
-6:1/0 = 0
 4:2/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_68w6v"]
 texture = ExtResource("13_85wmt")
-margins = Vector2i(0, 2)
+margins = Vector2i(7, 2)
 texture_region_size = Vector2i(19, 19)
 1:0/0 = 0
 2:0/0 = 0
@@ -154,7 +154,7 @@ texture_region_size = Vector2i(19, 19)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_87gym"]
 texture = ExtResource("14_elqgw")
-margins = Vector2i(6, 2)
+margins = Vector2i(11, 2)
 texture_region_size = Vector2i(19, 19)
 1:0/0 = 0
 2:1/0 = 0
@@ -174,7 +174,7 @@ texture_region_size = Vector2i(19, 19)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2f4uo"]
 texture = ExtResource("15_kxb35")
-margins = Vector2i(0, 2)
+margins = Vector2i(17, 2)
 texture_region_size = Vector2i(19, 19)
 1:0/0 = 0
 2:0/0 = 0
@@ -188,13 +188,17 @@ texture_region_size = Vector2i(19, 19)
 5:1/0 = 0
 3:2/0 = 0
 4:2/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3x7ej"]
+texture = ExtResource("15_nraym")
+texture_region_size = Vector2i(19, 19)
+0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_yxcv2"]
 resource_local_to_scene = true
 resource_name = "tilesres"
 tile_size = Vector2i(19, 19)
-custom_data_layer_0/name = "managing_node_references"
-custom_data_layer_0/type = 0
 sources/0 = SubResource("TileSetAtlasSource_n1lwf")
 sources/1 = SubResource("TileSetAtlasSource_vdi2t")
 sources/2 = SubResource("TileSetAtlasSource_0pwlk")
@@ -202,13 +206,14 @@ sources/3 = SubResource("TileSetAtlasSource_7lpg2")
 sources/4 = SubResource("TileSetAtlasSource_68w6v")
 sources/5 = SubResource("TileSetAtlasSource_87gym")
 sources/6 = SubResource("TileSetAtlasSource_2f4uo")
-pattern_0 = SubResource("TileMapPattern_5urcp")
-pattern_1 = SubResource("TileMapPattern_4bcc6")
-pattern_2 = SubResource("TileMapPattern_0x0sk")
-pattern_3 = SubResource("TileMapPattern_42kc4")
-pattern_4 = SubResource("TileMapPattern_imwgi")
-pattern_5 = SubResource("TileMapPattern_tnsyc")
-pattern_6 = SubResource("TileMapPattern_67q3s")
+sources/7 = SubResource("TileSetAtlasSource_3x7ej")
+pattern_0 = SubResource("TileMapPattern_2mrl6")
+pattern_1 = SubResource("TileMapPattern_v4t4f")
+pattern_2 = SubResource("TileMapPattern_51sgh")
+pattern_3 = SubResource("TileMapPattern_jo246")
+pattern_4 = SubResource("TileMapPattern_yuhnl")
+pattern_5 = SubResource("TileMapPattern_jequ5")
+pattern_6 = SubResource("TileMapPattern_ijank")
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_gpxmd"]
 tile_data = PackedInt32Array(65536, 3, 0, 131072, 3, 0, 1, 3, 0, 65537, 3, 0, 131073, 3, 0, 196609, 3, 0, 65538, 3, 0, 131074, 3, 0)
@@ -283,6 +288,10 @@ offset_bottom = 426.0
 
 [node name="DataGateGrid" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_co0bl")
+
+[node name="WireContainer" type="Node2D" parent="."]
+
+[node name="Wire1" type="TileMapLayer" parent="WireContainer"]
 
 [node name="GateGrid" type="TileMapLayer" parent="."]
 show_behind_parent = true
