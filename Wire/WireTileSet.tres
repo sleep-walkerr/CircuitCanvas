@@ -30,6 +30,6 @@ texture_region_size = Vector2i(19, 19)
 [resource]
 resource_name = "Wire_Tile_Set"
 tile_size = Vector2i(19, 19)
-sources/1 = SubResource("TileSetAtlasSource_rbxj2")
-sources/2 = SubResource("TileSetAtlasSource_lr30d")
-sources/3 = SubResource("TileSetAtlasSource_c8hup")
+sources/0 = SubResource("TileSetAtlasSource_rbxj2")
+sources/1 = SubResource("TileSetAtlasSource_lr30d")
+sources/2 = SubResource("TileSetAtlasSource_c8hup")

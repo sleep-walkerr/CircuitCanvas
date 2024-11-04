@@ -1,8 +1,9 @@
 extends TileMapLayer
 
-enum WireOrientation {HORIZONTAL, VERTICAL}
+enum WireOrientation {HORIZONTAL, VERTICAL} # change this to tile types
 
 var grid_position_coordinates
+var orientation
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -21,22 +22,26 @@ func DrawWire(original_position, current_position) -> void:
 			if x_difference > 0: # if mouse is in front of original point
 				self.clear() # clear tiles
 				for i in range(x_difference + 1):
-					set_cell(original_position + Vector2i(i,0), 1, Vector2i(0,0)) # set horizontal wire tile at each tile until point that mouse is at from origin
+					set_cell(original_position + Vector2i(i,0), 0, Vector2i(0,0)) # set horizontal wire tile at each tile until point that mouse is at from origin
 			elif x_difference < 0: # if mouse is in behind of original point
 				self.clear()
 				for i in range(0, x_difference, -1):
-					set_cell(original_position + Vector2i(i,0), 1, Vector2i(0,0))
+					set_cell(original_position + Vector2i(i,0), 0, Vector2i(0,0))
+			orientation = WireOrientation.HORIZONTAL
 		WireOrientation.VERTICAL: # If wire should be vertical
 			if y_difference > 0:
 				self.clear()
 				for i in range(y_difference + 1):
-					set_cell(original_position + Vector2i(0,i), 2, Vector2i(0,0))
+					set_cell(original_position + Vector2i(0,i), WireOrientation.VERTICAL, Vector2i(0,0))
 			elif y_difference < 0:
 				self.clear()
 				for i in range(0, y_difference, -1):
-					set_cell(original_position + Vector2i(0,i), 2, Vector2i(0,0))
-	set_cell(get_used_cells().front(), 3, Vector2i(0,0)) # Set front and back of wire to wire pin tile
-	set_cell(get_used_cells().back(), 3, Vector2i(0,0))
+					set_cell(original_position + Vector2i(0,i), WireOrientation.VERTICAL, Vector2i(0,0))
+			orientation = WireOrientation.VERTICAL
+
+func DrawPins() -> void:
+		set_cell(get_used_cells().front(), 2, Vector2i(0,0)) # Set front and back of wire to wire pin tile
+		set_cell(get_used_cells().back(), 2, Vector2i(0,0))
 
 func DetermineOrientation(original_position, current_position) -> WireOrientation:
 	var x_delta = abs(original_position.x - current_position.x)

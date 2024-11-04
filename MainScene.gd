@@ -69,20 +69,21 @@ func _input(event): # Need to change all of this to a case statement, faster
 					$WireContainer.add_child(current_wire) # Add to wire container
 				if Input.is_mouse_button_pressed(1) and current_wire != null: # if a wire is currently being modified, keep drawing it
 					current_wire.DrawWire(object_predragging_pos, tile_currently_over)
+					current_wire.DrawPins()
 				if !Input.is_mouse_button_pressed(1) and current_wire != null and object_predragging_pos != null: # Deselect wire for modification if mouse not held anymore
 					# if wire is only one tile, delete it
 					if current_wire.get_used_cells().size() < 2:
 						current_wire.Delete()
 					object_predragging_pos = null # Set wire modification variables to null for next use
 					current_wire = null
-				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) == 3: # Resizing of wires, source id 3 = wire pin tile
+				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) == 2: # Resizing of wires, source id 3 = wire pin tile
 					# if user clicks, is over a wire tile and that wire tile is a wire pin tile, then start resizing wire
 					current_wire = GetWireByTile(tile_currently_over)
-					for pin_tile in current_wire.get_used_cells_by_id(3):
+					for pin_tile in current_wire.get_used_cells_by_id(2):
 						if pin_tile != tile_currently_over: # the pin tile that is not the pin currently over will be the pin that is static during the resizing
 							object_predragging_pos = pin_tile
 							
-				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) != 3: # Moving of wires
+				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) != 2: # Moving of wires
 					object_being_dragged = GetWireByTile(tile_currently_over) # Since wire is being dragged, use different variable
 					# add offset later
 					object_predragging_pos = tile_currently_over
@@ -92,7 +93,8 @@ func _input(event): # Need to change all of this to a case statement, faster
 					var position_change = tile_currently_over - object_predragging_pos	
 					object_being_dragged.clear()
 					for wire_tile in wire_previous_tiles:
-						object_being_dragged.set_cell(wire_tile + position_change, 1, Vector2i(0,0))
+						object_being_dragged.set_cell(wire_tile + position_change, object_being_dragged.orientation, Vector2i(0,0))
+					object_being_dragged.DrawPins()
 						
 				if !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # if left click is released and there is still an assigned wire, reset and stop dragging
 					object_being_dragged = null
