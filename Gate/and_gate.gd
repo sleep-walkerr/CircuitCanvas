@@ -1,4 +1,4 @@
-# The data gate grid might be able to be avoided via setting the tilemap resource as unique (recursive) via right clicking it
+# The data gate grid might be able to be replaced if the tilemap resource is made unique (recursive)
 extends Node2D
 var pattern
 var type 
@@ -37,20 +37,14 @@ func MovePattern(new_position) -> void: # Redraws pattern every frame for drag a
 	# Needs to have position_in_grid set to new position before calling
 	var previous_position = position_in_grid
 	position_in_grid = new_position
-	
-	print(new_position)
-	
 	ClearTiles()
 	# Delete previously stored coordinates
 	tiles.clear()
 	RedrawPattern()
-	
 	if !OverwritingTiles():
-		#print("safe to paste")
 		ClearDataTiles()
 		RedrawData()
 	else: 
-		#print("not safe")
 		position_in_grid = previous_position
 		ClearTiles()
 		tiles.clear()
@@ -94,7 +88,6 @@ func OverwritingTiles() -> bool: # Should only be called when tiles are in buffe
 	#--At this point, tiles will always be updated to the current position, even if mid drag drop bc of buffer
 	for tile in tiles: # Tiles is current location of tiles
 		if get_node("/root/Node2D").gate_grid_data.has(tile): # if data tiles has an entry for a corresponding tile in buffer
-			#print(data_tiles.has(tile), " ", get_node("/root/Node2D").gate_grid_data[tile].managing_node_ref == self)
 			if data_tiles.has(tile) and get_node("/root/Node2D").gate_grid_data[tile].managing_node_ref == self: # check reference for that tile and see if it is me
 				is_overwriting_tiles = false
 			else: 

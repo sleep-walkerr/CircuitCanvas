@@ -1,7 +1,8 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://4y21hnbojp7t"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://4y21hnbojp7t"]
 
 [ext_resource type="Texture2D" uid="uid://6cnpqu3k07tu" path="res://Icons/wire_horizontal.png" id="1_was8u"]
 [ext_resource type="Texture2D" uid="uid://cu76tr8j2ww7w" path="res://Icons/wire_vertical.png" id="2_wwbqj"]
+[ext_resource type="Texture2D" uid="uid://cu3rncikhb3pv" path="res://Icons/wire_pin_tile.png" id="3_stmuo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rbxj2"]
 texture = ExtResource("1_was8u")
@@ -21,8 +22,14 @@ texture_region_size = Vector2i(19, 19)
 0:1/0 = 0
 1:1/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c8hup"]
+texture = ExtResource("3_stmuo")
+texture_region_size = Vector2i(19, 19)
+0:0/0 = 0
+
 [resource]
 resource_name = "Wire_Tile_Set"
 tile_size = Vector2i(19, 19)
 sources/1 = SubResource("TileSetAtlasSource_rbxj2")
 sources/2 = SubResource("TileSetAtlasSource_lr30d")
+sources/3 = SubResource("TileSetAtlasSource_c8hup")
