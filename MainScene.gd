@@ -10,7 +10,7 @@ var over_gui
 var camera = Camera2D.new() # Not used yet but will be used for zooming and panning
 var gate_grid_data = {} # Provides a way to directly access tile data by coordinates
 var selected_operation 
-
+var current_wire
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,7 +41,6 @@ func _input(event): # Need to change all of this to a case statement, faster
 							$ChangeBuffer.add_child(new_gate) # Gates check if they are overwriting other gates when added to the tree, see _ready()
 					if Input.is_mouse_button_pressed(1) and isTileOccupied(tile_currently_over): # If left mouse held and over a gate, start dragging functionality
 						object_being_dragged = GetManagingNode(tile_currently_over)
-						object_predragging_pos = object_being_dragged.position_in_grid #Delete this later, not needed anymore
 						# Store offset
 						object_drag_offset = $GateGrid.get_cell_atlas_coords(tile_currently_over) - Vector2i(1,0) # Use atlas
 						#--Move to buffer
@@ -59,7 +58,17 @@ func _input(event): # Need to change all of this to a case statement, faster
 				if isTileOccupied(tile_currently_over) and event.is_action_pressed("click]"):
 					GetManagingNode(tile_currently_over).Delete()
 			Mode.WIRE: 
-				pass
+				# Later, make all of the drawing functionalities occurr from within the wire object
+				if event.is_action_pressed("click]"):
+					object_predragging_pos = tile_currently_over # capture original position to draw wire from
+					current_wire = load("res://Wire/Wire.tscn").instantiate() # Instantiate wire object
+					current_wire.grid_position_coordinates = tile_currently_over # Set original position of wire
+					$WireContainer.add_child(current_wire) # Add to wire container
+				if Input.is_mouse_button_pressed(1):
+					current_wire.DrawWire(object_predragging_pos, tile_currently_over)
+				if !Input.is_mouse_button_pressed(1) and object_predragging_pos != null:
+					object_predragging_pos = null
+					current_wire = null
 			_:
 				pass
 

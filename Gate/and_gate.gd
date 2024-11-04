@@ -1,4 +1,4 @@
-# this is a test gate for the new grid system
+# The data gate grid might be able to be avoided via setting the tilemap resource as unique (recursive) via right clicking it
 extends Node2D
 var pattern
 var type 

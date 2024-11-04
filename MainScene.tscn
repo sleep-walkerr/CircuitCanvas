@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=4 uid="uid://dljx875ck4qqg"]
+[gd_scene load_steps=42 format=4 uid="uid://dljx875ck4qqg"]
 
 [ext_resource type="Script" path="res://MainScene.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://b7t4edynn6x1d" path="res://window_dock_ncharms.tscn" id="2_cagop"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bglxny3o8pkif" path="res://Icons/ProgramIcon.png" id="4_kb18l"]
 [ext_resource type="PackedScene" uid="uid://dpmfs8blkomc" path="res://GUI/GateSelection.tscn" id="5_ni1yh"]
 [ext_resource type="PackedScene" uid="uid://cb38hi2hq3kvu" path="res://GUI/GeneralSelection.tscn" id="6_v7vwk"]
+[ext_resource type="TileSet" uid="uid://4y21hnbojp7t" path="res://Wire/WireTileSet.tres" id="8_lsx2t"]
 [ext_resource type="Texture2D" uid="uid://cwt6kdru8oj23" path="res://Tile.png" id="8_tmnec"]
 [ext_resource type="Texture2D" uid="uid://q7mrdaqojam1" path="res://Icons/ANDInstanced.png" id="9_7epjg"]
 [ext_resource type="Texture2D" uid="uid://dlq2oo0b1ratk" path="res://Icons/ORInstanced.png" id="10_eu2cw"]
@@ -289,9 +290,8 @@ offset_bottom = 426.0
 [node name="DataGateGrid" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_co0bl")
 
-[node name="WireContainer" type="Node2D" parent="."]
-
-[node name="Wire1" type="TileMapLayer" parent="WireContainer"]
+[node name="WireContainer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("8_lsx2t")
 
 [node name="GateGrid" type="TileMapLayer" parent="."]
 show_behind_parent = true
