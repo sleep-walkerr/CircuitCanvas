@@ -9,9 +9,9 @@ var selected_mode # will indicate one of 3 modes that can be selected
 var over_gui
 var camera = Camera2D.new() # Not used yet but will be used for zooming and panning
 var gate_grid_data = {} # Provides a way to directly access tile data by coordinates
-var wire_tiles = {}
 var selected_operation 
 var current_wire
+var wire_previous_tiles
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -61,7 +61,7 @@ func _input(event): # Need to change all of this to a case statement, faster
 						GetManagingNode(tile_currently_over).Delete()
 					if GetWireByTile(tile_currently_over) != null:
 						GetWireByTile(tile_currently_over).Delete()
-			Mode.WIRE: 
+			Mode.WIRE: # needs to be reorganized to stop repetition of conditionals
 				if event.is_action_pressed("click]") and not IsWireTile(tile_currently_over): # If click and over nothing, create a wire
 					object_predragging_pos = tile_currently_over # capture original position to draw wire from
 					current_wire = load("res://Wire/Wire.tscn").instantiate() # Instantiate wire object
@@ -69,19 +69,34 @@ func _input(event): # Need to change all of this to a case statement, faster
 					$WireContainer.add_child(current_wire) # Add to wire container
 				if Input.is_mouse_button_pressed(1) and current_wire != null: # if a wire is currently being modified, keep drawing it
 					current_wire.DrawWire(object_predragging_pos, tile_currently_over)
-				if !Input.is_mouse_button_pressed(1) and object_predragging_pos != null: # Deselect wire for modification if mouse not held anymore
+				if !Input.is_mouse_button_pressed(1) and current_wire != null and object_predragging_pos != null: # Deselect wire for modification if mouse not held anymore
 					# if wire is only one tile, delete it
 					if current_wire.get_used_cells().size() < 2:
 						current_wire.Delete()
-					object_predragging_pos = null
+					object_predragging_pos = null # Set wire modification variables to null for next use
 					current_wire = null
-					
-				# if click and IsWireTile and is wire pin tile, set current_wire to wire over and set object_predragging_pos to other wire pin
-				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) == 3:
+				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) == 3: # Resizing of wires, source id 3 = wire pin tile
+					# if user clicks, is over a wire tile and that wire tile is a wire pin tile, then start resizing wire
 					current_wire = GetWireByTile(tile_currently_over)
 					for pin_tile in current_wire.get_used_cells_by_id(3):
-						if pin_tile != tile_currently_over:
+						if pin_tile != tile_currently_over: # the pin tile that is not the pin currently over will be the pin that is static during the resizing
 							object_predragging_pos = pin_tile
+							
+				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) != 3: # Moving of wires
+					object_being_dragged = GetWireByTile(tile_currently_over) # Since wire is being dragged, use different variable
+					# add offset later
+					object_predragging_pos = tile_currently_over
+					wire_previous_tiles = object_being_dragged.get_used_cells()
+				if Input.is_mouse_button_pressed(1) and object_being_dragged != null:	# if left click is still held, keep dragging wire
+					# Move this to MoveWire() function in wire later
+					var position_change = tile_currently_over - object_predragging_pos	
+					object_being_dragged.clear()
+					for wire_tile in wire_previous_tiles:
+						object_being_dragged.set_cell(wire_tile + position_change, 1, Vector2i(0,0))
+						
+				if !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # if left click is released and there is still an assigned wire, reset and stop dragging
+					object_being_dragged = null
+					object_predragging_pos = null
 			_:
 				pass
 
