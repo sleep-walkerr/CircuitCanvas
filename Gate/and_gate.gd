@@ -27,12 +27,6 @@ func _ready() -> void:
 		get_parent().remove_child(self)
 		self.queue_free()
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 func MovePattern(new_position) -> void: # Redraws pattern every frame for drag and drop movement (might replace section in ready fxn)
 	# Needs to have position_in_grid set to new position before calling
 	var previous_position = position_in_grid
@@ -51,8 +45,6 @@ func MovePattern(new_position) -> void: # Redraws pattern every frame for drag a
 		RedrawPattern()
 		ClearDataTiles()
 		RedrawData()
-
-	
 func RedrawPattern() -> void:
 	get_parent().set_pattern(position_in_grid, pattern) # Physical Redraw of pattern on grid
 	for x_y in tile_mask: # Store drawn tile coordinates for drag, drop, delete
@@ -63,7 +55,6 @@ func ClearTiles() -> void:
 	for tile in tiles:
 		get_parent().erase_cell(tile)
 	
-		
 func RedrawData() -> void:
 	# Add reference to managing node within each tile, this allows for detecting which gate you are over at all times
 	data_tiles.clear()

@@ -11,7 +11,7 @@ var camera = Camera2D.new() # Not used yet but will be used for zooming and pann
 var gate_grid_data = {} # Provides a way to directly access tile data by coordinates
 var selected_operation 
 var current_wire
-var wire_previous_tiles
+var wire_previous_tiles # 1st, move this to inside of wire objects, 2nd, this needs to not only hold wire tiles, but each tiles ID, a bug is caused by not storing the ID :/
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,7 +25,7 @@ func _ready():
 func _process(delta): #combined old physics_process with process, need to reorganize contents	
 	pass
 	
-func _input(event): # Need to change all of this to a case statement, faster
+func _input(event):
 	if !over_gui:
 		var tile_currently_over = $GateGrid.local_to_map(get_global_mouse_position())
 		match selected_mode: # Eventually change this back to select, delete, wire, gate, and make select for moving wires and gates around. Less confusing
@@ -47,10 +47,8 @@ func _input(event): # Need to change all of this to a case statement, faster
 						#--Move to buffer
 						MoveToBuffer(object_being_dragged)
 				if object_being_dragged != null and Input.is_mouse_button_pressed(1): # If still pressed, keep dragging
-					#print("inside dragging")
 					var new_position = tile_currently_over - object_drag_offset # Calculate new position to draw from
 					# Redraw pattern using offset from the tile currently over
-					#object_being_dragged.position_in_grid = new_position
 					object_being_dragged.MovePattern(new_position)
 				elif !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # Release after object dragged
 					MoveToGrid(object_being_dragged)

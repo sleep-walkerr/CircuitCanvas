@@ -9,11 +9,6 @@ var orientation
 func _ready() -> void:
 	set_cell(grid_position_coordinates, 1, Vector2i(0,0))
 	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 func DrawWire(original_position, current_position) -> void:
 	var x_difference = current_position.x - original_position.x 
 	var y_difference = current_position.y - original_position.y 
@@ -40,8 +35,28 @@ func DrawWire(original_position, current_position) -> void:
 			orientation = WireOrientation.VERTICAL
 
 func DrawPins() -> void:
-		set_cell(get_used_cells().front(), 2, Vector2i(0,0)) # Set front and back of wire to wire pin tile
-		set_cell(get_used_cells().back(), 2, Vector2i(0,0))
+	var front_pin
+	var back_pin
+	# find points in wire with lowest and highest x or y coordinates depending on orientation
+	if orientation == WireOrientation.HORIZONTAL: # find the front pin for a horizontal wire
+		for cell in get_used_cells():
+			if front_pin == null or front_pin.x > cell.x:
+				front_pin = cell
+		# find the back pin for a horizontal wire
+		for cell in get_used_cells():
+			if back_pin == null or back_pin.x < cell.x:
+				back_pin = cell
+	elif orientation == WireOrientation.VERTICAL:
+		for cell in get_used_cells():
+			if front_pin == null or front_pin.y > cell.y:
+				front_pin = cell
+		for cell in get_used_cells():
+			if back_pin == null or back_pin.y < cell.y:
+				back_pin = cell
+	else:
+		print("Invalid orientation...")
+	set_cell(front_pin, 2, Vector2i(0,0))
+	set_cell(back_pin, 2, Vector2i(0,0))
 
 func DetermineOrientation(original_position, current_position) -> WireOrientation:
 	var x_delta = abs(original_position.x - current_position.x)
