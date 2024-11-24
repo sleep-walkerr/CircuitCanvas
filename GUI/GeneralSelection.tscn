@@ -1,13 +1,18 @@
-[gd_scene load_steps=15 format=3 uid="uid://cb38hi2hq3kvu"]
+[gd_scene load_steps=24 format=3 uid="uid://cb38hi2hq3kvu"]
 
 [ext_resource type="Script" path="res://GUI/general_selection.gd" id="1_ku5fe"]
 [ext_resource type="FontFile" uid="uid://dnjpgh3v7esbk" path="res://Fredoka/Fredoka-VariableFont_wdth,wght.ttf" id="1_omvwh"]
 [ext_resource type="Texture2D" uid="uid://bokcuv1twok7g" path="res://Icons/delete_button.png" id="3_c04gu"]
+[ext_resource type="ButtonGroup" uid="uid://carhey77k2wr6" path="res://GUI/general_selection_group.tres" id="3_rd6wk"]
 [ext_resource type="Texture2D" uid="uid://dml7xmlds7725" path="res://Icons/gate_button.png" id="3_sl35g"]
 [ext_resource type="Texture2D" uid="uid://g61dw4mymjxr" path="res://Icons/gate_button_pressed.png" id="4_egnu5"]
 [ext_resource type="Texture2D" uid="uid://c1v4cla8xo33c" path="res://Icons/delete_button_pressed.png" id="4_fc0dt"]
 [ext_resource type="Texture2D" uid="uid://d4dmfs3r2618j" path="res://Icons/wire_button.png" id="5_vrndq"]
 [ext_resource type="Texture2D" uid="uid://ukr8jjfqb1q7" path="res://Icons/wire_button_pressed.png" id="7_2rpto"]
+[ext_resource type="Texture2D" uid="uid://dvmffwwipt50a" path="res://Icons/input_output_button.png" id="9_hcxso"]
+[ext_resource type="Texture2D" uid="uid://dayfxky0j5xkq" path="res://Icons/input_output_button_pressed.png" id="10_xetxl"]
+[ext_resource type="Texture2D" uid="uid://bvepf5ap8xopj" path="res://Icons/rename_button.png" id="12_g57ua"]
+[ext_resource type="Texture2D" uid="uid://b8gv2u3sfhbxn" path="res://Icons/rename_button_pressed.png" id="13_jk6v3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_50k37"]
 bg_color = Color(0.2, 0.266667, 0.345098, 1)
@@ -39,15 +44,71 @@ font_color = Color(0.2, 0.266667, 0.345098, 1)
 outline_size = 4
 outline_color = Color(0.2, 0.266667, 0.345098, 1)
 
-[sub_resource type="ButtonGroup" id="ButtonGroup_osfhn"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fcgvn"]
+bg_color = Color(0.2, 0.266667, 0.345098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.992157, 0.992157, 0.780392, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cuomx"]
+bg_color = Color(0.2, 0.266667, 0.345098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.992157, 0.992157, 0.780392, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8tfv"]
+bg_color = Color(0.2, 0.266667, 0.345098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.992157, 0.992157, 0.780392, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stpiq"]
+bg_color = Color(0.992157, 0.992157, 0.780392, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.266667, 0.345098, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v20t5"]
+bg_color = Color(0.2, 0.266667, 0.345098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.992157, 0.992157, 0.780392, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
 [node name="GeneralSelection" type="Panel"]
 clip_contents = true
-custom_minimum_size = Vector2(430, 250)
-offset_left = 19.0
-offset_top = 111.0
-offset_right = 446.0
-offset_bottom = 364.0
+custom_minimum_size = Vector2(430, 365)
+offset_right = 430.0
+offset_bottom = 250.0
 mouse_filter = 1
 theme = SubResource("Theme_acnh7")
 script = ExtResource("1_ku5fe")
@@ -77,35 +138,108 @@ label_settings = SubResource("LabelSettings_253be")
 horizontal_alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
-layout_mode = 0
 offset_left = 10.0
 offset_top = 55.0
-offset_right = 417.0
-offset_bottom = 243.0
+offset_right = 420.0
+offset_bottom = 355.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
-[node name="select_button" type="TextureButton" parent="CenterContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="select_button" type="TextureButton" parent="CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = SubResource("ButtonGroup_osfhn")
+button_group = ExtResource("3_rd6wk")
 texture_normal = ExtResource("3_sl35g")
 texture_pressed = ExtResource("4_egnu5")
 
-[node name="delete_button" type="TextureButton" parent="CenterContainer/HBoxContainer"]
+[node name="delete_button" type="TextureButton" parent="CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = SubResource("ButtonGroup_osfhn")
+button_group = ExtResource("3_rd6wk")
 texture_normal = ExtResource("3_c04gu")
 texture_pressed = ExtResource("4_fc0dt")
 
-[node name="wire_button" type="TextureButton" parent="CenterContainer/HBoxContainer"]
+[node name="wire_button" type="TextureButton" parent="CenterContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = SubResource("ButtonGroup_osfhn")
+button_group = ExtResource("3_rd6wk")
 texture_normal = ExtResource("5_vrndq")
 texture_pressed = ExtResource("7_2rpto")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="input_output_button" type="TextureButton" parent="CenterContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 6
+mouse_filter = 1
+toggle_mode = true
+button_group = ExtResource("3_rd6wk")
+texture_normal = ExtResource("9_hcxso")
+texture_pressed = ExtResource("10_xetxl")
+stretch_mode = 5
+
+[node name="NameEntryElements" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(122, 144)
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="rename_button" type="TextureButton" parent="CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements"]
+layout_mode = 2
+mouse_filter = 1
+toggle_mode = true
+button_group = ExtResource("3_rd6wk")
+texture_normal = ExtResource("12_g57ua")
+texture_pressed = ExtResource("13_jk6v3")
+stretch_mode = 3
+
+[node name="RenameEntrySection" type="PanelContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_fcgvn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection"]
+layout_mode = 2
+alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+mouse_filter = 1
+theme_override_colors/font_outline_color = Color(0.992157, 0.992157, 0.780392, 1)
+theme_override_colors/font_color = Color(0.992157, 0.992157, 0.780392, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("1_omvwh")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_cuomx")
+placeholder_text = "Enter Name"
+alignment = 1
+
+[node name="enter_button" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer"]
+custom_minimum_size = Vector2(70, 35)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+mouse_filter = 1
+theme_override_colors/font_hover_color = Color(0.992157, 0.992157, 0.780392, 1)
+theme_override_colors/font_pressed_color = Color(0.2, 0.266667, 0.345098, 1)
+theme_override_colors/font_color = Color(0.992157, 0.992157, 0.780392, 1)
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("1_omvwh")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/hover = SubResource("StyleBoxFlat_n8tfv")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_stpiq")
+theme_override_styles/normal = SubResource("StyleBoxFlat_v20t5")
+text = "Enter"

@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://pw30wgxspqea" path="res://Icons/and_button.png" id="1_862dq"]
 [ext_resource type="Texture2D" uid="uid://wkv13cgpwud3" path="res://Icons/not_button.png" id="1_ydtxl"]
 [ext_resource type="Texture2D" uid="uid://dvi5b3184b8t1" path="res://Icons/not_button_pressed.png" id="2_7di0t"]
-[ext_resource type="ButtonGroup" uid="uid://bgpi5nst560p5" path="res://GUI/gate_button_group.tres" id="2_al7fk"]
 [ext_resource type="Texture2D" uid="uid://02qn14ac6hkp" path="res://Icons/and_button_pressed.png" id="2_cx7pl"]
 [ext_resource type="Texture2D" uid="uid://c0ny5kxy5t4a2" path="res://Icons/not_button_hover.png" id="3_25qbr"]
 [ext_resource type="Texture2D" uid="uid://dgie8a88l4eh4" path="res://Icons/and_button_hover.png" id="3_fh75g"]
@@ -51,6 +50,9 @@ font_size = 20
 font_color = Color(0.2, 0.266667, 0.345098, 1)
 outline_size = 4
 outline_color = Color(0.2, 0.266667, 0.345098, 1)
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_pbtdn"]
+resource_local_to_scene = false
 
 [node name="gate_selection_interface" type="Panel"]
 clip_contents = true
@@ -115,7 +117,7 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("1_862dq")
 texture_pressed = ExtResource("2_cx7pl")
 texture_hover = ExtResource("3_fh75g")
@@ -126,7 +128,7 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("4_60ufj")
 texture_pressed = ExtResource("5_fwo3w")
 texture_hover = ExtResource("6_le2lf")
@@ -137,7 +139,7 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("1_ydtxl")
 texture_pressed = ExtResource("2_7di0t")
 texture_hover = ExtResource("3_25qbr")
@@ -148,7 +150,7 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("10_q0qg0")
 texture_pressed = ExtResource("11_l1hpo")
 texture_hover = ExtResource("12_axex0")
@@ -159,7 +161,7 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("13_uhqw6")
 texture_pressed = ExtResource("14_utj06")
 texture_hover = ExtResource("15_vkmmr")
@@ -170,7 +172,7 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("16_g36sw")
 texture_pressed = ExtResource("17_l3d8p")
 texture_hover = ExtResource("18_pm8dn")
@@ -181,7 +183,7 @@ custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("19_um7vm")
 texture_pressed = ExtResource("20_iv7mc")
 texture_hover = ExtResource("21_qe3pp")

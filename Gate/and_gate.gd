@@ -11,6 +11,7 @@ var pattern_indicies = {'AND' : 0, 'OR' : 1, 'NOT' : 2, 'NAND' : 3, 'NOR' : 4, '
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	name = str(type, get_instance_id())
 	pattern = get_parent().tile_set.get_pattern(pattern_indicies[type])
 	# Draw tiles
 	if pattern != null:

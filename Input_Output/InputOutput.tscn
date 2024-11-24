@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://csvxiddcgntcr"]
+
+[ext_resource type="TileSet" uid="uid://b63l026ko0b3m" path="res://Input_Output/input_output_tileset.tres" id="1_0qtbn"]
+[ext_resource type="Script" path="res://Input_Output/input_output.gd" id="1_y468n"]
+
+[node name="InputOutput" type="TileMapLayer"]
+tile_set = ExtResource("1_0qtbn")
+script = ExtResource("1_y468n")

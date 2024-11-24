@@ -35,8 +35,8 @@ func DrawWire(original_position, current_position) -> void:
 			orientation = WireOrientation.VERTICAL
 
 func DrawPins() -> void:
-	var front_pin
-	var back_pin
+	var front_pin = null
+	var back_pin = null
 	# find points in wire with lowest and highest x or y coordinates depending on orientation
 	if orientation == WireOrientation.HORIZONTAL: # find the front pin for a horizontal wire
 		for cell in get_used_cells():

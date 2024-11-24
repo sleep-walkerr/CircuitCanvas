@@ -1,6 +1,6 @@
 extends Node2D
  
-enum Mode {GATE, DELETE, WIRE}
+enum Mode {GATE, DELETE, WIRE, INPUT_OUTPUT, RENAME}
 
 var object_being_dragged
 var object_drag_offset
@@ -18,8 +18,8 @@ func _ready():
 	#Set background to transparent
 	get_tree().get_root().transparent_bg = true
 	#Set mode to gate mode
-	$MainControls/GeneralSelection/CenterContainer/HBoxContainer/select_button.emit_signal("pressed")
-	$MainControls/GeneralSelection/CenterContainer/HBoxContainer/select_button.button_pressed = true
+	$MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer/select_button.emit_signal("pressed")
+	$MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer/select_button.button_pressed = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta): #combined old physics_process with process, need to reorganize contents	
@@ -59,6 +59,8 @@ func _input(event):
 						GetManagingNode(tile_currently_over).Delete()
 					if GetWireByTile(tile_currently_over) != null:
 						GetWireByTile(tile_currently_over).Delete()
+					if GetInputOutputByTile(tile_currently_over) != null:
+						GetInputOutputByTile(tile_currently_over).Delete()
 			Mode.WIRE: # needs to be reorganized to stop repetition of conditionals
 				if event.is_action_pressed("click]") and not IsWireTile(tile_currently_over): # If click and over nothing, create a wire
 					object_predragging_pos = tile_currently_over # capture original position to draw wire from
@@ -97,9 +99,58 @@ func _input(event):
 				if !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # if left click is released and there is still an assigned wire, reset and stop dragging
 					object_being_dragged = null
 					object_predragging_pos = null
+			Mode.INPUT_OUTPUT:
+				# creates a new input or output depending on if left or right click is pressed
+				if event.is_action_pressed("click]") and !IsInputOutputTile(tile_currently_over):
+					var new_input_output = load("res://Input_Output/InputOutput.tscn").instantiate()
+					new_input_output.grid_position_coordinates = tile_currently_over
+					new_input_output.type = 0
+					$InputOutputContainer.add_child(new_input_output)
+				elif event.is_action_pressed("right_click"):
+					var new_input_output = load("res://Input_Output/InputOutput.tscn").instantiate()
+					new_input_output.grid_position_coordinates = tile_currently_over
+					new_input_output.type = 1
+					$InputOutputContainer.add_child(new_input_output)
+				# start dragging operation
+				if event.is_action_pressed("click]") and IsInputOutputTile(tile_currently_over):
+					object_being_dragged = GetInputOutputByTile(tile_currently_over) # IsInputOutputTile and GetWireByTile have the same functionality, rename and use for this case as well
+				if Input.is_mouse_button_pressed(1) and object_being_dragged != null:
+					object_being_dragged.clear()
+					# Draw pattern at tile currently over
+					object_being_dragged.grid_position_coordinates = tile_currently_over
+					object_being_dragged.RedrawPattern() # need to integrate offset to make dragging start less jarring
+				# continue or exit dragging operation
+				if !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # if left click is released and there is still an assigned wire, reset and stop dragging
+					object_being_dragged = null
+					object_predragging_pos = null
+			Mode.RENAME:
+				if event.is_action_pressed("click]"):
+					if IsInputOutputTile(tile_currently_over):
+						object_being_dragged = GetInputOutputByTile(tile_currently_over)
+					if isTileOccupied(tile_currently_over):
+						object_being_dragged = GetManagingNode(tile_currently_over)
+					if object_being_dragged != null:
+						$MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer/LineEdit.text = object_being_dragged.name
+					
 			_:
 				pass
 
+
+func IsInputOutputTile(tile) -> bool: # Checks if an input/output exists at a given tile, this is a repeat of IsWireTile, remove later
+	for input_output in $InputOutputContainer.get_children():
+		for used_tile in input_output.get_used_cells():
+			if input_output.get_cell_source_id(tile) != -1:
+				if tile == used_tile:
+					return true
+	return false
+	
+func GetInputOutputByTile(tile) -> TileMapLayer: # Gets the wire at the given tile
+	for wire in $InputOutputContainer.get_children():
+		for used_tile in wire.get_used_cells():
+			if wire.get_cell_source_id(tile) != -1:
+				if tile == used_tile:
+					return wire
+	return null
 			
 func SetSelectedMode(mode):
 	if mode != Mode.GATE:
@@ -156,6 +207,9 @@ func MoveToGrid(gate) -> void:
 	$ChangeBuffer.remove_child(gate)
 	$GateGrid.add_child(gate)
 	gate.MovePattern(gate.position_in_grid)
+	
+func RenameObject() -> void:
+	object_being_dragged.name = $MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer/LineEdit.text
 
 func _on_gd_example_position_changed(node, new_pos):
 	print("The position of " + node.get_class() + " is now " + str(new_pos))
