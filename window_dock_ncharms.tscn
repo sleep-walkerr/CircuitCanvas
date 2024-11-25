@@ -72,6 +72,15 @@ texture_normal = ExtResource("5_qca0o")
 texture_hover = ExtResource("6_5n6v5")
 stretch_mode = 3
 
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 11.0
+offset_right = 33.0
+offset_bottom = 23.0
+mouse_filter = 1
+texture_normal = ExtResource("3_qxou7")
+
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

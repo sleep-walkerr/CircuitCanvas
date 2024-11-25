@@ -138,6 +138,7 @@ label_settings = SubResource("LabelSettings_253be")
 horizontal_alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
 offset_left = 10.0
 offset_top = 55.0
 offset_right = 420.0

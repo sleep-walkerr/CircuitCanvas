@@ -9,6 +9,9 @@ func _process(delta: float) -> void:
 	if dragging and get_window().has_focus():
 		get_window().position = Vector2(get_window().position) + get_global_mouse_position() - dragging_start_position
 		
+func _ready() -> void:
+	$TextureButton.connect("pressed", Callable(get_node("/root/Node2D/"),"ExportToSDL"))
+		
 func _on_gui_input(event: InputEvent) -> void:
 	if event.is_action_pressed("click]") and !dragging:
 		dragging = !dragging

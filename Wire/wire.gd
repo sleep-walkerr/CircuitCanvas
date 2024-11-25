@@ -7,7 +7,9 @@ var orientation
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	name = str("Wire",get_instance_id())
 	set_cell(grid_position_coordinates, 1, Vector2i(0,0))
+	
 	
 func DrawWire(original_position, current_position) -> void:
 	var x_difference = current_position.x - original_position.x 

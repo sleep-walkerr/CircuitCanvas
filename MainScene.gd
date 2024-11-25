@@ -28,6 +28,10 @@ func _process(delta): #combined old physics_process with process, need to reorga
 func _input(event):
 	if !over_gui:
 		var tile_currently_over = $GateGrid.local_to_map(get_global_mouse_position())
+		# DELETE ME
+		if event.is_action_pressed("click]"):
+			print(tile_currently_over)
+		# D
 		match selected_mode: # Eventually change this back to select, delete, wire, gate, and make select for moving wires and gates around. Less confusing
 			Mode.GATE: 
 				if event.is_action_pressed("click]") and object_being_dragged == null:
@@ -210,6 +214,17 @@ func MoveToGrid(gate) -> void:
 	
 func RenameObject() -> void:
 	object_being_dragged.name = $MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer/LineEdit.text
+	
+func ExportToSDL() -> void:
+	var export_interface = load("res://Export/ExportToSDL.tscn").instantiate()
+	export_interface.GatesContainer = $GateGrid
+	export_interface.InputsOutputsContainer = $InputOutputContainer
+	export_interface.WiresContainer = $WireContainer
+	export_interface.DataGateGridRef = $DataGateGrid
+	#export_interface.PrintCircuit()
+	export_interface.CollectWireConnections()
+	export_interface.SimplifyWireConnections()
+	
 
 func _on_gd_example_position_changed(node, new_pos):
 	print("The position of " + node.get_class() + " is now " + str(new_pos))
