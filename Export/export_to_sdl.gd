@@ -31,6 +31,9 @@ func CollectWireConnections() -> void:
 			var WireConnection = [pin_1, pin_2] # the wire connection object
 			WireConnections.append(WireConnection)
 
+
+
+
 func SimplifyWireConnections() -> void:
 	var MatchesFound = []
 	var PinMatches = [] # used to count the number of times a pin was found as a match
@@ -78,7 +81,7 @@ func SimplifyWireConnections() -> void:
 		if WireConnections.has(pin_match[0]) and WireConnections.has(pin_match[1]):
 			var simplified_wire = pin_match[2]
 			# check other matches/simplifications for the pin erased
-			for other_pin_match in MatchesFound:
+			for other_pin_match in MatchesFound: # this looks for match conflicts with the current match, and handles those matches appropriately
 				var pin_deleted = pin_match[3]
 				var bad_pin
 				var good_pin
@@ -113,6 +116,12 @@ func SimplifyWireConnections() -> void:
 			WireConnections.append(simplified_wire)
 	# END STEP 1 IN ALGORITHM
 	# ***********************************************************************************************
+	
+	
+	
+	
+	
+	
 	# ALGORITHM STEP 2
 	# make list with all pins that are making contact with a gate or input/output
 	var ContactPins = []
@@ -157,6 +166,10 @@ func SimplifyWireConnections() -> void:
 			if pin_match != other_pin_match:
 				if other_pin_match[2].has(pin_match[2][0]) and other_pin_match[2].has(pin_match[2][1]):
 					MatchesFound.erase(other_pin_match)
+					
+					
+					
+	# PREVIOUS SECTION		
 	# count matches for a given pin and put them in a struct
 	for pin_match in MatchesFound:
 		PinMatches.append(pin_match[3])
@@ -178,11 +191,19 @@ func SimplifyWireConnections() -> void:
 				pin_occurance_final.append([pin_match, pin_occurance_number])
 				break
 	pin_occurance_final.reverse()
-	print("pin occurance final:", pin_occurance_final)
-	for matched_pin in pin_occurance_final:
-		for proposed_match in MatchesFound:
-			#if proposed_match[0].has(matched_pin[0]) or 
-			pass
+	#print("pin occurance final:", pin_occurance_final)
+	#for matched_pin in pin_occurance_final:
+		#for proposed_match in MatchesFound:
+			##if proposed_match[0].has(matched_pin[0]) or 
+			#pass
+	
+	
+	
+	# MIGHT NOT NEED PREVIOUS SECTION
+
+	# second simplification using matches, this time condensing wires instead of combining them using recursion
+	
+	
 	
 	
 	
@@ -195,3 +216,24 @@ func SimplifyWireConnections() -> void:
 	print("wire connections final:")
 	for wire_connection in WireConnections:
 		print(wire_connection)
+
+func CondenseWires(pin_match):
+	var LeftPin = pin_match[2][0]
+	var RightPin = pin_match[2][1]
+	var CenterPin = pin_match[3]
+	# erase original wires
+	WireConnections.erase(pin_match[0])
+	WireConnections.erase(pin_match[1])
+	for wire in WireConnections:
+		if wire.has(LeftPin):
+			wire.erase(LeftPin)
+			wire.append(CenterPin)
+		if wire.has(RightPin):
+			wire.erase(RightPin)
+			wire.append(CenterPin)
+	
+func FindConflicts(pin_match):
+	var LeftPin = pin_match[2][0]
+	var RightPin = pin_match[2][1]
+	var CenterPin = pin_match[3]
+	pass
