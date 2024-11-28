@@ -4,6 +4,7 @@ var InputsOutputsContainer
 var WiresContainer
 var WireConnections = []
 var DataGateGridRef
+var MatchesFound = []
 
 
 # Called when the node enters the scene tree for the first time.
@@ -35,7 +36,7 @@ func CollectWireConnections() -> void:
 
 
 func SimplifyWireConnections() -> void:
-	var MatchesFound = []
+	
 	var PinMatches = [] # used to count the number of times a pin was found as a match
 	
 	# Algorithm step 1
@@ -202,7 +203,9 @@ func SimplifyWireConnections() -> void:
 	# MIGHT NOT NEED PREVIOUS SECTION
 
 	# second simplification using matches, this time condensing wires instead of combining them using recursion
-	
+	for pin_match in MatchesFound:
+		CondenseWires(pin_match)
+		FindConflicts(pin_match)
 	
 	
 	
@@ -217,7 +220,7 @@ func SimplifyWireConnections() -> void:
 	for wire_connection in WireConnections:
 		print(wire_connection)
 
-func CondenseWires(pin_match):
+func CondenseWires(pin_match): # condenses wires to the pin match within the match entry
 	var LeftPin = pin_match[2][0]
 	var RightPin = pin_match[2][1]
 	var CenterPin = pin_match[3]
@@ -231,9 +234,38 @@ func CondenseWires(pin_match):
 		if wire.has(RightPin):
 			wire.erase(RightPin)
 			wire.append(CenterPin)
+			
+func ConflictCondense(pin_match,pin): # replaces all three pins with the desired center pin
+	var LeftPin = pin_match[2][0]
+	var RightPin = pin_match[2][1]
+	var CenterPin = pin_match[3]
 	
+	# erase original wires
+	WireConnections.erase(pin_match[0])
+	WireConnections.erase(pin_match[1])
+	for wire in WireConnections:
+		if wire.has(LeftPin):
+			wire.erase(LeftPin)
+			wire.append(pin)
+		if wire.has(RightPin):
+			wire.erase(RightPin)
+			wire.append(pin)
+		if wire.has(CenterPin):
+			wire.erase(CenterPin)
+			wire.append(pin)
+			
 func FindConflicts(pin_match):
 	var LeftPin = pin_match[2][0]
 	var RightPin = pin_match[2][1]
 	var CenterPin = pin_match[3]
-	pass
+	for other_pin_match in MatchesFound:
+		if other_pin_match != pin_match:
+			if other_pin_match[0].has(LeftPin) or other_pin_match[0].has(RightPin):
+				ConflictCondense(other_pin_match,CenterPin)
+				FindConflicts(other_pin_match)
+				MatchesFound.erase(other_pin_match)
+			if other_pin_match[1].has(LeftPin) or other_pin_match[1].has(RightPin):
+				ConflictCondense(other_pin_match,CenterPin)
+				FindConflicts(other_pin_match)
+				MatchesFound.erase(other_pin_match)
+			
