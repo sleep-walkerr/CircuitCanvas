@@ -5,6 +5,8 @@ var WiresContainer
 var WireConnections = []
 var DataGateGridRef
 var MatchesFound = []
+var CompleteConnections = [] # holds final connections which ignore the wire and just include the two objects that are connected
+var gate_grid_data_ref
 
 
 # Called when the node enters the scene tree for the first time.
@@ -23,7 +25,9 @@ func PrintCircuit() -> void:
 	print("ALIASES")
 	for IOobject in InputsOutputsContainer.get_children():
 		print(IOobject.name, " = ", IOobject.alias)
-	
+	print("CONNECTIONS")
+	print(CompleteConnections)
+
 func CollectWireConnections() -> void:
 	if WiresContainer != null:
 		for wire in WiresContainer.get_children():
@@ -209,7 +213,8 @@ func SimplifyWireConnections() -> void:
 		FindConflicts(pin_match)
 	
 	
-	
+	# Make final version of connections after connections have all been made direct
+	MakeFinalConnections()
 	
 	
 	print("matches list:")
@@ -269,4 +274,29 @@ func FindConflicts(pin_match):
 				ConflictCondense(other_pin_match,CenterPin)
 				FindConflicts(other_pin_match)
 				MatchesFound.erase(other_pin_match)
-			
+				
+func GetGateByTile(tile) -> Node2D: # This needs to be updated
+	if gate_grid_data_ref.has(tile):
+		return gate_grid_data_ref.get(tile).managing_node_ref
+	else: return null
+	
+func GetInputOutputByTile(tile) -> TileMapLayer: # Gets the input_output at the given tile
+	for input_output in $InputOutputContainer.get_children():
+		for used_tile in input_output.get_used_cells():
+			if input_output.get_cell_source_id(tile) != -1:
+				if tile == used_tile:
+					return input_output
+	return null
+
+func MakeFinalConnections():
+	for connection in WireConnections:
+		for pin in connection:
+			var final_connection = []
+			if GatesContainer.get_cell_source_id(pin) == 8 or GatesContainer.get_cell_source_id(pin) == 7:
+				final_connection.append(GetGateByTile(pin))
+			# if pin is making contact with any input or output pin
+			for IOObject in InputsOutputsContainer.get_children():
+				if IOObject.get_cell_source_id(pin) == 3:
+					final_connection.append(GetInputOutputByTile(IOObject))
+			CompleteConnections.append(final_connection)
+				

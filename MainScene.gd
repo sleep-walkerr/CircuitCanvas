@@ -148,12 +148,12 @@ func IsInputOutputTile(tile) -> bool: # Checks if an input/output exists at a gi
 					return true
 	return false
 	
-func GetInputOutputByTile(tile) -> TileMapLayer: # Gets the wire at the given tile
-	for wire in $InputOutputContainer.get_children():
-		for used_tile in wire.get_used_cells():
-			if wire.get_cell_source_id(tile) != -1:
+func GetInputOutputByTile(tile) -> TileMapLayer: # Gets the input_output at the given tile
+	for input_output in $InputOutputContainer.get_children():
+		for used_tile in input_output.get_used_cells():
+			if input_output.get_cell_source_id(tile) != -1:
 				if tile == used_tile:
-					return wire
+					return input_output
 	return null
 			
 func SetSelectedMode(mode):
@@ -221,9 +221,11 @@ func ExportToSDL() -> void:
 	export_interface.InputsOutputsContainer = $InputOutputContainer
 	export_interface.WiresContainer = $WireContainer
 	export_interface.DataGateGridRef = $DataGateGrid
-	#export_interface.PrintCircuit()
+	export_interface.gate_grid_data_ref = gate_grid_data
+	
 	export_interface.CollectWireConnections()
 	export_interface.SimplifyWireConnections()
+	export_interface.PrintCircuit()
 	
 
 func _on_gd_example_position_changed(node, new_pos):
