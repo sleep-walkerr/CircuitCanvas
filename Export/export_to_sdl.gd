@@ -293,10 +293,11 @@ func MakeFinalConnections():
 		for pin in connection:
 			var final_connection = []
 			if GatesContainer.get_cell_source_id(pin) == 8 or GatesContainer.get_cell_source_id(pin) == 7:
-				final_connection.append(GetGateByTile(pin))
+				var gate = GetGateByTile(pin)
+				final_connection.append(gate)
 			# if pin is making contact with any input or output pin
 			for IOObject in InputsOutputsContainer.get_children():
 				if IOObject.get_cell_source_id(pin) == 3:
-					final_connection.append(GetInputOutputByTile(IOObject))
+					final_connection.append(IOObject)
 			CompleteConnections.append(final_connection)
 				

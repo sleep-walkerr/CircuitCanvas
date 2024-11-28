@@ -6,6 +6,7 @@ var tiles = []
 var data_tiles = [] # Holds data tiles for THIS gate, only required for prevention of writing over other gates
 var tile_mask
 var position_in_grid # this is the tile that the mouse was over when user clicks
+var gate_inputs = {}
 var pattern_indicies = {'AND' : 0, 'OR' : 1, 'NOT' : 2, 'NAND' : 3, 'NOR' : 4, 'XOR' : 5, 'XNOR' : 6} # Change this to enum
 
 
@@ -39,6 +40,7 @@ func MovePattern(new_position) -> void: # Redraws pattern every frame for drag a
 	if !OverwritingTiles():
 		ClearDataTiles()
 		RedrawData()
+		SetInputPins()
 	else: 
 		position_in_grid = previous_position
 		ClearTiles()
@@ -46,6 +48,7 @@ func MovePattern(new_position) -> void: # Redraws pattern every frame for drag a
 		RedrawPattern()
 		ClearDataTiles()
 		RedrawData()
+		SetInputPins()
 func RedrawPattern() -> void:
 	get_parent().set_pattern(position_in_grid, pattern) # Physical Redraw of pattern on grid
 	for x_y in tile_mask: # Store drawn tile coordinates for drag, drop, delete
@@ -94,3 +97,12 @@ func Delete() -> void: # Primarily for delete mode, called to make gate remove a
 	ClearTiles()
 	get_parent().remove_child(self)
 	self.queue_free()
+
+func SetInputPins():
+	var unordered_inputs = []
+	for tile in tiles:
+		if get_parent().get_cell_source_id(tile) == 7:
+			unordered_inputs.append(tile)
+	print("unordered inputs:", unordered_inputs)
+			
+			
