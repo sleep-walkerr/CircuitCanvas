@@ -26,7 +26,8 @@ func PrintCircuit() -> void:
 	for IOobject in InputsOutputsContainer.get_children():
 		print(IOobject.name, " = ", IOobject.alias)
 	print("CONNECTIONS")
-	print(CompleteConnections)
+	for connection in CompleteConnections:
+		print(connection)
 
 func CollectWireConnections() -> void:
 	if WiresContainer != null:
@@ -290,14 +291,26 @@ func GetInputOutputByTile(tile) -> TileMapLayer: # Gets the input_output at the 
 
 func MakeFinalConnections():
 	for connection in WireConnections:
-		for pin in connection:
-			var final_connection = []
-			if GatesContainer.get_cell_source_id(pin) == 8 or GatesContainer.get_cell_source_id(pin) == 7:
+		var final_connection = []
+		var component_strings = []
+		var final_string = ""
+		for pin in connection: 
+			if GatesContainer.get_cell_source_id(pin) == 7: # if its an input
 				var gate = GetGateByTile(pin)
-				final_connection.append(gate)
+				var pin_number = gate.gate_inputs[pin]
+				final_connection.append(gate.name)
+				final_connection.append(pin_number)
+				component_strings.append(str(gate.name,"#",pin_number))
+			if GatesContainer.get_cell_source_id(pin) == 8: # if its an output
+				var gate = GetGateByTile(pin)
+				var pin_number = gate.gate_inputs.size()+1
+				final_connection.append(gate.name)
+				final_connection.append(pin_number) 
+				component_strings.append(str(gate.name,"#",pin_number))
 			# if pin is making contact with any input or output pin
 			for IOObject in InputsOutputsContainer.get_children():
 				if IOObject.get_cell_source_id(pin) == 3:
-					final_connection.append(IOObject)
-			CompleteConnections.append(final_connection)
+					component_strings.append(IOObject.name)
+		final_string = str(component_strings[0]," - ",component_strings[1])
+		CompleteConnections.append(final_string)
 				

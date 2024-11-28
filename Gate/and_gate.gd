@@ -99,10 +99,11 @@ func Delete() -> void: # Primarily for delete mode, called to make gate remove a
 	self.queue_free()
 
 func SetInputPins():
-	var unordered_inputs = []
+	var index = 1
+	gate_inputs.clear()
 	for tile in tiles:
 		if get_parent().get_cell_source_id(tile) == 7:
-			unordered_inputs.append(tile)
-	print("unordered inputs:", unordered_inputs)
+			gate_inputs[tile] = index
+			index = index + 1
 			
 			
