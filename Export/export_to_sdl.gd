@@ -205,6 +205,7 @@ func SimplifyWireConnections() -> void:
 	# second simplification using matches, this time condensing wires instead of combining them using recursion
 	for pin_match in MatchesFound:
 		CondenseWires(pin_match)
+		MatchesFound.erase(pin_match)
 		FindConflicts(pin_match)
 	
 	
