@@ -207,21 +207,39 @@ func SimplifyWireConnections() -> void:
 	
 	# MIGHT NOT NEED PREVIOUS SECTION
 
-	# second simplification using matches, this time condensing wires instead of combining them using recursion
-	for pin_match in MatchesFound:
-		CondenseWires(pin_match)
-		MatchesFound.erase(pin_match)
-		FindConflicts(pin_match)
-	
-	
-	# Make final version of connections after connections have all been made direct
-	MakeFinalConnections()
-	
-	
 	print("matches list:")
 	for pin_match in MatchesFound:
 		print(pin_match," ", PinMatches.count(pin_match[3]))
 	print("end list")
+
+	# second simplification using matches, this time condensing wires instead of combining them, using recursion
+	for pin_match in MatchesFound:
+		CondenseWires(pin_match)
+		MatchesFound.erase(pin_match)
+		FindConflicts(pin_match)
+		
+	# third simplification, for wire segments that are not connected directly to objects on either of their pins
+	var WiresToMerge = []
+	for wire in WireConnections:
+		var no_contact = true
+		for pin in ContactPins:
+			if wire.has(pin):
+				no_contact = false
+				break
+		if no_contact:
+			WiresToMerge.append(wire)
+			
+	for wire in WiresToMerge:
+		CondenseSingleWire(wire)
+	
+	# Make all connections direct
+	MakeFinalConnections()
+	
+	# Make final version of connections after connections have all been made direct
+	ParseFinalConnections()
+	
+	
+
 	
 	print("wire connections final:")
 	for wire_connection in WireConnections:
@@ -241,6 +259,20 @@ func CondenseWires(pin_match): # condenses wires to the pin match within the mat
 		if wire.has(RightPin):
 			wire.erase(RightPin)
 			wire.append(CenterPin)
+			
+func CondenseSingleWire(wire_simplifying):
+	var LeftPin = wire_simplifying[0]
+	var RightPin = wire_simplifying[1]
+	WireConnections.erase(wire_simplifying)
+	for wire in WireConnections:
+		if wire.has(LeftPin):
+			wire.erase(LeftPin)
+			wire.append(wire_simplifying[0])
+		if wire.has(RightPin):
+			wire.erase(RightPin)
+			wire.append(wire_simplifying[0])
+		
+		
 			
 func ConflictCondense(pin_match,pin): # replaces all three pins with the desired center pin
 	var LeftPin = pin_match[2][0]
@@ -289,7 +321,47 @@ func GetInputOutputByTile(tile) -> TileMapLayer: # Gets the input_output at the 
 					return input_output
 	return null
 
-func MakeFinalConnections():
+
+
+func MakeFinalConnections(): # this will directly connect all components
+	var unifying_pins = []
+	var ConnectionGroups = []
+	var FinalConnections = []
+	for connection in WireConnections:
+		for pin in connection:
+			var number_matches = 0
+			var group = []
+			for other_connection in WireConnections:
+				if connection != other_connection:
+					if other_connection.has(pin):
+						number_matches = number_matches + 1
+			# if the number of matches is higher than 1, you need to create a group
+			if number_matches > 1:
+				unifying_pins.append(pin)
+	for pin in unifying_pins:
+		for connection in WireConnections:
+			if connection.has(pin):
+				for other_connection in WireConnections:
+					if connection != other_connection and other_connection.has(pin):
+						var temp_connection = connection.duplicate()
+						var temp_other_connection = other_connection.duplicate()
+						var direct_connection = []
+						# remove the unifying pin from other and current connection to get points to connect
+						temp_connection.erase(pin)
+						temp_other_connection.erase(pin)
+						# add remaining points to create direct connection
+						direct_connection.append(temp_connection[0])
+						direct_connection.append(temp_other_connection[0])
+						# add it to connections list
+						WireConnections.append(direct_connection)
+				# erase pre-direct connection
+				WireConnections.erase(connection)
+						
+						
+					
+				
+
+func ParseFinalConnections(): # this shouldnt be used yet because they are still all connected around a single point instead of to each other
 	for connection in WireConnections:
 		var final_connection = []
 		var component_strings = []
@@ -311,6 +383,7 @@ func MakeFinalConnections():
 			for IOObject in InputsOutputsContainer.get_children():
 				if IOObject.get_cell_source_id(pin) == 3:
 					component_strings.append(IOObject.name)
+		print("component strings:", component_strings)
 		final_string = str(component_strings[0]," - ",component_strings[1])
 		CompleteConnections.append(final_string)
 				
