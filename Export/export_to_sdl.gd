@@ -234,8 +234,10 @@ func SimplifyWireConnections() -> void:
 	
 	# Make all connections direct
 	MakeFinalConnections()
-	
+
+
 	# Make final version of connections after connections have all been made direct
+	RemoveInvalidConnections()
 	ParseFinalConnections()
 	
 	
@@ -359,13 +361,60 @@ func MakeFinalConnections(): # this will directly connect all components
 						
 						
 					
-				
+func RemoveInvalidConnections():
+	var connections_to_remove = []
+	for connection in WireConnections:
+		var pin1_type
+		var pin2_type
+		# set pin types for later comparison, input tests first
+		if GatesContainer.get_cell_source_id(connection[0]) == 7:
+			pin1_type = "INPUT"
+		else:
+			for IOObject in InputsOutputsContainer.get_children():
+				if IOObject.get_cell_source_id(connection[0]) == 3:
+					if IOObject.type == 1:
+						pin1_type = "INPUT"
+		# pin 2 input tests
+		if GatesContainer.get_cell_source_id(connection[1]) == 7:
+			pin2_type = "INPUT"
+		else:
+			for IOObject in InputsOutputsContainer.get_children():
+				if IOObject.get_cell_source_id(connection[1]) == 3:
+					if IOObject.type == 1:
+						pin2_type = "INPUT"
+		# OUTPUT TESTS
+		if GatesContainer.get_cell_source_id(connection[0]) == 8:
+			pin1_type = "OUTPUT"
+		else:
+			for IOObject in InputsOutputsContainer.get_children():
+				if IOObject.get_cell_source_id(connection[0]) == 3:
+					if IOObject.type == 0:
+						pin1_type = "OUTPUT"
+		# pin 2 input tests
+		if GatesContainer.get_cell_source_id(connection[1]) == 8:
+			pin2_type = "OUTPUT"
+		else:
+			for IOObject in InputsOutputsContainer.get_children():
+				if IOObject.get_cell_source_id(connection[1]) == 3:
+					if IOObject.type == 0:
+						pin2_type = "OUTPUT"
+		# check for compatibility
+		if pin1_type == "INPUT" and pin2_type == "INPUT":
+			connections_to_remove.append(connection)
+		elif pin1_type == "OUTPUT" and pin2_type == "OUTPUT":
+			connections_to_remove.append(connection)
+	# remove each marked connection
+	for connection in connections_to_remove:
+		WireConnections.erase(connection)
+		
+		
 
-func ParseFinalConnections(): # this shouldnt be used yet because they are still all connected around a single point instead of to each other
+func ParseFinalConnections(): 
 	for connection in WireConnections:
 		var final_connection = []
 		var component_strings = []
 		var final_string = ""
+		
 		for pin in connection: 
 			if GatesContainer.get_cell_source_id(pin) == 7: # if its an input
 				var gate = GetGateByTile(pin)
@@ -383,7 +432,7 @@ func ParseFinalConnections(): # this shouldnt be used yet because they are still
 			for IOObject in InputsOutputsContainer.get_children():
 				if IOObject.get_cell_source_id(pin) == 3:
 					component_strings.append(IOObject.name)
-		print("component strings:", component_strings)
+		#print("component strings:", component_strings)
 		final_string = str(component_strings[0]," - ",component_strings[1])
 		CompleteConnections.append(final_string)
 				
