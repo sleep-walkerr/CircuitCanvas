@@ -226,6 +226,7 @@ func ExportToSDL() -> void:
 	export_interface.CollectWireConnections()
 	export_interface.SimplifyWireConnections()
 	export_interface.PrintCircuit()
+	export_interface.ExportToSDL()
 	
 
 func _on_gd_example_position_changed(node, new_pos):

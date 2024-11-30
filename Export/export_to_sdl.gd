@@ -18,16 +18,35 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+
+func ExportToSDL() -> void:
+	var myFile = FileAccess.open("CircuitCanvas.sdl", FileAccess.WRITE)
+	myFile.store_line("$This is an SDL comment\n");
+	myFile.store_line("\nCOMPONENTS")
+	for gate in GatesContainer.get_children():
+		myFile.store_line(str(gate.type," ", gate.name))
+	myFile.store_line("\nALIASES")
+	for IOobject in InputsOutputsContainer.get_children():
+		myFile.store_line(str(IOobject.name, " = ", IOobject.alias))
+	myFile.store_line("\nCONNECTIONS")
+	for connection in CompleteConnections:
+		myFile.store_line(connection)
+		
+	myFile.store_line("\nEND");
+
+	myFile = null
+
 func PrintCircuit() -> void:
 	print("\nCOMPONENTS")
 	for gate in GatesContainer.get_children():
 		print(gate.type," ", gate.name)
-	print("ALIASES")
+	print("\nALIASES")
 	for IOobject in InputsOutputsContainer.get_children():
 		print(IOobject.name, " = ", IOobject.alias)
-	print("CONNECTIONS")
+	print("\nCONNECTIONS")
 	for connection in CompleteConnections:
 		print(connection)
+
 
 func CollectWireConnections() -> void:
 	if WiresContainer != null:
