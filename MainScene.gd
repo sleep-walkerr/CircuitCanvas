@@ -1,310 +1,232 @@
 extends Node2D
+ 
+enum Mode {GATE, DELETE, WIRE, INPUT_OUTPUT, RENAME}
 
-var scene_currently_over
-var newConnection
-var selected_scenes
-var mouseDelta = Vector2(0,0)
-var selectedGate 
-var isMousePositioned = true #had to add this because of timing issues. Might be engine bug :/
-
-# Node reference Lists/Matricies for gates, connections, and input/output nodes
-var gateReferencesByCategory = {}
-var connectionsList = []
-var inputsAndOutputsList = {"IN" : [], "OUT" : []}
-var mouseOverAndSelectionCast = ShapeCast2D.new()
+var object_being_dragged
+var object_drag_offset
+var object_predragging_pos
+var selected_mode # will indicate one of 3 modes that can be selected
+var over_gui
+var camera = Camera2D.new() # Not used yet but will be used for zooming and panning
+var gate_grid_data = {} # Provides a way to directly access tile data by coordinates
+var selected_operation 
+var current_wire
+var wire_previous_tiles # 1st, move this to inside of wire objects, 2nd, this needs to not only hold wire tiles, but each tiles ID, a bug is caused by not storing the ID :/
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	#Set background to transparent
 	get_tree().get_root().transparent_bg = true
-	#Create dictionary containing arrays that will hold references to all gates for every gate type
-	gateReferencesByCategory['AND'] = []
-	gateReferencesByCategory['Buffer'] = []
-	gateReferencesByCategory['NAND'] = []
-	gateReferencesByCategory['NOR'] = []
-	gateReferencesByCategory['NOT'] = []
-	gateReferencesByCategory['OR'] = []
-	gateReferencesByCategory['XNOR'] = []
-	gateReferencesByCategory['XOR'] = []
-	
-	#configure mouse detection and selection shapecast
-	mouseOverAndSelectionCast.exclude_parent = false
-	mouseOverAndSelectionCast.shape = RectangleShape2D.new()
-	mouseOverAndSelectionCast.shape.size = Vector2(0,0)
-	mouseOverAndSelectionCast.target_position = Vector2(0,0)
-	mouseOverAndSelectionCast.collide_with_areas = true
-	self.add_child(mouseOverAndSelectionCast)
+	#Set mode to gate mode
+	$MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer/select_button.emit_signal("pressed")
+	$MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer/select_button.button_pressed = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta): #combined old physics_process with process, need to reorganize contents
-	#Get node currently over every frame using raycast
-	mouseOverAndSelectionCast.position = get_global_mouse_position()
-	#detect is mouse if over last node after drag and drop
-	if scene_currently_over != null:
-		if mouseOverAndSelectionCast.get_collision_count() > 0 and mouseOverAndSelectionCast.get_collider(0) == scene_currently_over:
-			isMousePositioned = true
-		
-		if !Input.is_key_pressed(KEY_CTRL):
-			if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED and Input.is_mouse_button_pressed(1): 
-				isMousePositioned = false
-				UpdateConnectionCoordinates(scene_currently_over)
-				scene_currently_over.move_and_collide(scene_currently_over.direction)
-				scene_currently_over.direction = Vector2(0,0)
-				if "Input_Output" in scene_currently_over.name:
-					scene_currently_over.get_node("Input_Output_Label").position = scene_currently_over.position
-				
-			elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-				Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-				await get_tree().process_frame
-				Input.warp_mouse(scene_currently_over.get_position_delta() + scene_currently_over.offset)
-				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-				mouseOverAndSelectionCast.enabled = true
-		
-		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			scene_currently_over.direction += mouseDelta* (Performance.get_monitor(Performance.TIME_FPS)) * delta # current position of mouse relative to last * current fps * time since last frame. This allows for consistent movement reguardless of framerate
-			mouseDelta = Vector2(0,0)
-	elif Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		mouseOverAndSelectionCast.enabled = true
+func _process(delta): #combined old physics_process with process, need to reorganize contents	
+	pass
 	
 func _input(event):
-	if !Input.is_key_pressed(KEY_CTRL):	
-		if event.is_action_pressed("click]") and selectedGate == "Delete":
-			if mouseOverAndSelectionCast.get_collision_count() > 0 and ("Gate" in mouseOverAndSelectionCast.get_collider(0).name or "Input_Output" in mouseOverAndSelectionCast.get_collider(0).name):
-				
-				if "Gate" in mouseOverAndSelectionCast.get_collider(0).name:
-					DeleteSelectedGateScene(mouseOverAndSelectionCast.get_collider(0))
-				elif "Input_Output" in mouseOverAndSelectionCast.get_collider(0).name:
-					DeleteSelectedInput_OutputScene(mouseOverAndSelectionCast.get_collider(0))
-		elif event.is_action_pressed("click]") and selectedGate != null and mouseOverAndSelectionCast.get_collision_count() == 0:
-			if selectedGate != "IN" and selectedGate != "OUT":
-				var gate_instance = load("res://Gate/Gate.tscn").instantiate()
-				gate_instance.type = selectedGate
-				gate_instance.position = get_local_mouse_position()
-				$GateContainer.add_child(gate_instance)
-				gate_instance.move_and_collide(Vector2(0,0))
-			
-				#naming of Gates upon creation
-				#need to add a way to change the name later, but changing requires enforcement of naming conventions (why im skipping it for now)
-				gate_instance.gateName = gate_instance.type.to_lower() + str(CountExistingGatesOfType(gate_instance.type)+1)
-				gateReferencesByCategory[gate_instance.type].append(gate_instance)
-			else:
-				var in_out_instance = load("res://Input_Output/Input_Output.tscn").instantiate()
-				in_out_instance.type = selectedGate
-				in_out_instance.position = get_local_mouse_position() - (in_out_instance.get_node("Input_Output_Label").size / 2)
-				$GateContainer.add_child(in_out_instance)
-				in_out_instance.move_and_collide(Vector2(0,0))
-				in_out_instance.get_node("Input_Output_Label").position = in_out_instance.global_position
-				inputsAndOutputsList[in_out_instance.type].append(in_out_instance)
-		elif event.is_action_pressed("plus") and mouseOverAndSelectionCast.get_collision_count() > 0 and "Gate" in mouseOverAndSelectionCast.get_collider(0).name:
-			mouseOverAndSelectionCast.get_collider(0).AddPIN()
-				
+	if !over_gui:
+		var tile_currently_over = $GateGrid.local_to_map(get_global_mouse_position())
+		# DELETE ME
+		if event.is_action_pressed("click]"):
+			print(tile_currently_over)
+		# D
+		match selected_mode: # Eventually change this back to select, delete, wire, gate, and make select for moving wires and gates around. Less confusing
+			Mode.GATE: 
+				if event.is_action_pressed("click]") and object_being_dragged == null:
+					if selected_operation != null: # If selected gate is != null
+						if !isTileOccupied(tile_currently_over): # For the creation of gate patterns
+							var new_gate_position = tile_currently_over	
+							# Instance in gate
+							var new_gate = load("res://Gate/AND_GATE.tscn").instantiate()
+							new_gate.position_in_grid = new_gate_position
+							new_gate.type = selected_operation
+							# Add to Grid
+							$ChangeBuffer.add_child(new_gate) # Gates check if they are overwriting other gates when added to the tree, see _ready()
+					if Input.is_mouse_button_pressed(1) and isTileOccupied(tile_currently_over): # If left mouse held and over a gate, start dragging functionality
+						object_being_dragged = GetManagingNode(tile_currently_over)
+						# Store offset
+						object_drag_offset = $GateGrid.get_cell_atlas_coords(tile_currently_over) - Vector2i(1,0) # Offset needs to be fixed
+						#--Move to buffer
+						MoveToBuffer(object_being_dragged)
+				if object_being_dragged != null and Input.is_mouse_button_pressed(1): # If still pressed, keep dragging
+					var new_position = tile_currently_over - object_drag_offset # Calculate new position to draw from
+					# Redraw pattern using offset from the tile currently over
+					object_being_dragged.MovePattern(new_position)
+				elif !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # Release after object dragged
+					MoveToGrid(object_being_dragged)
+					object_being_dragged = null
+			Mode.DELETE: 
+				if event.is_action_pressed("click]"):
+					if isTileOccupied(tile_currently_over):
+						GetManagingNode(tile_currently_over).Delete()
+					if GetWireByTile(tile_currently_over) != null:
+						GetWireByTile(tile_currently_over).Delete()
+					if GetInputOutputByTile(tile_currently_over) != null:
+						GetInputOutputByTile(tile_currently_over).Delete()
+			Mode.WIRE: # needs to be reorganized to stop repetition of conditionals
+				if event.is_action_pressed("click]") and not IsWireTile(tile_currently_over): # If click and over nothing, create a wire
+					object_predragging_pos = tile_currently_over # capture original position to draw wire from
+					current_wire = load("res://Wire/Wire.tscn").instantiate() # Instantiate wire object
+					current_wire.grid_position_coordinates = tile_currently_over # Set original position of wire
+					$WireContainer.add_child(current_wire) # Add to wire container
+				if Input.is_mouse_button_pressed(1) and current_wire != null: # if a wire is currently being modified, keep drawing it
+					current_wire.DrawWire(object_predragging_pos, tile_currently_over)
+					current_wire.DrawPins()
+				if !Input.is_mouse_button_pressed(1) and current_wire != null and object_predragging_pos != null: # Deselect wire for modification if mouse not held anymore
+					# if wire is only one tile, delete it
+					if current_wire.get_used_cells().size() < 2:
+						current_wire.Delete()
+					object_predragging_pos = null # Set wire modification variables to null for next use
+					current_wire = null
+				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) == 2: # Resizing of wires, source id 3 = wire pin tile
+					# if user clicks, is over a wire tile and that wire tile is a wire pin tile, then start resizing wire
+					current_wire = GetWireByTile(tile_currently_over)
+					for pin_tile in current_wire.get_used_cells_by_id(2):
+						if pin_tile != tile_currently_over: # the pin tile that is not the pin currently over will be the pin that is static during the resizing
+							object_predragging_pos = pin_tile
+							
+				if event.is_action_pressed("click]") and IsWireTile(tile_currently_over) and GetWireByTile(tile_currently_over).get_cell_source_id(tile_currently_over) != 2: # Moving of wires
+					object_being_dragged = GetWireByTile(tile_currently_over) # Since wire is being dragged, use different variable
+					# add offset later
+					object_predragging_pos = tile_currently_over
+					wire_previous_tiles = object_being_dragged.get_used_cells()
+				if Input.is_mouse_button_pressed(1) and object_being_dragged != null:	# if left click is still held, keep dragging wire
+					# Move this to MoveWire() function in wire later
+					var position_change = tile_currently_over - object_predragging_pos	
+					object_being_dragged.clear()
+					for wire_tile in wire_previous_tiles:
+						object_being_dragged.set_cell(wire_tile + position_change, object_being_dragged.orientation, Vector2i(0,0))
+					object_being_dragged.DrawPins()
+						
+				if !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # if left click is released and there is still an assigned wire, reset and stop dragging
+					object_being_dragged = null
+					object_predragging_pos = null
+			Mode.INPUT_OUTPUT:
+				# creates a new input or output depending on if left or right click is pressed
+				if event.is_action_pressed("click]") and !IsInputOutputTile(tile_currently_over):
+					var new_input_output = load("res://Input_Output/InputOutput.tscn").instantiate()
+					new_input_output.grid_position_coordinates = tile_currently_over
+					new_input_output.type = 0
+					$InputOutputContainer.add_child(new_input_output)
+				elif event.is_action_pressed("right_click"):
+					var new_input_output = load("res://Input_Output/InputOutput.tscn").instantiate()
+					new_input_output.grid_position_coordinates = tile_currently_over
+					new_input_output.type = 1
+					$InputOutputContainer.add_child(new_input_output)
+				# start dragging operation
+				if event.is_action_pressed("click]") and IsInputOutputTile(tile_currently_over):
+					object_being_dragged = GetInputOutputByTile(tile_currently_over) # IsInputOutputTile and GetWireByTile have the same functionality, rename and use for this case as well
+				if Input.is_mouse_button_pressed(1) and object_being_dragged != null:
+					object_being_dragged.clear()
+					# Draw pattern at tile currently over
+					object_being_dragged.grid_position_coordinates = tile_currently_over
+					object_being_dragged.RedrawPattern() # need to integrate offset to make dragging start less jarring
+				# continue or exit dragging operation
+				if !Input.is_mouse_button_pressed(1) and object_being_dragged != null: # if left click is released and there is still an assigned wire, reset and stop dragging
+					object_being_dragged = null
+					object_predragging_pos = null
+			Mode.RENAME:
+				if event.is_action_pressed("click]"):
+					if IsInputOutputTile(tile_currently_over):
+						object_being_dragged = GetInputOutputByTile(tile_currently_over)
+					if isTileOccupied(tile_currently_over):
+						object_being_dragged = GetManagingNode(tile_currently_over)
+					if object_being_dragged != null:
+						$MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer/LineEdit.text = object_being_dragged.name
+					
+			_:
+				pass
 
-		elif scene_currently_over != null and event is InputEventMouseMotion and scene_currently_over is CharacterBody2D:
-			mouseDelta = event.relative#Input.get_last_mouse_velocity()
-		
-		newConnection = null
 
-	if isMousePositioned:
-		if mouseOverAndSelectionCast.get_collision_count() > 0 and mouseOverAndSelectionCast.get_collider(0) is CharacterBody2D: #change to check if any then check type
-			if scene_currently_over != mouseOverAndSelectionCast.get_collider(0) and scene_currently_over != null:
-				LeftSelectableScene()
-			OverSelectableScene(mouseOverAndSelectionCast.get_collider(0))
-		if mouseOverAndSelectionCast.get_collision_count() == 0 and scene_currently_over != null:
-			LeftSelectableScene()
-
-func InstancedCircuitObjectInput(viewport, event, shape_idx, objectSendingInput):
-	if Input.is_action_just_pressed("click]"):
-		objectSendingInput.lastMousePos = get_global_mouse_position()
-		objectSendingInput.offset = -(objectSendingInput.global_position - get_global_mouse_position())
-	# detect drag only based on current location vs last
-	if !Input.is_key_pressed(KEY_CTRL):
-		if Input.is_mouse_button_pressed(1): #check if you clicked and then moved mouse w/o letting go of mouse 1 (for drag initiation) since last input event
-			if objectSendingInput.lastMousePos != get_global_mouse_position():
-				mouseOverAndSelectionCast.enabled = false
-				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+func IsInputOutputTile(tile) -> bool: # Checks if an input/output exists at a given tile, this is a repeat of IsWireTile, remove later
+	for input_output in $InputOutputContainer.get_children():
+		for used_tile in input_output.get_used_cells():
+			if input_output.get_cell_source_id(tile) != -1:
+				if tile == used_tile:
+					return true
+	return false
 	
-func UpdateConnectionCoordinates(sceneToUpdate): # updates coordinates of and redraws connection as participating gate is moved
-	var connectionPointIndex = 0
-	for pinType in sceneToUpdate.inAndOutPINListDictionary:
-		for gatePIN in sceneToUpdate.inAndOutPINListDictionary[pinType]:
-			if gatePIN.connectionsParticipatingIn != null:
-				#find matching pin reference from list
-				for connection in gatePIN.connectionsParticipatingIn:
-					for connectedPIN in connection.get_meta("nodesConnected"):
-						if gatePIN == connectedPIN:
-							#update coords and redraw
-							if "Gate" in sceneToUpdate.name:
-								connection.get_node("Line2D").set_point_position(connectionPointIndex, sceneToUpdate.position + gatePIN.position + gatePIN.get_node("Area2D/CollisionShape2D").position)
-							elif "Input_Output" in sceneToUpdate.name:
-								connection.get_node("Line2D").set_point_position(connectionPointIndex, sceneToUpdate.position + sceneToUpdate.get_node("BodyX").position)
-							connection.queue_redraw ()
-						connectionPointIndex += 1
-					connectionPointIndex = 0
-
-
-func DeleteSelectedGateScene(gateToDelete):
-	var connectionPointIndex = 0
-	gateReferencesByCategory[gateToDelete.type].erase(gateToDelete)
-	for pinType in gateToDelete.inAndOutPINListDictionary:
-		for gatePIN in gateToDelete.inAndOutPINListDictionary[pinType]:
-			if gatePIN.connectionsParticipatingIn != null:
-				#find matching pin reference from list
-					for connection in connectionsList:
-						for pinConnection in gatePIN.connectionsParticipatingIn:
-							if pinConnection == connection:
-								$GateContainer.remove_child(connection)
-								connection.queue_free()
-								connectionsList.erase(connection)
-	$GateContainer.remove_child(gateToDelete)
-	gateToDelete.queue_free()
-	
-
-func DeleteSelectedInput_OutputScene(sceneToDelete):
-	var connectionPointIndex = 0
-	for pinType in sceneToDelete.inAndOutPINListDictionary:
-		for gatePIN in sceneToDelete.inAndOutPINListDictionary[pinType]:
-			if gatePIN.connectionsParticipatingIn != null:
-				#find matching pin reference from list
-				for pinConnection in gatePIN.connectionsParticipatingIn:
-					for connection in connectionsList:
-						if pinConnection == connection:
-							$GateContainer.remove_child(connection)
-							connection.queue_free()
-							connectionsList.erase(connection)
-	inputsAndOutputsList[sceneToDelete.type].erase(sceneToDelete)
-	$GateContainer.remove_child(sceneToDelete)
-	sceneToDelete.queue_free()
-
-func OverSelectableScene(currently_over): #sets scene_currently_over to a reference of the instanced scene currently being hovered over
-	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
-		#set currently_over to current instance hovered over and add hover effect
-		scene_currently_over = currently_over
-		scene_currently_over.set_physics_process(true)
-		if "Input_Output" not in scene_currently_over.name:
-			scene_currently_over.Blank.visible = true
+func GetInputOutputByTile(tile) -> TileMapLayer: # Gets the input_output at the given tile
+	for input_output in $InputOutputContainer.get_children():
+		for used_tile in input_output.get_used_cells():
+			if input_output.get_cell_source_id(tile) != -1:
+				if tile == used_tile:
+					return input_output
+	return null
 			
-func LeftSelectableScene():
-	scene_currently_over.Blank.visible = false
-	scene_currently_over.set_physics_process(false)
-	scene_currently_over = null
-		
-func SelectedGate(scenePath):
-	selectedGate = scenePath
-
-func CreatePINConnection(PIN):
-	if Input.is_key_pressed(KEY_CTRL):
-		if newConnection == null:
-			newConnection = load("res://Connection/Connection.tscn").instantiate()
-			newConnection.get_node("Line2D").set_default_color(Color(0,1,1,1))
-			newConnection.get_node("Line2D").width = 5
-			if "Input_Output" not in PIN.get_parent().name:
-				newConnection.get_node("Line2D").add_point(scene_currently_over.position + PIN.position + PIN.get_node("Area2D/CollisionShape2D").position)
-			else:
-				newConnection.get_node("Line2D").add_point(scene_currently_over.position + scene_currently_over.get_node("BodyX").position)
-			newConnection.get_meta("nodesConnected")[0] = PIN
-		elif newConnection != null and scene_currently_over != null: #this is a bandaid fix
-			if "Input_Output" not in PIN.get_parent().name:
-				newConnection.get_node("Line2D").add_point(scene_currently_over.position + PIN.position + PIN.get_node("Area2D/CollisionShape2D").position)
-			else:
-				newConnection.get_node("Line2D").add_point(scene_currently_over.position + scene_currently_over.get_node("BodyX").position)
-			newConnection.get_meta("nodesConnected")[1] = PIN
-			if CheckPINConnectionValidity(newConnection):
-				$GateContainer.add_child(newConnection)
-				connectionsList.append(newConnection)
-				newConnection.get_meta("nodesConnected")[0].connectionsParticipatingIn.append(newConnection)
-				newConnection.get_meta("nodesConnected")[1].connectionsParticipatingIn.append(newConnection)
-				#print (newConnection.get_meta("nodesConnected")[0].connectionsParticipatingIn, " ", newConnection.get_meta("nodesConnected")[1].connectionsParticipatingIn)
-				newConnection = null
-
-func CheckPINConnectionValidity(connectionToCheck):
-	var PIN1 = connectionToCheck.get_meta("nodesConnected")[0]
-	var PIN2 = connectionToCheck.get_meta("nodesConnected")[1]
-	#get rid of freed node references
-	for connection in PIN1.connectionsParticipatingIn:
-		if !is_instance_valid(connection):
-			PIN1.connectionsParticipatingIn.erase(connection)
-	for connection in PIN2.connectionsParticipatingIn:
-		if !is_instance_valid(connection):
-			PIN2.connectionsParticipatingIn.erase(connection)
-	if (connectionToCheck.get_meta("nodesConnected")[0].get_parent() != connectionToCheck.get_meta("nodesConnected")[1].get_parent() and (
-	("InPIN" in PIN1.name and "OutPIN" in PIN2.name) or
-	("OutPIN" in PIN1.name and "InPIN" in PIN2.name)
-	)):
-		print(PIN1.name, " ", PIN1.connectionsParticipatingIn, "\n", PIN2.name, " ", PIN2.connectionsParticipatingIn)
-		if ("InPIN" in PIN1.name and PIN1.connectionsParticipatingIn != []) or ("InPIN" in PIN2.name and PIN2.connectionsParticipatingIn != []):
-			return false
-		
-		else:
-			return true
+func SetSelectedMode(mode):
+	if mode != Mode.GATE:
+		for button in $MainControls/gate_selection_interface/ScrollContainer/GateSelectContainer.get_children():
+			button.disabled = true
 	else:
-		return false
-
-func _on_simulate_logic_button_pressed():
-	#output all elements in canvas to SDL file with proper connections
-	var myFile = FileAccess.open("CircuitCanvas.sdl", FileAccess.WRITE)
-	myFile.store_line("$This is an SDL comment\n");
+		for button in $MainControls/gate_selection_interface/ScrollContainer/GateSelectContainer.get_children():
+			button.disabled = false
+	selected_mode = mode
 	
-	myFile.store_line("COMPONENTS\n");
-	
-	#print all gates to components section grouped by category
-	for gateCategory in gateReferencesByCategory:
-		myFile.store_line("$" + gateCategory + " Gates:")
-		for gateNodeReference in gateReferencesByCategory[gateCategory]:
-			if !(gateNodeReference.type == "Buffer" or gateNodeReference.type == "NOT"):
-				myFile.store_line(str(gateNodeReference.type + "*" + str(gateNodeReference.inAndOutPINListDictionary["OUT"][0].get_meta("PINNo") - 1) + " " + gateNodeReference.gateName))
-			else:
-				myFile.store_line(str(gateNodeReference.type + " " + gateNodeReference.gateName))
-		myFile.store_line("")
-
-	myFile.store_line("ALIASES");
-	myFile.store_line("")
-	for category in inputsAndOutputsList:
-		var index = 1
-		for input_output in inputsAndOutputsList[category]:
-			myFile.store_line(str(input_output.get_node("Input_Output_Label").text, " = ", category, "#", index))
-			index += 1
-	myFile.store_line("")
-	
-	myFile.store_line("CONNECTIONS");
-	myFile.store_line("")
-	for connection in connectionsList:
-		if "Input_Output" in connection.get_meta("nodesConnected")[0].get_parent().name:
-			myFile.store_string(str(connection.get_meta("nodesConnected")[0].get_parent().get_node("Input_Output_Label").text))
-		else:
-			myFile.store_string(str(connection.get_meta("nodesConnected")[0].get_parent().gateName, "#", connection.get_meta("nodesConnected")[0].get_meta("PINNo")))
-		myFile.store_string(str(" - "))
-		if "Input_Output" in connection.get_meta("nodesConnected")[1].get_parent().name:
-			myFile.store_string(str(connection.get_meta("nodesConnected")[1].get_parent().get_node("Input_Output_Label").text))
-		else:
-			myFile.store_string(str(connection.get_meta("nodesConnected")[1].get_parent().gateName, "#", connection.get_meta("nodesConnected")[1].get_meta("PINNo"), "\n"))
-		myFile.store_line("")
-	
-	myFile.store_line("END");
-
-	myFile = null
-						
-						
-func CountExistingGatesOfType(gateType):
-	var gateCount = 0
-	for gateNode in gateReferencesByCategory[gateType]:
-		gateCount+=1
-	return gateCount
-
-func OverSelectionGUI(): #pause everything except for selectionGUI when inside of it
-	get_tree().paused = true
-func LeftSelectionGUI():
-	get_tree().paused = false
-
-
 func SetSelectedGate(gate_selection):
-#	for currentSelectionContainer in gateSelectionContainer.get_parent().get_children():
-#		if currentSelectionContainer.get_meta("type") == selectedGate:
-#			currentSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + currentSelectionContainer.get_meta("type") + ".png")
-#	gateSelectionContainer.get_node("GateButtonPanel/GateSelectionButton").texture_normal = load("res://Icons/" + gateSelectionContainer.get_meta("type") + "Pressed.png")
-#	selectedGate = gateSelectionContainer.get_meta("type")
-	selectedGate = gate_selection
+	selected_operation = gate_selection
+	
+func DragTiles() -> void:
+	pass
+	
+func isTileOccupied(tile) -> bool:
+	if $GateGrid.get_cell_source_id($GateGrid.local_to_map(get_global_mouse_position())) == -1:
+		return false
+	else:
+		return true
+
+func IsWireTile(tile) -> bool: # Checks if a wire exists at the given tile
+	for wire in $WireContainer.get_children():
+		for used_tile in wire.get_used_cells():
+			if wire.get_cell_source_id(tile) != -1:
+				if tile == used_tile:
+					return true
+	return false
+	
+func GetWireByTile(tile) -> TileMapLayer: # Gets the wire at the given tile
+	for wire in $WireContainer.get_children():
+		for used_tile in wire.get_used_cells():
+			if wire.get_cell_source_id(tile) != -1:
+				if tile == used_tile:
+					return wire
+	return null
+	
+func GetManagingNode(tile) -> Node2D: # This needs to be updated
+	if gate_grid_data.has(tile):
+		return gate_grid_data.get(tile).managing_node_ref
+	else: return null
+
+func MoveToBuffer(gate) -> void:
+	for tile in gate.tiles:
+		$GateGrid.erase_cell(tile)
+	$GateGrid.remove_child(gate)
+	$ChangeBuffer.add_child(gate)
+	gate.MovePattern(gate.position_in_grid)
+	
+func MoveToGrid(gate) -> void:
+	for tile in gate.tiles:
+		$ChangeBuffer.erase_cell(tile)
+	$ChangeBuffer.remove_child(gate)
+	$GateGrid.add_child(gate)
+	gate.MovePattern(gate.position_in_grid)
+	
+func RenameObject() -> void:
+	object_being_dragged.name = $MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer/LineEdit.text
+	
+func ExportToSDL() -> void:
+	var export_interface = load("res://Export/ExportToSDL.tscn").instantiate()
+	export_interface.GatesContainer = $GateGrid
+	export_interface.InputsOutputsContainer = $InputOutputContainer
+	export_interface.WiresContainer = $WireContainer
+	export_interface.DataGateGridRef = $DataGateGrid
+	export_interface.gate_grid_data_ref = gate_grid_data
+	
+	export_interface.CollectWireConnections()
+	export_interface.SimplifyWireConnections()
+	export_interface.PrintCircuit()
+	export_interface.ExportToSDL()
 	
 
 func _on_gd_example_position_changed(node, new_pos):
@@ -314,3 +236,9 @@ func _on_gd_example_position_changed(node, new_pos):
 func _on_gd_example_cpp_print_signal(node, print_string):
 	print("CPP Print: " + print_string)
 	pass
+
+func EnteredGUI() -> void:
+	over_gui = true
+	
+func ExitedGUI() -> void:
+	over_gui = false

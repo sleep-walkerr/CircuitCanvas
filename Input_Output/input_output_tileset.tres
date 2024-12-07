@@ -1,0 +1,36 @@
+[gd_resource type="TileSet" load_steps=9 format=3 uid="uid://cy41ljiyj87pf"]
+
+[ext_resource type="Texture2D" uid="uid://bqinjj0hhbowx" path="res://Icons/input_pin.png" id="1_572gr"]
+[ext_resource type="Texture2D" uid="uid://dfs6m6qnadoss" path="res://Icons/output_pin.png" id="2_8w6w3"]
+[ext_resource type="Texture2D" uid="uid://d1e7717jmncc" path="res://Icons/wire_pin_tile.png" id="3_fnvdi"]
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_lh6dp"]
+tile_data = PackedInt32Array(0, 0, 0, 1, 65536, 0, 2, 3, 0)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_c88rs"]
+tile_data = PackedInt32Array(0, 3, 0, 1, 1, 0, 2, 65537, 0)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_m11qx"]
+texture = ExtResource("1_572gr")
+texture_region_size = Vector2i(19, 19)
+0:0/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_dshp2"]
+texture = ExtResource("2_8w6w3")
+texture_region_size = Vector2i(19, 19)
+0:0/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ph5ny"]
+texture = ExtResource("3_fnvdi")
+texture_region_size = Vector2i(19, 19)
+0:0/0 = 0
+
+[resource]
+tile_size = Vector2i(19, 19)
+sources/0 = SubResource("TileSetAtlasSource_m11qx")
+sources/1 = SubResource("TileSetAtlasSource_dshp2")
+sources/3 = SubResource("TileSetAtlasSource_ph5ny")
+pattern_0 = SubResource("TileMapPattern_lh6dp")
+pattern_1 = SubResource("TileMapPattern_c88rs")

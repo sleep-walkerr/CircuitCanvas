@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dirvj5kdpt0hg"]
+
+[ext_resource type="TileSet" uid="uid://4y21hnbojp7t" path="res://Wire/WireTileSet.tres" id="1_igqh7"]
+[ext_resource type="Script" path="res://Wire/wire.gd" id="1_y2euh"]
+
+[node name="Wire" type="TileMapLayer"]
+tile_set = ExtResource("1_igqh7")
+script = ExtResource("1_y2euh")

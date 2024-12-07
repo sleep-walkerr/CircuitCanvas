@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dijvvkl17diit"]
+
+[ext_resource type="Script" path="res://Export/export_to_sdl.gd" id="1_8cwma"]
+
+[node name="ExportToSdl" type="Node"]
+script = ExtResource("1_8cwma")

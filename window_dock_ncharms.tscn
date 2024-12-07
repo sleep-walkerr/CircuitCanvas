@@ -1,12 +1,15 @@
-[gd_scene load_steps=10 format=3 uid="uid://b7t4edynn6x1d"]
+[gd_scene load_steps=13 format=3 uid="uid://b7t4edynn6x1d"]
 
 [ext_resource type="Script" path="res://window_dock_ncharms.gd" id="1_0n6gs"]
-[ext_resource type="Texture2D" uid="uid://cstqbrtpuo01p" path="res://Icons/exit_button.png" id="1_3tv0i"]
-[ext_resource type="Texture2D" uid="uid://cj8e43b26f82x" path="res://Icons/exit_button_hover.png" id="1_p56p0"]
-[ext_resource type="Texture2D" uid="uid://cmmj3p6glo3gx" path="res://Icons/fullscreen_button.png" id="3_qxou7"]
-[ext_resource type="Texture2D" uid="uid://cyfvo4fgyjmuc" path="res://Icons/fullscreen_button_hover.png" id="4_4n2sd"]
-[ext_resource type="Texture2D" uid="uid://cww5kmtb1hx1b" path="res://Icons/minimize_button.png" id="5_qca0o"]
-[ext_resource type="Texture2D" uid="uid://byma6r5j8tpwe" path="res://Icons/minimize_button_hover.png" id="6_5n6v5"]
+[ext_resource type="Texture2D" uid="uid://uumhbh8sv8io" path="res://Icons/exit_button.png" id="1_3tv0i"]
+[ext_resource type="Texture2D" uid="uid://chpi3vcvgaax8" path="res://Icons/exit_button_hover.png" id="1_p56p0"]
+[ext_resource type="Texture2D" uid="uid://c543m64pr7io8" path="res://Icons/fullscreen_button.png" id="3_qxou7"]
+[ext_resource type="Texture2D" uid="uid://duastcyijaei7" path="res://Icons/fullscreen_button_hover.png" id="4_4n2sd"]
+[ext_resource type="Texture2D" uid="uid://fdbvn1nppocp" path="res://Icons/minimize_button.png" id="5_qca0o"]
+[ext_resource type="Texture2D" uid="uid://dpmbu1njvr2ae" path="res://Icons/minimize_button_hover.png" id="6_5n6v5"]
+[ext_resource type="Texture2D" uid="uid://dbwg8e1567d7m" path="res://Icons/export_button.png" id="8_g8yju"]
+[ext_resource type="Texture2D" uid="uid://cy8pncbf1rvsu" path="res://Icons/export_button_pressed.png" id="9_in4my"]
+[ext_resource type="Texture2D" uid="uid://b7iiobkbwrwdj" path="res://Icons/export_button_hover.png" id="10_2s3j3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x2l0g"]
 bg_color = Color(0.2, 0.266667, 0.345098, 1)
@@ -25,6 +28,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 34.0
 grow_horizontal = 2
+mouse_filter = 1
 theme = SubResource("Theme_a8us2")
 script = ExtResource("1_0n6gs")
 
@@ -48,6 +52,7 @@ size_flags_vertical = 6
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 texture_normal = ExtResource("1_3tv0i")
 texture_hover = ExtResource("1_p56p0")
 stretch_mode = 3
@@ -56,6 +61,7 @@ stretch_mode = 3
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 texture_normal = ExtResource("3_qxou7")
 texture_hover = ExtResource("4_4n2sd")
 stretch_mode = 3
@@ -64,10 +70,30 @@ stretch_mode = 3
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 texture_normal = ExtResource("5_qca0o")
 texture_hover = ExtResource("6_5n6v5")
 stretch_mode = 3
 
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 19.0
+offset_top = -2.0
+offset_right = 108.0
+offset_bottom = 38.0
+mouse_filter = 1
+texture_normal = ExtResource("8_g8yju")
+texture_pressed = ExtResource("9_in4my")
+texture_hover = ExtResource("10_2s3j3")
+
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="VBoxContainer/CenterContainer/exit_button" to="." method="HoveringOverButton"]
+[connection signal="mouse_exited" from="VBoxContainer/CenterContainer/exit_button" to="." method="NotHoveringOverButton"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer/exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="mouse_entered" from="VBoxContainer/CenterContainer/fullscreen_button" to="." method="HoveringOverButton"]
+[connection signal="mouse_exited" from="VBoxContainer/CenterContainer/fullscreen_button" to="." method="NotHoveringOverButton"]
 [connection signal="button_down" from="VBoxContainer/CenterContainer/minimize_button" to="." method="_on_minimize_button_button_down"]
+[connection signal="mouse_entered" from="VBoxContainer/CenterContainer/minimize_button" to="." method="HoveringOverButton"]
+[connection signal="mouse_exited" from="VBoxContainer/CenterContainer/minimize_button" to="." method="NotHoveringOverButton"]

@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://pw30wgxspqea" path="res://Icons/and_button.png" id="1_862dq"]
 [ext_resource type="Texture2D" uid="uid://wkv13cgpwud3" path="res://Icons/not_button.png" id="1_ydtxl"]
 [ext_resource type="Texture2D" uid="uid://dvi5b3184b8t1" path="res://Icons/not_button_pressed.png" id="2_7di0t"]
-[ext_resource type="ButtonGroup" uid="uid://bgpi5nst560p5" path="res://GUI/gate_button_group.tres" id="2_al7fk"]
 [ext_resource type="Texture2D" uid="uid://02qn14ac6hkp" path="res://Icons/and_button_pressed.png" id="2_cx7pl"]
 [ext_resource type="Texture2D" uid="uid://c0ny5kxy5t4a2" path="res://Icons/not_button_hover.png" id="3_25qbr"]
 [ext_resource type="Texture2D" uid="uid://dgie8a88l4eh4" path="res://Icons/and_button_hover.png" id="3_fh75g"]
@@ -52,18 +51,20 @@ font_color = Color(0.2, 0.266667, 0.345098, 1)
 outline_size = 4
 outline_color = Color(0.2, 0.266667, 0.345098, 1)
 
+[sub_resource type="ButtonGroup" id="ButtonGroup_pbtdn"]
+resource_local_to_scene = false
+
 [node name="gate_selection_interface" type="Panel"]
 clip_contents = true
 custom_minimum_size = Vector2(430, 350)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = 42.0
-offset_right = -1530.0
-offset_bottom = -480.0
+offset_right = -1490.0
+offset_bottom = -522.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = SubResource("Theme_pgjea")
 script = ExtResource("1_0601b")
 
@@ -74,6 +75,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 55.0
 grow_horizontal = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_hf5o3")
 
 [node name="CenterContainer" type="CenterContainer" parent="TitleBar"]
@@ -113,8 +115,9 @@ size_flags_horizontal = 3
 [node name="and_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("1_862dq")
 texture_pressed = ExtResource("2_cx7pl")
 texture_hover = ExtResource("3_fh75g")
@@ -123,8 +126,9 @@ stretch_mode = 3
 [node name="or_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("4_60ufj")
 texture_pressed = ExtResource("5_fwo3w")
 texture_hover = ExtResource("6_le2lf")
@@ -133,8 +137,9 @@ stretch_mode = 5
 [node name="not_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("1_ydtxl")
 texture_pressed = ExtResource("2_7di0t")
 texture_hover = ExtResource("3_25qbr")
@@ -143,8 +148,9 @@ stretch_mode = 5
 [node name="nand_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("10_q0qg0")
 texture_pressed = ExtResource("11_l1hpo")
 texture_hover = ExtResource("12_axex0")
@@ -153,8 +159,9 @@ stretch_mode = 5
 [node name="nor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("13_uhqw6")
 texture_pressed = ExtResource("14_utj06")
 texture_hover = ExtResource("15_vkmmr")
@@ -163,8 +170,9 @@ stretch_mode = 5
 [node name="xor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("16_g36sw")
 texture_pressed = ExtResource("17_l3d8p")
 texture_hover = ExtResource("18_pm8dn")
@@ -173,8 +181,9 @@ stretch_mode = 5
 [node name="xnor_button" type="TextureButton" parent="ScrollContainer/GateSelectContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
+mouse_filter = 1
 toggle_mode = true
-button_group = ExtResource("2_al7fk")
+button_group = SubResource("ButtonGroup_pbtdn")
 texture_normal = ExtResource("19_um7vm")
 texture_pressed = ExtResource("20_iv7mc")
 texture_hover = ExtResource("21_qe3pp")
