@@ -213,7 +213,8 @@ func MoveToGrid(gate) -> void:
 	gate.MovePattern(gate.position_in_grid)
 	
 func RenameObject() -> void:
-	object_being_dragged.name = $MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer/LineEdit.text
+	if object_being_dragged != null:
+		object_being_dragged.name = $MainControls/GeneralSelection/CenterContainer/VBoxContainer/HBoxContainer2/NameEntryElements/RenameEntrySection/VBoxContainer/LineEdit.text
 	
 func ExportToSDL() -> void:
 	var export_interface = load("res://Export/ExportToSDL.tscn").instantiate()
